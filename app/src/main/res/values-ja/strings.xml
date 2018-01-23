@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MetroCheckIn</string>
+    <string name="confirm">確認</string>
+    <string name="other">その他</string>
+    <string name="back">戻り</string>
+
+    <string name="reservation_input">予約番号を入力ください.</string>
+</resources>

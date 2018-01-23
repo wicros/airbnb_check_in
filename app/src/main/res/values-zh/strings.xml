@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MetroCheckIn</string>
+    <string name="confirm">确认</string>
+    <string name="other">其他</string>
+    <string name="back">返回</string>
+
+    <string name="reservation_input">请输入你的预约号码.</string>
+</resources>
