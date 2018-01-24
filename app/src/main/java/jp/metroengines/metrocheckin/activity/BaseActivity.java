@@ -10,7 +10,6 @@ import android.view.View;
 import com.google.gson.Gson;
 
 import java.util.Locale;
-
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.utils.SPUtils;
 
@@ -22,13 +21,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initLocaleLanguage();
-//        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
     }
 
     private void initLocaleLanguage() {
         Resources resources = getResources();
         Configuration configuration = resources.getConfiguration();
-        String local = (String) SPUtils.get(this, "local", "en");
+        String local = (String) SPUtils.get(this, SPUtils.LOCAL, "en");
         if("ja".equals(local)){
             configuration.locale = Locale.JAPANESE;
         }else if("zh".equals(local)){

@@ -1,5 +1,6 @@
 package jp.metroengines.metrocheckin.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.bean.MPDBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
 import jp.metroengines.metrocheckin.utils.CommonUtils;
+import jp.metroengines.metrocheckin.utils.SPUtils;
 import jp.metroengines.metrocheckin.widgets.MyProgressDialog;
 
 public class ReservationActivity extends BaseActivity {
@@ -54,10 +56,14 @@ public class ReservationActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 MPDBean mPDBean = gson.fromJson(response.get(), MPDBean.class);
-                    if (TextUtils.isEmpty(mPDBean.getMessage())){
-                        ReservationBean reservationBean = gson.fromJson(response.get(), ReservationBean.class);
-                    }else{
+                ReservationBean reservationBean = gson.fromJson(response.get(), ReservationBean.class);
+                    if (reservationBean != null && !TextUtils.isEmpty(reservationBean.getListing_id())){
+                        SPUtils.put(ReservationActivity.this, SPUtils.CURRENT_RESERVATION, response.get());
+                        startActivity(new Intent(ReservationActivity.this, PassportActivity.class));
+                    }else if(mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())){
                         myProgressDialog.result(mPDBean.getMessage());
+                    }else{
+                        myProgressDialog.result(ReservationActivity.this.getString(R.string.net_error));
                     }
             }
             @Override
