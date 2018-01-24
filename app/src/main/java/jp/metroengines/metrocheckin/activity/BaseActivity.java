@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.google.gson.Gson;
+
 import java.util.Locale;
 
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.utils.SPUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    protected Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

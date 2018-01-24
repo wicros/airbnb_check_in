@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ReservationActivity" />
-        <activity android:name=".activity.ChosePlantActivity"></activity>
+        <activity android:name=".activity.ChosePlantActivity" />
+        <activity android:name=".activity.SettingActivity"></activity>
     </application>
 
 </manifest>

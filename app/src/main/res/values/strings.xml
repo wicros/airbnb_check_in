@@ -4,5 +4,7 @@
     <string name="other">other</string>
     <string name="back">back</string>
 
+    <string name="net_error">connection error</string>
+    <string name="wait">please wait...</string>
     <string name="reservation_input">please input your reservation number.</string>
 </resources>
