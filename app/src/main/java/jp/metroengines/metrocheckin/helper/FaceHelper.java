@@ -10,6 +10,7 @@ import com.yanzhenjie.nohttp.rest.StringRequest;
 
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.utils.HttpUtils;
+import jp.metroengines.metrocheckin.utils.SPUtils;
 import jp.metroengines.metrocheckin.widgets.MyProgressDialog;
 
 /**
@@ -22,6 +23,7 @@ public class FaceHelper {
     private static final String API_SECRET = "SR1iOC9vrWcOS03Z_Bk2BsU4SJx0cXPI";
 
     private static final String DETECT_URL = "https://api-cn.faceplusplus.com/facepp/v3/detect";
+    private static final String COMPARE_URL = "https://api-cn.faceplusplus.com/facepp/v3/compare";
 
     Context context;
     MyProgressDialog myProgressDialog;
@@ -46,6 +48,17 @@ public class FaceHelper {
         request.add("api_key", API_KEY);
         request.add("api_secret", API_SECRET);
         request.add("image_base64", image_base64);
+        httpUtils.send(request, runnable);
+    }
+
+    public void compare_face(byte[] image, final HttpUtils.HttpRunnable runnable){
+        myProgressDialog.show(context.getString(R.string.wait));
+        String image_base64 = Base64.encodeToString(image,Base64.NO_WRAP);
+        StringRequest request = new StringRequest(COMPARE_URL, RequestMethod.POST);
+        request.add("api_key", API_KEY);
+        request.add("api_secret", API_SECRET);
+        request.add("image_base64_1", image_base64);
+        request.add("face_token2", (String) SPUtils.get(context,SPUtils.PASSPORT_FACE_TOKEN,""));
         httpUtils.send(request, runnable);
     }
 

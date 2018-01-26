@@ -9,6 +9,11 @@
     <string name="reservation_input">请输入你的预约号码.</string>
 
     <string name="shoot">拍摄</string>
-    <string name="passport_title">请拍摄您的护照照片</string>
+    <string name="passport_title">请拍摄您的护照照片(证件照页面)</string>
     <string name="authentication_failed">认证失败</string>
+    <string name="face_compare_title">请上传您的脸部照片</string>
+    <string name="face_title">面部识别</string>
+    <string name="phone_title">视频通话</string>
+    <string name="sucess_title">请在键盘上输入下方的号码,以获取您的钥匙</string>
+    <string name="last_title">感谢您的使用,此页面会在1分钟后跳转到首页</string>
 </resources>

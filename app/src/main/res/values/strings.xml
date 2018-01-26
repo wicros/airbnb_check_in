@@ -11,6 +11,11 @@
     <string name="filter_vcode">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 
     <string name="shoot">shoot</string>
-    <string name="passport_title">Please take a photo of your passport</string>
+    <string name="passport_title">Please take a photo of your passport(Certificate photo page)</string>
     <string name="authentication_failed">Authentication failed</string>
+    <string name="face_compare_title">Please upload photo of your face</string>
+    <string name="face_title">Face recognition</string>
+    <string name="phone_title">Video call</string>
+    <string name="sucess_title">Please enter the number below to get your key</string>
+    <string name="last_title">Thanks for your using, this page will back to the home page in 1 minute</string>
 </resources>

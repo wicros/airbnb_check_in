@@ -224,6 +224,11 @@ public class PassportActivity extends BaseActivity {
      * 拍照
      */
     private void takePicture() {
+
+        String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
+        CommonUtils.log("reservation:" + reservation );
+
+        if (true) return;
         if (mCameraDevice == null) return;
         // 创建拍照需要的CaptureRequest.Builder
         final CaptureRequest.Builder captureRequestBuilder;
@@ -267,7 +272,7 @@ public class PassportActivity extends BaseActivity {
                         http_utils.get_dialog().result(R.string.success);
                         String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
                         ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
-                        String passport_url = CommonUtils.Passport_url(reservationBean.getAccount_id(), reservationBean.getListing().getAirbnb_listing_id(), reservationBean.getId());
+                        String passport_url = CommonUtils.passport_url(reservationBean.getAccount_id(), reservationBean.getListing().getAirbnb_listing_id(), reservationBean.getId());
                         StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
                         request.addHeader("auth-token",CommonUtils.MPDTOKEN);
                         File file = new File(PassportActivity.this.getFilesDir().toString());
@@ -280,7 +285,7 @@ public class PassportActivity extends BaseActivity {
                         //mCameraDevice.close();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        http_utils.get_dialog().result(R.string.authentication_failed);
+                        http_utils.get_dialog().result(e.toString());
                     }
                 }
             }
@@ -298,6 +303,10 @@ public class PassportActivity extends BaseActivity {
                     http_utils.get_dialog().result(R.string.success);
                     String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
                     SPUtils.put(PassportActivity.this,SPUtils.PASSPORT_FACE_TOKEN,detectFaceBean.getFaces().get(0).getFace_token());
+                    if (null != mCameraDevice) {
+                        mCameraDevice.close();
+                        PassportActivity.this.mCameraDevice = null;
+                    }
                     if(TextUtils.equals(mode,SPUtils.MODE_Phone)){
                         startActivity(new Intent(PassportActivity.this, VideoCallActivity.class));
                     }else{

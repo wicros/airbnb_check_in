@@ -19,11 +19,11 @@ public class CommonUtils {
        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
-    public static void Log(String text){
+    public static void log(String text){
         Log.i("MetroCheckIn",text);
     }
 
-    public static String Passport_url(String account_id, int listing_id, int reservation_id){
+    public static String passport_url(String account_id, int listing_id, int reservation_id){
         return "/api/v1/users/current/accounts/" + account_id +
                 "/listings/" + listing_id +
                 "/reservations/" + reservation_id + "/passport_photos";

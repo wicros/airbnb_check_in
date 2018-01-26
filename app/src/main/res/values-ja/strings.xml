@@ -9,6 +9,11 @@
     <string name="reservation_input">予約番号を入力ください.</string>
 
     <string name="shoot">シュート</string>
-    <string name="passport_title">パスポートの写真を撮ってください</string>
+    <string name="passport_title">パスポートの写真を撮ってください(証明写真ページ)</string>
     <string name="authentication_failed">認証に失敗しました</string>
+    <string name="face_compare_title">顔の写真をアップロードしてください</string>
+    <string name="face_title">顔認識</string>
+    <string name="phone_title">ビデオ通話</string>
+    <string name="sucess_title">キーを取得為には、以下の番号を入力してください</string>
+    <string name="last_title">利用してありがとう、このページは1分でホームページに戻ります</string>
 </resources>
