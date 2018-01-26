@@ -130,6 +130,7 @@ public class VideoCallActivity extends BaseActivity {
                 TokenBean tokenBean = gson.fromJson(response.get(), TokenBean.class);
                 if (tokenBean != null && !TextUtils.isEmpty(tokenBean.getToken())){
                     mAccessToken = tokenBean.getToken();
+                    CommonUtils.toast(VideoCallActivity.this, "token:"+tokenBean.getToken());
                     initializeTwilioSdk(mAccessToken);
                 }else if(mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())){
                     CommonUtils.toast(VideoCallActivity.this, mPDBean.getMessage());
@@ -190,6 +191,9 @@ public class VideoCallActivity extends BaseActivity {
                     startPreview();
                     // Register to receive incoming invites
                     conversationsClient.listen();
+                    Toast.makeText(VideoCallActivity.this,
+                            "success to initialize the Twilio Conversations SDK",
+                            Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -479,13 +483,13 @@ public class VideoCallActivity extends BaseActivity {
 
                     // Create local media
                     LocalMedia localMedia = setupLocalMedia();
-
                     outgoingInvite = conversationsClient.sendConversationInvite(participants, localMedia, new ConversationCallback() {
                         @Override
                         public void onConversation(Conversation conversation, TwilioConversationsException e) {
+                            Log.e(TAG, "TwilioConversationsException:" + e);
                             if (e == null) {
                                 // Participant has accepted invite, we are in active conversation
-                                 VideoCallActivity.this.conversation = conversation;
+                                VideoCallActivity.this.conversation = conversation;
                                 conversation.setConversationListener(conversationListener());
                                 setHangupAction();
                             } else {

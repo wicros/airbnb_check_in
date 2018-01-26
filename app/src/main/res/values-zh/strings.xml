@@ -5,6 +5,10 @@
     <string name="back">返回</string>
     <string name="net_error">网络连接错误</string>
     <string name="wait">请等待...</string>
-
+    <string name="success">成功</string>
     <string name="reservation_input">请输入你的预约号码.</string>
+
+    <string name="shoot">拍摄</string>
+    <string name="passport_title">请拍摄您的护照照片</string>
+    <string name="authentication_failed">认证失败</string>
 </resources>

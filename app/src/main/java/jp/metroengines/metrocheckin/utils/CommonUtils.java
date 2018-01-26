@@ -1,5 +1,7 @@
 package jp.metroengines.metrocheckin.utils;
+
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -7,7 +9,6 @@ import android.widget.Toast;
  */
 
 public class CommonUtils {
-
     public static final String HOSTURL = "https://staging.metroengines.jp";
     public static final String MPDTOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX2lkIjoiYzk0OThmMWMtNWFiMy0xMWU2LWE1ZDMtMDY4MTBmNWNlZjYzIiwiZXhwIjoxNTE5Mjk0NjU1fQ.BTWwCJw0Br0vw3sAT9sdpYTwFpmPq8BUHesVeW2DvDafCtEghS8Gkg5NN0O2dCKC-XuS9MOeq3VuPJhQH21p_QOSsPLcDfguKte2sk9d_lIh1BtQH96zIYv5Ip88Nfohv0S_OguJ_eQC0yRy9IBI9Qn3kMq-WBicl5kxfmR6_jk";
 
@@ -18,5 +19,13 @@ public class CommonUtils {
        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
+    public static void Log(String text){
+        Log.i("MetroCheckIn",text);
+    }
 
+    public static String Passport_url(String account_id, int listing_id, int reservation_id){
+        return "/api/v1/users/current/accounts/" + account_id +
+                "/listings/" + listing_id +
+                "/reservations/" + reservation_id + "/passport_photos";
+    }
 }

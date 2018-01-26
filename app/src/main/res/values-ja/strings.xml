@@ -5,6 +5,10 @@
     <string name="back">戻り</string>
     <string name="net_error">ネットワーク接続エラー</string>
     <string name="wait">お待ち下さい...</string>
-
+    <string name="success">成功</string>
     <string name="reservation_input">予約番号を入力ください.</string>
+
+    <string name="shoot">シュート</string>
+    <string name="passport_title">パスポートの写真を撮ってください</string>
+    <string name="authentication_failed">認証に失敗しました</string>
 </resources>
