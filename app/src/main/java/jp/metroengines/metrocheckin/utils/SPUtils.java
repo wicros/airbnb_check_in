@@ -18,6 +18,11 @@ public class SPUtils
     public static final String LOCAL = "local";
     public static final String CURRENT_RESERVATION = "current_reservation";
     public static final String MODE = "mode";
+    public static final String PASSPORT_FACE_TOKEN = "passport_face_token";
+
+    public static final String MODE_Face = "face";
+    public static final String MODE_Phone = "pone";
+
 
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法

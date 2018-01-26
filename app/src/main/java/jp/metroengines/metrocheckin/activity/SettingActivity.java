@@ -27,7 +27,7 @@ public class SettingActivity extends AppCompatActivity {
 
     @OnClick(R.id.bt_save)
     public void onViewClicked() {
-        String mode = rdPhone.isChecked() ? "phone" : "face";
+        String mode = rdPhone.isChecked() ? SPUtils.MODE_Phone : SPUtils.MODE_Face;
         SPUtils.put(SettingActivity.this, SPUtils.MODE, mode);
         finish();
     }

@@ -36,7 +36,8 @@
         <activity
             android:name=".activity.VideoCallActivity"
             android:label="@string/title_activity_video_call"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activity.FaceCompareActivity"></activity>
     </application>
 
 </manifest>

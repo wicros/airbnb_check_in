@@ -2,6 +2,7 @@ package jp.metroengines.metrocheckin.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
@@ -18,6 +19,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -29,6 +31,10 @@ import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
 import com.yanzhenjie.nohttp.rest.StringRequest;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -37,6 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.bean.DetectFaceBean;
+import jp.metroengines.metrocheckin.bean.MPDBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
 import jp.metroengines.metrocheckin.helper.FaceHelper;
 import jp.metroengines.metrocheckin.utils.CommonUtils;
@@ -245,7 +252,7 @@ public class PassportActivity extends BaseActivity {
         takePicture();
     }
 
-    private void send_passport_to_mpd(byte[] bytes){
+    private void send_passport_to_mpd(final byte[] bytes){
         final FaceHelper faceHelper = new FaceHelper(PassportActivity.this);
         faceHelper.detect_face(bytes, new HttpUtils.HttpRunnable() {
             @Override
@@ -256,14 +263,47 @@ public class PassportActivity extends BaseActivity {
                 if(detectFaceBean == null || detectFaceBean.getFaces() == null || detectFaceBean.getFaces().size() != 1){
                     http_utils.get_dialog().result(R.string.authentication_failed);
                 }else{
-                    http_utils.get_dialog().result(R.string.success);
-                    String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
-                    ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
-                    String passport_url = CommonUtils.Passport_url(reservationBean.getAccount_id(), reservationBean.getListing().getAirbnb_listing_id(), reservationBean.getId());
-                    StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
-                    request.addHeader("auth-token",CommonUtils.MPDTOKEN);
+                    try {
+                        http_utils.get_dialog().result(R.string.success);
+                        String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
+                        ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
+                        String passport_url = CommonUtils.Passport_url(reservationBean.getAccount_id(), reservationBean.getListing().getAirbnb_listing_id(), reservationBean.getId());
+                        StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
+                        request.addHeader("auth-token",CommonUtils.MPDTOKEN);
+                        File file = new File(PassportActivity.this.getFilesDir().toString());
+                        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+                        bos.write(bytes);
+                        bos.flush();
+                        bos.close();
+                        request.add("photo",file);
+                        upload_passport(request,http_utils,detectFaceBean);
+                        //mCameraDevice.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        http_utils.get_dialog().result(R.string.authentication_failed);
+                    }
                 }
-                //mCameraDevice.close();
+            }
+        });
+    }
+
+    private void upload_passport(StringRequest request, final HttpUtils http_utils, final DetectFaceBean detectFaceBean){
+        http_utils.send(request, new HttpUtils.HttpRunnable() {
+            @Override
+            public void run(Response<String> response) {
+                MPDBean mPDBean = gson.fromJson(response.get(), MPDBean.class);
+                if(mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())){
+                    http_utils.get_dialog().result(mPDBean.getMessage());
+                }else{
+                    http_utils.get_dialog().result(R.string.success);
+                    String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
+                    SPUtils.put(PassportActivity.this,SPUtils.PASSPORT_FACE_TOKEN,detectFaceBean.getFaces().get(0).getFace_token());
+                    if(TextUtils.equals(mode,SPUtils.MODE_Phone)){
+                        startActivity(new Intent(PassportActivity.this, VideoCallActivity.class));
+                    }else{
+                        startActivity(new Intent(PassportActivity.this, FaceCompareActivity.class));
+                    }
+                }
             }
         });
     }
