@@ -58,9 +58,9 @@ public class ReservationActivity extends BaseActivity {
                 if(mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())){
                     myProgressDialog.result(mPDBean.getMessage());
                 }else{
-                        myProgressDialog.result(ReservationActivity.this.getString(R.string.success));
-                        SPUtils.put(ReservationActivity.this, SPUtils.CURRENT_RESERVATION, response.get());
-                        startActivity(new Intent(ReservationActivity.this, PassportActivity.class));
+                    myProgressDialog.result(ReservationActivity.this.getString(R.string.success));
+                    SPUtils.put(ReservationActivity.this, SPUtils.CURRENT_RESERVATION, response.get());
+                    startActivity(new Intent(ReservationActivity.this, PassportActivity.class));
                 }
             }
         });

@@ -34,7 +34,6 @@ import com.yanzhenjie.nohttp.rest.StringRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -106,7 +105,7 @@ public class PassportActivity extends BaseActivity {
                 // 释放Camera资源
                 if (null != mCameraDevice) {
                     mCameraDevice.close();
-                    PassportActivity.this.mCameraDevice = null;
+                    mCameraDevice = null;
                 }
             }
         });
@@ -133,12 +132,6 @@ public class PassportActivity extends BaseActivity {
                 buffer.get(bytes);
 //              Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 send_passport_to_mpd(bytes);
-                // 释放Camera资源
-                if (null != mCameraDevice) {
-                    mCameraDevice.close();
-                    PassportActivity.this.mCameraDevice = null;
-                }
-                initCamera2();
             }
         }, mainHandler);
         //获取摄像头管理
@@ -160,16 +153,16 @@ public class PassportActivity extends BaseActivity {
     private CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice camera) {//打开摄像头
-            mCameraDevice = camera;
-            //开启预览
-            takePreview();
+                mCameraDevice = camera;
+                //开启预览
+                takePreview();
         }
 
         @Override
         public void onDisconnected(CameraDevice camera) {//关闭摄像头
             if (null != mCameraDevice) {
                 mCameraDevice.close();
-                PassportActivity.this.mCameraDevice = null;
+                mCameraDevice = null;
             }
         }
 
@@ -224,11 +217,6 @@ public class PassportActivity extends BaseActivity {
      * 拍照
      */
     private void takePicture() {
-
-        String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
-        CommonUtils.log("reservation:" + reservation );
-
-        if (true) return;
         if (mCameraDevice == null) return;
         // 创建拍照需要的CaptureRequest.Builder
         final CaptureRequest.Builder captureRequestBuilder;
@@ -272,18 +260,20 @@ public class PassportActivity extends BaseActivity {
                         http_utils.get_dialog().result(R.string.success);
                         String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
                         ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
-                        String passport_url = CommonUtils.passport_url(reservationBean.getAccount_id(), reservationBean.getListing().getAirbnb_listing_id(), reservationBean.getId());
+                        String passport_url = CommonUtils.passport_url(reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
                         StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
                         request.addHeader("auth-token",CommonUtils.MPDTOKEN);
-                        File file = new File(PassportActivity.this.getFilesDir().toString());
+                        File file = new File(PassportActivity.this.getFilesDir().toString(),"passport_img_"+reservationBean.getId()+".jpg");
                         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
                         bos.write(bytes);
                         bos.flush();
                         bos.close();
                         request.add("photo",file);
-                        upload_passport(request,http_utils,detectFaceBean);
-                        //mCameraDevice.close();
-                    } catch (IOException e) {
+                        upload_passport(request,detectFaceBean);
+                        if(file.exists()){
+                            file.delete();
+                        }
+                    } catch (Exception e) {
                         e.printStackTrace();
                         http_utils.get_dialog().result(e.toString());
                     }
@@ -292,7 +282,8 @@ public class PassportActivity extends BaseActivity {
         });
     }
 
-    private void upload_passport(StringRequest request, final HttpUtils http_utils, final DetectFaceBean detectFaceBean){
+    private void upload_passport(StringRequest request, final DetectFaceBean detectFaceBean){
+        final HttpUtils http_utils = new HttpUtils(PassportActivity.this);
         http_utils.send(request, new HttpUtils.HttpRunnable() {
             @Override
             public void run(Response<String> response) {
@@ -303,10 +294,6 @@ public class PassportActivity extends BaseActivity {
                     http_utils.get_dialog().result(R.string.success);
                     String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
                     SPUtils.put(PassportActivity.this,SPUtils.PASSPORT_FACE_TOKEN,detectFaceBean.getFaces().get(0).getFace_token());
-                    if (null != mCameraDevice) {
-                        mCameraDevice.close();
-                        PassportActivity.this.mCameraDevice = null;
-                    }
                     if(TextUtils.equals(mode,SPUtils.MODE_Phone)){
                         startActivity(new Intent(PassportActivity.this, VideoCallActivity.class));
                     }else{
@@ -315,6 +302,15 @@ public class PassportActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        if (null != mCameraDevice) {
+            mCameraDevice.close();
+            mCameraDevice = null;
+        }
+        super.onPause();
     }
 }
 

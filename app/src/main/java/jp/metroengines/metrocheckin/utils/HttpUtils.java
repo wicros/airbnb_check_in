@@ -40,7 +40,7 @@ public class HttpUtils {
             @Override
             public void onSucceed(int what, Response<String> response) {
                CommonUtils.log("response:"+response);
-               if(response.responseCode() == 200){
+               if(response.responseCode() == 200 || response.responseCode() == 304){
                    runnable.run(response);
                }else{
                    myProgressDialog.result(context.getString(R.string.net_error)+":"+response.responseCode());
@@ -49,6 +49,25 @@ public class HttpUtils {
             @Override
             public void onFailed(int what, Response<String> response) {
                 myProgressDialog.result_error();
+            }
+        });
+    }
+
+    public void send_quiet(Request request, final HttpRunnable runnable){
+        CommonUtils.log("url:"+request.url());
+        AsyncRequestExecutor.INSTANCE.execute(0, request, new SimpleResponseListener<String>() {
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                CommonUtils.log("response:"+response);
+                if(response.responseCode() == 200 || response.responseCode() == 304){
+                    runnable.run(response);
+                }else{
+                    CommonUtils.toast(context,context.getString(R.string.net_error)+":"+response.responseCode());
+                }
+            }
+            @Override
+            public void onFailed(int what, Response<String> response) {
+                CommonUtils.toast(context,context.getString(R.string.net_error)+":"+response.responseCode());
             }
         });
     }

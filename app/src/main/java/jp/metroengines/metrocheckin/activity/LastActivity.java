@@ -16,6 +16,6 @@ public class LastActivity extends BaseActivity {
             public void run() {
                 startActivity(new Intent(LastActivity.this, MainActivity.class));
             }
-        }, 1000 * 60);
+        }, 1000 * 10);
     }
 }

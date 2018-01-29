@@ -5,7 +5,6 @@ import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.RequestMethod;
-import com.yanzhenjie.nohttp.rest.Response;
 import com.yanzhenjie.nohttp.rest.StringRequest;
 
 import jp.metroengines.metrocheckin.R;
@@ -19,8 +18,8 @@ import jp.metroengines.metrocheckin.widgets.MyProgressDialog;
 
 public class FaceHelper {
 
-    private static final String API_KEY = "BOslmJLbN2cnlUcVRZIoVMkiMDRgnPIr";
-    private static final String API_SECRET = "SR1iOC9vrWcOS03Z_Bk2BsU4SJx0cXPI";
+    private static final String API_KEY = "ByQCB3rygnP_OoSKRad0M0mOzVY4qaH4";
+    private static final String API_SECRET = "4NAXpXS4PSJ5PCjahAO2kakBmhRVIbhF";
 
     private static final String DETECT_URL = "https://api-cn.faceplusplus.com/facepp/v3/detect";
     private static final String COMPARE_URL = "https://api-cn.faceplusplus.com/facepp/v3/compare";
@@ -35,10 +34,6 @@ public class FaceHelper {
         httpUtils = new HttpUtils(context);
         myProgressDialog = httpUtils.get_dialog();
         gson = httpUtils.get_gson();
-    }
-
-    public interface FaceRunnable {
-        void run(Response<String> response);
     }
 
     public void detect_face(byte[] image, final HttpUtils.HttpRunnable runnable){
@@ -58,7 +53,7 @@ public class FaceHelper {
         request.add("api_key", API_KEY);
         request.add("api_secret", API_SECRET);
         request.add("image_base64_1", image_base64);
-        request.add("face_token2", (String) SPUtils.get(context,SPUtils.PASSPORT_FACE_TOKEN,""));
+        request.add("face_token2", (String)SPUtils.get(context,SPUtils.PASSPORT_FACE_TOKEN,""));
         httpUtils.send(request, runnable);
     }
 

@@ -44,9 +44,7 @@ import com.twilio.conversations.TwilioConversationsException;
 import com.twilio.conversations.VideoRendererObserver;
 import com.twilio.conversations.VideoTrack;
 import com.twilio.conversations.VideoViewRenderer;
-import com.yanzhenjie.nohttp.rest.AsyncRequestExecutor;
 import com.yanzhenjie.nohttp.rest.Response;
-import com.yanzhenjie.nohttp.rest.SimpleResponseListener;
 import com.yanzhenjie.nohttp.rest.StringRequest;
 
 import java.io.IOException;
@@ -58,6 +56,7 @@ import jp.metroengines.metrocheckin.bean.MPDBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
 import jp.metroengines.metrocheckin.bean.TokenBean;
 import jp.metroengines.metrocheckin.utils.CommonUtils;
+import jp.metroengines.metrocheckin.utils.HttpUtils;
 import jp.metroengines.metrocheckin.utils.SPUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -122,10 +121,10 @@ public class VideoCallActivity extends BaseActivity {
         request.addHeader("auth-token",CommonUtils.MPDTOKEN);
         ReservationBean reservationBean = gson.fromJson((String) SPUtils.get(this,SPUtils.CURRENT_RESERVATION,"{}"), ReservationBean.class);
         request.addHeader("user-name",reservationBean.getGuest_first_name());
-
-        AsyncRequestExecutor.INSTANCE.execute(0, request, new SimpleResponseListener<String>() {
+        HttpUtils httpUtils = new HttpUtils(VideoCallActivity.this);
+        httpUtils.send_quiet(request, new HttpUtils.HttpRunnable() {
             @Override
-            public void onSucceed(int what, Response<String> response) {
+            public void run(Response<String> response) {
                 MPDBean mPDBean = gson.fromJson(response.get(), MPDBean.class);
                 TokenBean tokenBean = gson.fromJson(response.get(), TokenBean.class);
                 if (tokenBean != null && !TextUtils.isEmpty(tokenBean.getToken())){
@@ -134,13 +133,7 @@ public class VideoCallActivity extends BaseActivity {
                     initializeTwilioSdk(mAccessToken);
                 }else if(mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())){
                     CommonUtils.toast(VideoCallActivity.this, mPDBean.getMessage());
-                }else{
-                    CommonUtils.toast(VideoCallActivity.this, VideoCallActivity.this.getString(R.string.net_error));
                 }
-            }
-            @Override
-            public void onFailed(int what, Response<String> response) {
-                CommonUtils.toast(VideoCallActivity.this, VideoCallActivity.this.getString(R.string.net_error));
             }
         });
     }

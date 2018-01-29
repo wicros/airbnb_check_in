@@ -115,7 +115,6 @@ public class FaceCompareActivity extends BaseActivity {
         mImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() { //可以在这里处理拍照得到的临时照片 例如，写入本地
             @Override
             public void onImageAvailable(ImageReader reader) {
-
                 // 拿到拍照照片数据
                 Image image = reader.acquireNextImage();
                 ByteBuffer buffer = image.getPlanes()[0].getBuffer();
@@ -142,10 +141,6 @@ public class FaceCompareActivity extends BaseActivity {
         faceHelper.compare_face(bytes, new HttpUtils.HttpRunnable() {
             @Override
             public void run(Response<String> response) {
-                if (null != mCameraDevice) {
-                    mCameraDevice.close();
-                    FaceCompareActivity.this.mCameraDevice = null;
-                }
                 FaceCompareBean faceCompareBean = gson.fromJson(response.get(), FaceCompareBean.class);
                 if (faceCompareBean.getError_message() == null || TextUtils.isEmpty(faceCompareBean.getError_message())) {
                     if (faceCompareBean.getConfidence() >= 60) {
@@ -157,12 +152,19 @@ public class FaceCompareActivity extends BaseActivity {
                     }
                 } else {
                     faceHelper.get_http_utils().get_dialog().result(faceCompareBean.getError_message());
-                    initCamera2();
                 }
             }
         });
     }
 
+    @Override
+    protected void onPause() {
+        if (null != mCameraDevice) {
+            mCameraDevice.close();
+            mCameraDevice = null;
+        }
+        super.onPause();
+    }
 
     /**
      * 摄像头创建监听
@@ -185,7 +187,7 @@ public class FaceCompareActivity extends BaseActivity {
 
         @Override
         public void onError(CameraDevice camera, int error) {//发生错误
-            Toast.makeText(FaceCompareActivity.this, "摄像头开启失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(FaceCompareActivity.this, "摄像头开启失败"+error, Toast.LENGTH_SHORT).show();
         }
     };
 
