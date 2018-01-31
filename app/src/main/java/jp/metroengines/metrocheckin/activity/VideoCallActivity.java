@@ -2,499 +2,783 @@ package jp.metroengines.metrocheckin.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
+import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.twilio.common.TwilioAccessManager;
-import com.twilio.common.TwilioAccessManagerFactory;
-import com.twilio.common.TwilioAccessManagerListener;
-import com.twilio.conversations.AudioOutput;
-import com.twilio.conversations.AudioTrack;
-import com.twilio.conversations.CameraCapturer;
-import com.twilio.conversations.CameraCapturerFactory;
-import com.twilio.conversations.CapturerErrorListener;
-import com.twilio.conversations.CapturerException;
-import com.twilio.conversations.Conversation;
-import com.twilio.conversations.ConversationCallback;
-import com.twilio.conversations.ConversationListener;
-import com.twilio.conversations.ConversationsClient;
-import com.twilio.conversations.ConversationsClientListener;
-import com.twilio.conversations.IncomingInvite;
-import com.twilio.conversations.LocalMedia;
-import com.twilio.conversations.LocalMediaFactory;
-import com.twilio.conversations.LocalMediaListener;
-import com.twilio.conversations.LocalVideoTrack;
-import com.twilio.conversations.LocalVideoTrackFactory;
-import com.twilio.conversations.MediaTrack;
-import com.twilio.conversations.OutgoingInvite;
-import com.twilio.conversations.Participant;
-import com.twilio.conversations.ParticipantListener;
-import com.twilio.conversations.TwilioConversations;
-import com.twilio.conversations.TwilioConversationsException;
-import com.twilio.conversations.VideoRendererObserver;
-import com.twilio.conversations.VideoTrack;
-import com.twilio.conversations.VideoViewRenderer;
+import com.twilio.video.AudioTrack;
+import com.twilio.video.CameraCapturer;
+import com.twilio.video.CameraCapturer.CameraSource;
+import com.twilio.video.ConnectOptions;
+import com.twilio.video.LocalAudioTrack;
+import com.twilio.video.LocalParticipant;
+import com.twilio.video.LocalVideoTrack;
+import com.twilio.video.Participant;
+import com.twilio.video.Room;
+import com.twilio.video.RoomState;
+import com.twilio.video.TwilioException;
+import com.twilio.video.Video;
+import com.twilio.video.VideoRenderer;
+import com.twilio.video.VideoTrack;
+import com.twilio.video.VideoView;
+import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.Response;
 import com.yanzhenjie.nohttp.rest.StringRequest;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
 
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.bean.MPDBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
 import jp.metroengines.metrocheckin.bean.TokenBean;
+import jp.metroengines.metrocheckin.helper.ActionbleHelper;
+import jp.metroengines.metrocheckin.helper.WebSocketHelper;
+import jp.metroengines.metrocheckin.utils.CameraCapturerCompat;
 import jp.metroengines.metrocheckin.utils.CommonUtils;
 import jp.metroengines.metrocheckin.utils.HttpUtils;
 import jp.metroengines.metrocheckin.utils.SPUtils;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import jp.metroengines.metrocheckin.widgets.Dialog;
 
 public class VideoCallActivity extends BaseActivity {
-    private String mAccessToken;
-    private static final String TAG = VideoCallActivity.class.getName();
-    /*
-    * Android application UI elements
-    */
-    private FrameLayout previewFrameLayout;
-    private ViewGroup localContainer;
-    private ViewGroup participantContainer;
-    private FloatingActionButton callActionFab;
-    private OkHttpClient client = new OkHttpClient();
-
-    private TwilioAccessManager accessManager;
-    private ConversationsClient conversationsClient;
-    private CameraCapturer cameraCapturer;
-
-    private Conversation conversation;
-    private OutgoingInvite outgoingInvite;
-    private Context mContext;
+    private static final int CAMERA_MIC_PERMISSION_REQUEST_CODE = 1;
+    private static final String TAG = "VideoActivity";
 
     /*
-    * A VideoViewRenderer receives frames from a local or remote video track and renders the frames to a provided view
-    */
-    private VideoViewRenderer participantVideoRenderer;
-    private VideoViewRenderer localVideoRenderer;
+     * You must provide a Twilio Access Token to connect to the Video service
+     */
+    public static final String TWILIO_ACCESS_TOKEN = "TWILIO_ACCESS_TOKEN";
+    public static final boolean USE_TOKEN_SERVER = true;
 
+    /*
+     * Access token used to connect. This field will be set either from the console generated token
+     * or the request to the token server.
+     */
+    private String accessToken;
+    private ReservationBean reservationBean;
+    /*
+     * A Room represents communication between a local participant and one or more participants.
+     */
+    private Room room;
+    private LocalParticipant localParticipant;
+
+    /*
+     * A VideoView receives frames from a local or remote video track and renders them
+     * to an associated view.
+     */
+    private VideoView primaryVideoView;
+    private VideoView thumbnailVideoView;
+
+    /*
+     * Android application UI elements
+     */
+    private TextView videoStatusTextView;
+    private CameraCapturerCompat cameraCapturerCompat;
+    private LocalAudioTrack localAudioTrack;
+    private LocalVideoTrack localVideoTrack;
+    private FloatingActionButton connectActionFab;
+    private FloatingActionButton switchCameraActionFab;
+    private FloatingActionButton localVideoActionFab;
+    private FloatingActionButton muteActionFab;
+    private android.support.v7.app.AlertDialog alertDialog;
+    private AudioManager audioManager;
+    private String participantIdentity;
+
+    private int previousAudioMode;
+    private boolean previousMicrophoneMute;
+    private VideoRenderer localVideoView;
+    private boolean disconnectedFromOnDestroy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_call);
 
-        mContext = this.getApplicationContext();
-   /*
-    * Check camera and microphone permissions. Needed in Android M.
-    */
+        primaryVideoView = findViewById(R.id.primary_video_view);
+        thumbnailVideoView = findViewById(R.id.thumbnail_video_view);
+        videoStatusTextView = findViewById(R.id.video_status_textview);
+
+        connectActionFab = findViewById(R.id.connect_action_fab);
+        switchCameraActionFab = findViewById(R.id.switch_camera_action_fab);
+        localVideoActionFab = findViewById(R.id.local_video_action_fab);
+        muteActionFab = findViewById(R.id.mute_action_fab);
+
+        NoHttp.initialize(this);
+        final String reservation = (String) SPUtils.get(VideoCallActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
+        reservationBean = gson.fromJson(reservation, ReservationBean.class);
+        /*
+         * Enable changing the volume using the up/down keys during a conversation
+         */
+        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+
+        /*
+         * Needed for setting/abandoning audio focus during call
+         */
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setSpeakerphoneOn(true);
+
+        /*
+         * Check camera and microphone permissions. Needed in Android M.
+         */
         if (!checkPermissionForCameraAndMicrophone()) {
             requestPermissionForCameraAndMicrophone();
+        } else {
+            createAudioAndVideoTracks();
+            setAccessToken();
         }
 
-   /*
-    * Load views from resources
-    */
-        previewFrameLayout = (FrameLayout) findViewById(R.id.previewFrameLayout);
-        localContainer = (ViewGroup) findViewById(R.id.localContainer);
-        participantContainer = (ViewGroup) findViewById(R.id.participantContainer);
 
-        callActionFab = (FloatingActionButton) findViewById(R.id.call_action_fab);
-        callActionFab.setOnClickListener(callActionFabClickListener());
-
-        getCapabilityToken();
+        /*
+         * Set the initial state of the UI
+         */
+        intializeUI();
     }
 
-    private void getCapabilityToken() {
+    private View.OnClickListener connectActionClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //showConnectDialog();
+
+                connectToRoom("roomName-" + reservationBean.getId());
+                ActionbleHelper.getInstance().init(reservationBean,gson);
+            }
+        };
+    }
+
+    private void retrieveAccessTokenfromServer() {
+//        Ion.with(this)
+//                .load(String.format("%s?identity=%s", ACCESS_TOKEN_SERVER,
+//                        UUID.randomUUID().toString()))
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String token) {
+//                        if (e == null) {
+//                            VideoCallActivity.this.accessToken = token;
+//                        } else {
+//                            Toast.makeText(VideoCallActivity.this,
+//                                    "error_retrieving_access_token", Toast.LENGTH_LONG)
+//                                    .show();
+//                        }
+//                    }
+//                });
+
         StringRequest request = new StringRequest(CommonUtils.ACESS_TOKEN_URL);
-        request.addHeader("auth-token",CommonUtils.MPDTOKEN);
-        ReservationBean reservationBean = gson.fromJson((String) SPUtils.get(this,SPUtils.CURRENT_RESERVATION,"{}"), ReservationBean.class);
-        request.addHeader("user-name",reservationBean.getGuest_first_name());
-        HttpUtils httpUtils = new HttpUtils(VideoCallActivity.this);
+        request.addHeader("auth-token", CommonUtils.MPDTOKEN);
+        request.addHeader("user-name", reservationBean.getGuest_first_name()+reservationBean.getGuest_last_name());
+        HttpUtils httpUtils = new HttpUtils(VideoCallActivity.this,gson);
         httpUtils.send_quiet(request, new HttpUtils.HttpRunnable() {
             @Override
             public void run(Response<String> response) {
                 MPDBean mPDBean = gson.fromJson(response.get(), MPDBean.class);
                 TokenBean tokenBean = gson.fromJson(response.get(), TokenBean.class);
-                if (tokenBean != null && !TextUtils.isEmpty(tokenBean.getToken())){
-                    mAccessToken = tokenBean.getToken();
-                    CommonUtils.toast(VideoCallActivity.this, "token:"+tokenBean.getToken());
-                    initializeTwilioSdk(mAccessToken);
-                }else if(mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())){
+                if (tokenBean != null && !TextUtils.isEmpty(tokenBean.getToken())) {
+                    VideoCallActivity.this.accessToken = tokenBean.getToken();
+                } else if (mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())) {
                     CommonUtils.toast(VideoCallActivity.this, mPDBean.getMessage());
                 }
             }
         });
     }
 
-//    private void getCapabilityToken() {
-//        try {
-//            run("http://[your-ngrok-url].ngrok.io/token.php", new Callback() {
-//
-//                @Override
-//                public void onFailure(Call call, IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                @Override
-//                public void onResponse(Call call, Response response) throws IOException {
-//                    try {
-//                        String token = response.body().string();
-//                        JSONObject obj = new JSONObject(token);
-//                        mAccessToken = obj.getString("token");
-//                        Log.d(TAG, token);
-//                        initializeTwilioSdk(mAccessToken);
-//
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == CAMERA_MIC_PERMISSION_REQUEST_CODE) {
+            boolean cameraAndMicPermissionGranted = true;
 
+            for (int grantResult : grantResults) {
+                cameraAndMicPermissionGranted &= grantResult == PackageManager.PERMISSION_GRANTED;
+            }
 
-    private void initializeTwilioSdk(final String accessToken) {
-        TwilioConversations.setLogLevel(TwilioConversations.LogLevel.DEBUG);
+            if (cameraAndMicPermissionGranted) {
+                createAudioAndVideoTracks();
+                setAccessToken();
+            } else {
+                Toast.makeText(this,
+                        R.string.permissions_needed,
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
-        if(!TwilioConversations.isInitialized()) {
-            TwilioConversations.initialize(this.mContext, new TwilioConversations.InitListener() {
-                @Override
-                public void onInitialized() {
-                    accessManager = TwilioAccessManagerFactory.createAccessManager(accessToken, accessManagerListener());
-                    conversationsClient = TwilioConversations.createConversationsClient(accessManager, conversationsClientListener());
-                    // Specify the audio output to use for this conversation client
-                    conversationsClient.setAudioOutput(AudioOutput.SPEAKERPHONE);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*
+         * If the local video track was released when the app was put in the background, recreate.
+         */
+        if (localVideoTrack == null && checkPermissionForCameraAndMicrophone()) {
+            localVideoTrack = LocalVideoTrack.create(this, true, cameraCapturerCompat.getVideoCapturer());
+            localVideoTrack.addRenderer(localVideoView);
 
-                    // Initialize the camera capturer and start the camera preview
-                    cameraCapturer = CameraCapturerFactory.createCameraCapturer( VideoCallActivity.this, CameraCapturer.CameraSource.CAMERA_SOURCE_FRONT_CAMERA, previewFrameLayout, capturerErrorListener());
-                    startPreview();
-                    // Register to receive incoming invites
-                    conversationsClient.listen();
-                    Toast.makeText(VideoCallActivity.this,
-                            "success to initialize the Twilio Conversations SDK",
-                            Toast.LENGTH_LONG).show();
+            /*
+             * If connected to a Room then share the local video track.
+             */
+            if (localParticipant != null) {
+                localParticipant.addVideoTrack(localVideoTrack);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        /*
+         * Release the local video track before going in the background. This ensures that the
+         * camera can be used by other applications while this app is in the background.
+         */
+        if (localVideoTrack != null) {
+            /*
+             * If this local video track is being shared in a Room, remove from local
+             * participant before releasing the video track. Participants will be notified that
+             * the track has been removed.
+             */
+            if (localParticipant != null) {
+                localParticipant.removeVideoTrack(localVideoTrack);
+            }
+
+            localVideoTrack.release();
+            localVideoTrack = null;
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        /*
+         * Always disconnect from the room before leaving the Activity to
+         * ensure any memory allocated to the Room resource is freed.
+         */
+        if (room != null && room.getState() != RoomState.DISCONNECTED) {
+            room.disconnect();
+            disconnectedFromOnDestroy = true;
+        }
+
+        /*
+         * Release the local audio and video tracks ensuring any memory allocated to audio
+         * or video is freed.
+         */
+        if (localAudioTrack != null) {
+            localAudioTrack.release();
+            localAudioTrack = null;
+        }
+        if (localVideoTrack != null) {
+            localVideoTrack.release();
+            localVideoTrack = null;
+        }
+
+        WebSocketHelper.getInstance().disconnect();
+
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.speaker_menu_item:
+                if (audioManager.isSpeakerphoneOn()) {
+                    audioManager.setSpeakerphoneOn(false);
+                    item.setIcon(R.drawable.ic_phonelink_ring_white_24dp);
+                } else {
+                    audioManager.setSpeakerphoneOn(true);
+                    item.setIcon(R.drawable.ic_volume_up_white_24dp);
                 }
-
-                @Override
-                public void onError(Exception e) {
-                    Toast.makeText(VideoCallActivity.this,
-                            "Failed to initialize the Twilio Conversations SDK",
-                            Toast.LENGTH_LONG).show();
-                }
-            });
+                break;
         }
+        return true;
     }
-
-    private void startPreview() {
-        cameraCapturer.startPreview();
-    }
-
-    private void stopPreview() {
-        if(cameraCapturer != null && cameraCapturer.isPreviewing()) {
-            cameraCapturer.stopPreview();
-        }
-    }
-
-    private void reset() {
-        if(participantVideoRenderer != null) {
-            participantVideoRenderer = null;
-        }
-        localContainer.removeAllViews();
-        participantContainer.removeAllViews();
-
-        if(conversation != null) {
-            conversation.dispose();
-            conversation = null;
-        }
-        outgoingInvite = null;
-
-        if (conversationsClient != null) {
-            conversationsClient.setAudioOutput(AudioOutput.HEADSET);
-        }
-        setCallAction();
-        startPreview();
-    }
-
-    private void hangup() {
-        if(conversation != null) {
-            conversation.disconnect();
-        } else if(outgoingInvite != null){
-            outgoingInvite.cancel();
-        }
-    }
-
-    private void setHangupAction() {
-        callActionFab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.holo_red_dark)));
-        callActionFab.show();
-        callActionFab.setOnClickListener(hangupActionFabClickListener());
-    }
-
-    private LocalMedia setupLocalMedia() {
-        LocalMedia localMedia = LocalMediaFactory.createLocalMedia(localMediaListener());
-        LocalVideoTrack localVideoTrack = LocalVideoTrackFactory.createLocalVideoTrack(cameraCapturer);
-        localMedia.addLocalVideoTrack(localVideoTrack);
-        return localMedia;
-    }
-
-    private void setCallAction() {
-        callActionFab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.holo_green_dark)));
-        callActionFab.show();
-        callActionFab.setOnClickListener(callActionFabClickListener());
-    }
-
-    /*
-    * UTILITY FUNCTIONS
-    */
 
     private boolean checkPermissionForCameraAndMicrophone() {
         int resultCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         int resultMic = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
-        return (resultCamera == PackageManager.PERMISSION_GRANTED) && (resultMic == PackageManager.PERMISSION_GRANTED);
+        return resultCamera == PackageManager.PERMISSION_GRANTED &&
+                resultMic == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermissionForCameraAndMicrophone() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
-            Toast.makeText(this, "Camera and Microphone permissions needed. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.RECORD_AUDIO)) {
+            Toast.makeText(this,
+                    R.string.permissions_needed,
+                    Toast.LENGTH_LONG).show();
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO}, 1);
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},
+                    CAMERA_MIC_PERMISSION_REQUEST_CODE);
         }
     }
 
-    private Call run(String url, Callback callback) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+    private void createAudioAndVideoTracks() {
+        // Share your microphone
+        localAudioTrack = LocalAudioTrack.create(this, true);
 
-        Call response = client.newCall(request);
-        response.enqueue(callback);
-        return response;
+        // Share your camera
+        cameraCapturerCompat = new CameraCapturerCompat(this, getAvailableCameraSource());
+        localVideoTrack = LocalVideoTrack.create(this, true, cameraCapturerCompat.getVideoCapturer());
+        primaryVideoView.setMirror(true);
+        localVideoTrack.addRenderer(primaryVideoView);
+        localVideoView = primaryVideoView;
+    }
+
+    private CameraSource getAvailableCameraSource() {
+        return (CameraCapturer.isSourceAvailable(CameraSource.FRONT_CAMERA)) ?
+                (CameraSource.FRONT_CAMERA) :
+                (CameraSource.BACK_CAMERA);
+    }
+
+    private void setAccessToken() {
+        if (!USE_TOKEN_SERVER) {
+            /*
+             * OPTION 1 - Generate an access token from the getting started portal
+             * https://www.twilio.com/console/video/dev-tools/testing-tools and add
+             * the variable TWILIO_ACCESS_TOKEN setting it equal to the access token
+             * string in your local.properties file.
+             */
+            this.accessToken = TWILIO_ACCESS_TOKEN;
+        } else {
+            /*
+             * OPTION 2 - Retrieve an access token from your own web app.
+             * Add the variable ACCESS_TOKEN_SERVER assigning it to the url of your
+             * token server and the variable USE_TOKEN_SERVER=true to your
+             * local.properties file.
+             */
+            retrieveAccessTokenfromServer();
+        }
+    }
+
+    private void connectToRoom(String roomName) {
+        configureAudio(true);
+        ConnectOptions.Builder connectOptionsBuilder = new ConnectOptions.Builder(accessToken)
+                .roomName(roomName);
+        /*
+         * Add local audio track to connect options to share with participants.
+         */
+        if (localAudioTrack != null) {
+            connectOptionsBuilder
+                    .audioTracks(Collections.singletonList(localAudioTrack));
+        }
+
+        /*
+         * Add local video track to connect options to share with participants.
+         */
+        if (localVideoTrack != null) {
+            connectOptionsBuilder.videoTracks(Collections.singletonList(localVideoTrack));
+        }
+        room = Video.connect(this, connectOptionsBuilder.build(), roomListener());
+        setDisconnectAction();
     }
 
     /*
-    * EVENT LISTENERS
-    */
-    private TwilioAccessManagerListener accessManagerListener() {
-        return new TwilioAccessManagerListener() {
-            @Override
-            public void onAccessManagerTokenExpire(TwilioAccessManager twilioAccessManager) {
-            }
-            @Override
-            public void onTokenUpdated(TwilioAccessManager twilioAccessManager) {
-            }
-            @Override
-            public void onError(TwilioAccessManager twilioAccessManager, String s) {
-            }
-        };
+     * The initial state when there is no active room.
+     */
+    private void intializeUI() {
+        connectActionFab.setImageDrawable(ContextCompat.getDrawable(this,
+                R.drawable.ic_video_call_white_24dp));
+        connectActionFab.show();
+        connectActionFab.setOnClickListener(connectActionClickListener());
+        switchCameraActionFab.show();
+        switchCameraActionFab.setOnClickListener(switchCameraClickListener());
+        localVideoActionFab.show();
+        localVideoActionFab.setOnClickListener(localVideoClickListener());
+        muteActionFab.show();
+        muteActionFab.setOnClickListener(muteClickListener());
     }
 
-    private ConversationsClientListener conversationsClientListener() {
-        return new ConversationsClientListener() {
-            @Override
-            public void onStartListeningForInvites(ConversationsClient conversationsClient) {
-            }
+    /*
+     * The actions performed during disconnect.
+     */
+    private void setDisconnectAction() {
+        connectActionFab.setImageDrawable(ContextCompat.getDrawable(this,
+                R.drawable.ic_call_end_white_24px));
+        connectActionFab.show();
+        connectActionFab.setOnClickListener(disconnectClickListener());
+    }
 
-            @Override
-            public void onStopListeningForInvites(ConversationsClient conversationsClient) {
-            }
+    /*
+     * Creates an connect UI dialog
+     */
+    private void showConnectDialog() {
+        EditText roomEditText = new EditText(this);
+        alertDialog = Dialog.createConnectDialog(roomEditText,
+                connectClickListener(roomEditText), cancelConnectDialogClickListener(), this);
+        alertDialog.show();
+    }
 
-            @Override
-            public void onFailedToStartListening(ConversationsClient conversationsClient, TwilioConversationsException e) {
-            }
+    /*
+     * Called when participant joins the room
+     */
+    private void addParticipant(Participant participant) {
+        /*
+         * This app only displays video for one additional participant per Room
+         */
+        if (thumbnailVideoView.getVisibility() == View.VISIBLE) {
+            Snackbar.make(connectActionFab,
+                    "Multiple participants are not currently support in this UI",
+                    Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            return;
+        }
+        participantIdentity = participant.getIdentity();
+        videoStatusTextView.setText("Participant " + participantIdentity + " joined");
 
+        /*
+         * Add participant renderer
+         */
+        if (participant.getVideoTracks().size() > 0) {
+            addParticipantVideo(participant.getVideoTracks().get(0));
+        }
+
+        /*
+         * Start listening for participant events
+         */
+        participant.setListener(participantListener());
+    }
+
+    /*
+     * Set primary view as renderer for participant video track
+     */
+    private void addParticipantVideo(VideoTrack videoTrack) {
+        moveLocalVideoToThumbnailView();
+        primaryVideoView.setMirror(false);
+        videoTrack.addRenderer(primaryVideoView);
+    }
+
+    private void moveLocalVideoToThumbnailView() {
+        if (thumbnailVideoView.getVisibility() == View.GONE) {
+            thumbnailVideoView.setVisibility(View.VISIBLE);
+            localVideoTrack.removeRenderer(primaryVideoView);
+            localVideoTrack.addRenderer(thumbnailVideoView);
+            localVideoView = thumbnailVideoView;
+            thumbnailVideoView.setMirror(cameraCapturerCompat.getCameraSource() ==
+                    CameraSource.FRONT_CAMERA);
+        }
+    }
+
+    /*
+     * Called when participant leaves the room
+     */
+    private void removeParticipant(Participant participant) {
+        videoStatusTextView.setText("Participant " + participant.getIdentity() + " left.");
+        if (!participant.getIdentity().equals(participantIdentity)) {
+            return;
+        }
+
+        /*
+         * Remove participant renderer
+         */
+        if (participant.getVideoTracks().size() > 0) {
+            removeParticipantVideo(participant.getVideoTracks().get(0));
+        }
+        moveLocalVideoToPrimaryView();
+    }
+
+    private void removeParticipantVideo(VideoTrack videoTrack) {
+        videoTrack.removeRenderer(primaryVideoView);
+    }
+
+    private void moveLocalVideoToPrimaryView() {
+        if (thumbnailVideoView.getVisibility() == View.VISIBLE) {
+            thumbnailVideoView.setVisibility(View.GONE);
+            if (localVideoTrack != null) {
+                localVideoTrack.removeRenderer(thumbnailVideoView);
+                localVideoTrack.addRenderer(primaryVideoView);
+            }
+            localVideoView = primaryVideoView;
+            primaryVideoView.setMirror(cameraCapturerCompat.getCameraSource() ==
+                    CameraSource.FRONT_CAMERA);
+        }
+    }
+
+    /*
+     * Room events listener
+     */
+    private Room.Listener roomListener() {
+        return new Room.Listener() {
             @Override
-            public void onIncomingInvite(ConversationsClient conversationsClient, IncomingInvite incomingInvite) {
-                if (conversation == null) {
-                    LocalMedia localMedia = setupLocalMedia();
-                    incomingInvite.accept(localMedia, new ConversationCallback() {
-                        @Override
-                        public void onConversation(Conversation conversation, TwilioConversationsException e) {
-                            if (e == null) {
-                                 VideoCallActivity.this.conversation = conversation;
-                                conversation.setConversationListener(conversationListener());
-                            } else {
-                                Log.e(TAG, e.getMessage());
-                                hangup();
-                                reset();
-                            }
-                        }
-                    });
-                    setHangupAction();
-                } else {
-                    Log.w(TAG, String.format("Conversation in progress. Invite from %s ignored", incomingInvite.getInvitee()));
+            public void onConnected(Room room) {
+                localParticipant = room.getLocalParticipant();
+                videoStatusTextView.setText("Connected to " + room.getName());
+                setTitle(room.getName());
+
+                for (Participant participant : room.getParticipants()) {
+                    addParticipant(participant);
+                    break;
                 }
             }
 
+            @Override
+            public void onConnectFailure(Room room, TwilioException e) {
+                videoStatusTextView.setText("Failed to connect");
+                configureAudio(false);
+                intializeUI();
+            }
 
             @Override
-            public void onIncomingInviteCancelled(ConversationsClient conversationsClient, IncomingInvite incomingInvite) {
+            public void onDisconnected(Room room, TwilioException e) {
+                localParticipant = null;
+                videoStatusTextView.setText("Disconnected from " + room.getName());
+                VideoCallActivity.this.room = null;
+                // Only reinitialize the UI if disconnect was not called from onDestroy()
+                if (!disconnectedFromOnDestroy) {
+                    configureAudio(false);
+                    intializeUI();
+                    moveLocalVideoToPrimaryView();
+                }
+            }
+
+            @Override
+            public void onParticipantConnected(Room room, Participant participant) {
+                addParticipant(participant);
+
+            }
+
+            @Override
+            public void onParticipantDisconnected(Room room, Participant participant) {
+                removeParticipant(participant);
+            }
+
+            @Override
+            public void onRecordingStarted(Room room) {
+                /*
+                 * Indicates when media shared to a Room is being recorded. Note that
+                 * recording is only available in our Group Rooms developer preview.
+                 */
+                Log.d(TAG, "onRecordingStarted");
+            }
+
+            @Override
+            public void onRecordingStopped(Room room) {
+                /*
+                 * Indicates when media shared to a Room is no longer being recorded. Note that
+                 * recording is only available in our Group Rooms developer preview.
+                 */
+                Log.d(TAG, "onRecordingStopped");
+            }
+        };
+    }
+
+    private Participant.Listener participantListener() {
+        return new Participant.Listener() {
+            @Override
+            public void onAudioTrackAdded(Participant participant, AudioTrack audioTrack) {
+                videoStatusTextView.setText("onAudioTrackAdded");
+            }
+
+            @Override
+            public void onAudioTrackRemoved(Participant participant, AudioTrack audioTrack) {
+                videoStatusTextView.setText("onAudioTrackRemoved");
+            }
+
+            @Override
+            public void onVideoTrackAdded(Participant participant, VideoTrack videoTrack) {
+                videoStatusTextView.setText("onVideoTrackAdded");
+                addParticipantVideo(videoTrack);
+            }
+
+            @Override
+            public void onVideoTrackRemoved(Participant participant, VideoTrack videoTrack) {
+                videoStatusTextView.setText("onVideoTrackRemoved");
+                removeParticipantVideo(videoTrack);
+            }
+
+            @Override
+            public void onAudioTrackEnabled(Participant participant, AudioTrack audioTrack) {
+
+            }
+
+            @Override
+            public void onAudioTrackDisabled(Participant participant, AudioTrack audioTrack) {
+
+            }
+
+            @Override
+            public void onVideoTrackEnabled(Participant participant, VideoTrack videoTrack) {
+
+            }
+
+            @Override
+            public void onVideoTrackDisabled(Participant participant, VideoTrack videoTrack) {
 
             }
         };
     }
 
-    private CapturerErrorListener capturerErrorListener() {
-        return new CapturerErrorListener() {
+    private DialogInterface.OnClickListener connectClickListener(final EditText roomEditText) {
+        return new DialogInterface.OnClickListener() {
+
             @Override
-            public void onError(CapturerException e) {
-                Log.e(TAG, "Camera capturer error:" + e.getMessage());
+            public void onClick(DialogInterface dialog, int which) {
+                /*
+                 * Connect to room
+                 */
+                connectToRoom(roomEditText.getText().toString());
             }
         };
     }
 
-    private View.OnClickListener hangupActionFabClickListener() {
+    private View.OnClickListener disconnectClickListener() {
         return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hangup();
-                setCallAction();
-            }
-        };
-    }
-
-    private ConversationListener conversationListener() {
-        return new ConversationListener() {
-            @Override
-            public void onFailedToConnectParticipant(Conversation conversation, Participant participant, TwilioConversationsException e) {
-
-            }
-
-            @Override
-            public void onConversationEnded(Conversation conversation, TwilioConversationsException e) {
-                reset();
-            }
-
-            @Override
-            public void onParticipantConnected(Conversation conversation, Participant participant) {
-                Log.d(TAG, "onParticipantConnected: Participant connected");
-                participant.setParticipantListener(participantListener());
-            }
-
-            @Override
-            public void onParticipantDisconnected(Conversation conversation, Participant participant) {
-                reset();
-            }
-        };
-    }
-
-    private ParticipantListener participantListener() {
-
-        return new ParticipantListener() {
-            @Override
-            public void onVideoTrackAdded(Conversation conversation, Participant participant, VideoTrack videoTrack) {
-                Log.i(TAG, "onVideoTrackAdded " + participant.getIdentity());
-
-                // Remote participant
-                participantVideoRenderer = new VideoViewRenderer( VideoCallActivity.this, participantContainer);
-                participantVideoRenderer.setObserver(new VideoRendererObserver() {
-
-                    @Override
-                    public void onFirstFrame() {
-                        Log.i(TAG, "Participant onFirstFrame");
-                    }
-
-                    @Override
-                    public void onFrameDimensionsChanged(int width, int height, int i2) {
-                        Log.i(TAG, "Participant onFrameDimensionsChanged " + width + " " + height);
-                    }
-
-                });
-                videoTrack.addRenderer(participantVideoRenderer);
-            }
-
-            @Override
-            public void onVideoTrackRemoved(Conversation conversation, Participant participant, VideoTrack videoTrack) {
-                participantContainer.removeAllViews();
-
-            }
-
-            @Override
-            public void onAudioTrackAdded(Conversation conversation, Participant participant, AudioTrack audioTrack) {
-
-            }
-
-            @Override
-            public void onAudioTrackRemoved(Conversation conversation, Participant participant, AudioTrack audioTrack) {
-
-            }
-
-            @Override
-            public void onTrackEnabled(Conversation conversation, Participant participant, MediaTrack mediaTrack) {
-
-            }
-
-            @Override
-            public void onTrackDisabled(Conversation conversation, Participant participant, MediaTrack mediaTrack) {
-
-            }
-        };
-    }
-
-    private LocalMediaListener localMediaListener(){
-        return new LocalMediaListener() {
-            @Override
-            public void onLocalVideoTrackAdded(LocalMedia localMedia, LocalVideoTrack localVideoTrack) {
-                localVideoRenderer = new VideoViewRenderer( VideoCallActivity.this, localContainer);
-                localVideoTrack.addRenderer(localVideoRenderer);
-            }
-
-            @Override
-            public void onLocalVideoTrackRemoved(LocalMedia localMedia, LocalVideoTrack localVideoTrack) {
-                localContainer.removeAllViews();
-            }
-
-            @Override
-            public void onLocalVideoTrackError(LocalMedia localMedia, LocalVideoTrack localVideoTrack, TwilioConversationsException e) {
-                Log.e(TAG, e.getMessage());
-            }
-        };
-    }
-
-    private View.OnClickListener callActionFabClickListener() {
-        return new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                if(conversationsClient != null){
-                    stopPreview();
+                /*
+                 * Disconnect from room
+                 */
+                if (room != null) {
+                    room.disconnect();
+                }
+                intializeUI();
+            }
+        };
+    }
 
-                    Set<String> participants = new HashSet<>();
-                    participants.add("YawningQuincyPortland");
 
-                    // Create local media
-                    LocalMedia localMedia = setupLocalMedia();
-                    outgoingInvite = conversationsClient.sendConversationInvite(participants, localMedia, new ConversationCallback() {
-                        @Override
-                        public void onConversation(Conversation conversation, TwilioConversationsException e) {
-                            Log.e(TAG, "TwilioConversationsException:" + e);
-                            if (e == null) {
-                                // Participant has accepted invite, we are in active conversation
-                                VideoCallActivity.this.conversation = conversation;
-                                conversation.setConversationListener(conversationListener());
-                                setHangupAction();
-                            } else {
-                                hangup();
-                                reset();
-                            }
-                        }
-                    });
-                }else{
-                    Log.e(TAG, "invalid participant call");
+
+    private DialogInterface.OnClickListener cancelConnectDialogClickListener() {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                intializeUI();
+                alertDialog.dismiss();
+            }
+        };
+    }
+
+    private View.OnClickListener switchCameraClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cameraCapturerCompat != null) {
+                    CameraSource cameraSource = cameraCapturerCompat.getCameraSource();
+                    cameraCapturerCompat.switchCamera();
+                    if (thumbnailVideoView.getVisibility() == View.VISIBLE) {
+                        thumbnailVideoView.setMirror(cameraSource == CameraSource.BACK_CAMERA);
+                    } else {
+                        primaryVideoView.setMirror(cameraSource == CameraSource.BACK_CAMERA);
+                    }
                 }
             }
         };
+    }
+
+    private View.OnClickListener localVideoClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                 * Enable/disable the local video track
+                 */
+                if (localVideoTrack != null) {
+                    boolean enable = !localVideoTrack.isEnabled();
+                    localVideoTrack.enable(enable);
+                    int icon;
+                    if (enable) {
+                        icon = R.drawable.ic_videocam_white_24dp;
+                        switchCameraActionFab.show();
+                    } else {
+                        icon = R.drawable.ic_videocam_off_black_24dp;
+                        switchCameraActionFab.hide();
+                    }
+                    localVideoActionFab.setImageDrawable(
+                            ContextCompat.getDrawable(VideoCallActivity.this, icon));
+                }
+            }
+        };
+    }
+
+    private View.OnClickListener muteClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                 * Enable/disable the local audio track. The results of this operation are
+                 * signaled to other Participants in the same Room. When an audio track is
+                 * disabled, the audio is muted.
+                 */
+                if (localAudioTrack != null) {
+                    boolean enable = !localAudioTrack.isEnabled();
+                    localAudioTrack.enable(enable);
+                    int icon = enable ?
+                            R.drawable.ic_mic_white_24dp : R.drawable.ic_mic_off_black_24dp;
+                    muteActionFab.setImageDrawable(ContextCompat.getDrawable(
+                            VideoCallActivity.this, icon));
+                }
+            }
+        };
+    }
+
+    private void configureAudio(boolean enable) {
+        if (enable) {
+            previousAudioMode = audioManager.getMode();
+            // Request audio focus before making any device switch
+            requestAudioFocus();
+            /*
+             * Use MODE_IN_COMMUNICATION as the default audio mode. It is required
+             * to be in this mode when playout and/or recording starts for the best
+             * possible VoIP performance. Some devices have difficulties with
+             * speaker mode if this is not set.
+             */
+            audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+            /*
+             * Always disable microphone mute during a WebRTC call.
+             */
+            previousMicrophoneMute = audioManager.isMicrophoneMute();
+            audioManager.setMicrophoneMute(false);
+        } else {
+            audioManager.setMode(previousAudioMode);
+            audioManager.abandonAudioFocus(null);
+            audioManager.setMicrophoneMute(previousMicrophoneMute);
+        }
+    }
+
+    private void requestAudioFocus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AudioAttributes playbackAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build();
+            AudioFocusRequest focusRequest =
+                    new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
+                            .setAudioAttributes(playbackAttributes)
+                            .setAcceptsDelayedFocusGain(true)
+                            .setOnAudioFocusChangeListener(
+                                    new AudioManager.OnAudioFocusChangeListener() {
+                                        @Override
+                                        public void onAudioFocusChange(int i) {
+                                        }
+                                    })
+                            .build();
+            audioManager.requestAudioFocus(focusRequest);
+        } else {
+            audioManager.requestAudioFocus(null, AudioManager.STREAM_VOICE_CALL,
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+        }
     }
 }

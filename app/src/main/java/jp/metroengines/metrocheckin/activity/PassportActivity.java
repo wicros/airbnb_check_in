@@ -34,6 +34,7 @@ import com.yanzhenjie.nohttp.rest.StringRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -246,33 +247,18 @@ public class PassportActivity extends BaseActivity {
     }
 
     private void send_passport_to_mpd(final byte[] bytes){
-        final FaceHelper faceHelper = new FaceHelper(PassportActivity.this);
+        final FaceHelper faceHelper = new FaceHelper(PassportActivity.this,gson);
         faceHelper.detect_face(bytes, new HttpUtils.HttpRunnable() {
             @Override
             public void run(Response<String> response) {
                 DetectFaceBean detectFaceBean = gson.fromJson(response.get(), DetectFaceBean.class);
-                detectFaceBean.getFaces();
                 HttpUtils http_utils = faceHelper.get_http_utils();
                 if(detectFaceBean == null || detectFaceBean.getFaces() == null || detectFaceBean.getFaces().size() != 1){
                     http_utils.get_dialog().result(R.string.authentication_failed);
                 }else{
                     try {
                         http_utils.get_dialog().result(R.string.success);
-                        String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
-                        ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
-                        String passport_url = CommonUtils.passport_url(reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
-                        StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
-                        request.addHeader("auth-token",CommonUtils.MPDTOKEN);
-                        File file = new File(PassportActivity.this.getFilesDir().toString(),"passport_img_"+reservationBean.getId()+".jpg");
-                        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-                        bos.write(bytes);
-                        bos.flush();
-                        bos.close();
-                        request.add("photo",file);
-                        upload_passport(request,detectFaceBean);
-                        if(file.exists()){
-                            file.delete();
-                        }
+                        upload_passport(bytes,detectFaceBean);
                     } catch (Exception e) {
                         e.printStackTrace();
                         http_utils.get_dialog().result(e.toString());
@@ -282,8 +268,19 @@ public class PassportActivity extends BaseActivity {
         });
     }
 
-    private void upload_passport(StringRequest request, final DetectFaceBean detectFaceBean){
-        final HttpUtils http_utils = new HttpUtils(PassportActivity.this);
+    private void upload_passport(byte[] bytes, final DetectFaceBean detectFaceBean) throws IOException {
+        String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
+        ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
+        String passport_url = CommonUtils.passport_url(reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
+        StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
+        request.addHeader("auth-token",CommonUtils.MPDTOKEN);
+        final File file = new File(PassportActivity.this.getFilesDir().toString(),"passport_img_"+reservationBean.getId()+".jpg");
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+        bos.write(bytes);
+        bos.flush();
+        bos.close();
+        request.add("photo",file);
+        final HttpUtils http_utils = new HttpUtils(PassportActivity.this,gson);
         http_utils.send(request, new HttpUtils.HttpRunnable() {
             @Override
             public void run(Response<String> response) {
@@ -294,6 +291,9 @@ public class PassportActivity extends BaseActivity {
                     http_utils.get_dialog().result(R.string.success);
                     String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
                     SPUtils.put(PassportActivity.this,SPUtils.PASSPORT_FACE_TOKEN,detectFaceBean.getFaces().get(0).getFace_token());
+                    if(file.exists()){
+                        file.delete();
+                    }
                     if(TextUtils.equals(mode,SPUtils.MODE_Phone)){
                         startActivity(new Intent(PassportActivity.this, VideoCallActivity.class));
                     }else{

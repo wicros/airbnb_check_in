@@ -26,11 +26,11 @@ public class HttpUtils {
         void run(Response<String> response);
     }
 
-    public HttpUtils(Context context){
+    public HttpUtils(Context context,Gson gson){
         this.context = context;
         NoHttp.initialize(context);
         myProgressDialog = new MyProgressDialog(context);
-        gson = new Gson();
+        this.gson = gson;
     }
 
     public void send(Request request, final HttpRunnable runnable){

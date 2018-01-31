@@ -137,7 +137,7 @@ public class FaceCompareActivity extends BaseActivity {
     }
 
     private void compare_image(byte[] bytes) {
-        final FaceHelper faceHelper = new FaceHelper(FaceCompareActivity.this);
+        final FaceHelper faceHelper = new FaceHelper(FaceCompareActivity.this,gson);
         faceHelper.compare_face(bytes, new HttpUtils.HttpRunnable() {
             @Override
             public void run(Response<String> response) {

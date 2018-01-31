@@ -35,7 +35,7 @@ public class ReservationActivity extends BaseActivity {
         setContentView(R.layout.activity_reservation);
         ButterKnife.bind(this);
         setBackButton(this);
-        httpUtils = new HttpUtils(this);
+        httpUtils = new HttpUtils(this,gson);
         myProgressDialog = httpUtils.get_dialog();
     }
 

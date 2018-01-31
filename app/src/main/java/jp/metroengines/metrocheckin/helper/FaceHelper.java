@@ -29,11 +29,11 @@ public class FaceHelper {
     Gson gson;
     HttpUtils httpUtils;
 
-    public FaceHelper(Context context){
+    public FaceHelper(Context context,Gson gson){
         this.context = context;
-        httpUtils = new HttpUtils(context);
+        httpUtils = new HttpUtils(context,gson);
         myProgressDialog = httpUtils.get_dialog();
-        gson = httpUtils.get_gson();
+        this.gson = gson;
     }
 
     public void detect_face(byte[] image, final HttpUtils.HttpRunnable runnable){
