@@ -3,7 +3,6 @@ package jp.metroengines.metrocheckin.utils;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.AsyncRequestExecutor;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
@@ -28,7 +27,6 @@ public class HttpUtils {
 
     public HttpUtils(Context context,Gson gson){
         this.context = context;
-        NoHttp.initialize(context);
         myProgressDialog = new MyProgressDialog(context);
         this.gson = gson;
     }
@@ -48,7 +46,8 @@ public class HttpUtils {
             }
             @Override
             public void onFailed(int what, Response<String> response) {
-                myProgressDialog.result_error();
+                CommonUtils.log("response:error:"+response);
+                myProgressDialog.result(context.getString(R.string.net_error)+":"+response.responseCode());
             }
         });
     }
@@ -67,6 +66,7 @@ public class HttpUtils {
             }
             @Override
             public void onFailed(int what, Response<String> response) {
+                CommonUtils.log("response:error:"+response);
                 CommonUtils.toast(context,context.getString(R.string.net_error)+":"+response.responseCode());
             }
         });

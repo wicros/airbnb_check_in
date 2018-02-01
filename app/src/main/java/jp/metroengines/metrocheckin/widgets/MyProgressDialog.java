@@ -66,8 +66,4 @@ public class MyProgressDialog extends android.app.Dialog {
             }
         }, 1000);
     }
-
-    public void result_error(){
-       result(context.getString(R.string.net_error));
-    }
 }

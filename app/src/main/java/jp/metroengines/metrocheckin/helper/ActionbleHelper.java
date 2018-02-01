@@ -28,8 +28,10 @@ public class ActionbleHelper {
     private final static String INIT_CALL = "init_call";
 
     private static ActionbleHelper mInstance;
-    private static final String URL = "wss://staging.metroengines.jp/cable?auth-token=" + CommonUtils.MPDTOKEN;
-    Gson _gson;
+    private static final String URL = CommonUtils.ACTIONURL;
+
+    private Gson _gson;
+    private Consumer consumer;
 
     public ActionbleHelper() {
     }
@@ -60,7 +62,7 @@ public class ActionbleHelper {
         options.reconnection = true;
         options.reconnectionMaxAttempts = 60;
         CommonUtils.log("actioncable-url:"+uri);
-        Consumer consumer = ActionCable.createConsumer(uri,options);
+        consumer = ActionCable.createConsumer(uri,options);
         // 2. Create subscription
         Channel appearanceChannel = new Channel("ReservationsChannel");
         CommonUtils.log("actioncable-reservation_id:"+reservationBean.getId());
@@ -114,5 +116,11 @@ public class ActionbleHelper {
 
         // 3. Establish connection
         consumer.connect();
+    }
+
+    public void disconnect(){
+        if(consumer != null){
+            consumer.disconnect();
+        }
     }
 }

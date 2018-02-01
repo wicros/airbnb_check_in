@@ -50,7 +50,6 @@ import jp.metroengines.metrocheckin.bean.MPDBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
 import jp.metroengines.metrocheckin.bean.TokenBean;
 import jp.metroengines.metrocheckin.helper.ActionbleHelper;
-import jp.metroengines.metrocheckin.helper.WebSocketHelper;
 import jp.metroengines.metrocheckin.utils.CameraCapturerCompat;
 import jp.metroengines.metrocheckin.utils.CommonUtils;
 import jp.metroengines.metrocheckin.utils.HttpUtils;
@@ -156,9 +155,8 @@ public class VideoCallActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //showConnectDialog();
-
-                connectToRoom("roomName-" + reservationBean.getId());
                 ActionbleHelper.getInstance().init(reservationBean,gson);
+                connectToRoom("roomName-" + reservationBean.getId());
             }
         };
     }
@@ -286,7 +284,7 @@ public class VideoCallActivity extends BaseActivity {
             localVideoTrack = null;
         }
 
-        WebSocketHelper.getInstance().disconnect();
+       ActionbleHelper.getInstance().disconnect();
 
         super.onDestroy();
     }

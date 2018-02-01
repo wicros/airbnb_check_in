@@ -73,7 +73,7 @@ public class PassportActivity extends BaseActivity {
 
     private CameraManager mCameraManager;//摄像头管理器
     private Handler childHandler, mainHandler;
-    private String mCameraID;//摄像头Id 0 为后  1 为前
+    private String  mCameraID = "" + CameraCharacteristics.LENS_FACING_BACK;;//摄像头Id 0 为后  1 为前
     private ImageReader mImageReader;
     private CameraCaptureSession mCameraCaptureSession;
     private CameraDevice mCameraDevice;
@@ -117,11 +117,14 @@ public class PassportActivity extends BaseActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initCamera2() {
+        if (null != mCameraDevice) {
+            mCameraDevice.close();
+            mCameraDevice = null;
+        }
         HandlerThread handlerThread = new HandlerThread("Camera2");
         handlerThread.start();
         childHandler = new Handler(handlerThread.getLooper());
         mainHandler = new Handler(getMainLooper());
-        mCameraID = "" + CameraCharacteristics.LENS_FACING_BACK;
         mImageReader = ImageReader.newInstance(1080, 1920, ImageFormat.JPEG, 1);
         mImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() { //可以在这里处理拍照得到的临时照片 例如，写入本地
             @Override
@@ -133,6 +136,7 @@ public class PassportActivity extends BaseActivity {
                 buffer.get(bytes);
 //              Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 send_passport_to_mpd(bytes);
+
             }
         }, mainHandler);
         //获取摄像头管理
@@ -255,6 +259,7 @@ public class PassportActivity extends BaseActivity {
                 HttpUtils http_utils = faceHelper.get_http_utils();
                 if(detectFaceBean == null || detectFaceBean.getFaces() == null || detectFaceBean.getFaces().size() != 1){
                     http_utils.get_dialog().result(R.string.authentication_failed);
+                    initCamera2();
                 }else{
                     try {
                         http_utils.get_dialog().result(R.string.success);
@@ -271,7 +276,7 @@ public class PassportActivity extends BaseActivity {
     private void upload_passport(byte[] bytes, final DetectFaceBean detectFaceBean) throws IOException {
         String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
         ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
-        String passport_url = CommonUtils.passport_url(reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
+        String passport_url = CommonUtils.passport_url(reservationBean.getUser_id(),reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
         StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
         request.addHeader("auth-token",CommonUtils.MPDTOKEN);
         final File file = new File(PassportActivity.this.getFilesDir().toString(),"passport_img_"+reservationBean.getId()+".jpg");
@@ -287,6 +292,7 @@ public class PassportActivity extends BaseActivity {
                 MPDBean mPDBean = gson.fromJson(response.get(), MPDBean.class);
                 if(mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())){
                     http_utils.get_dialog().result(mPDBean.getMessage());
+                    initCamera2();
                 }else{
                     http_utils.get_dialog().result(R.string.success);
                     String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);

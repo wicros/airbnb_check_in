@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.Response;
 import com.yanzhenjie.nohttp.rest.StringRequest;
 
@@ -35,6 +36,7 @@ public class ReservationActivity extends BaseActivity {
         setContentView(R.layout.activity_reservation);
         ButterKnife.bind(this);
         setBackButton(this);
+        NoHttp.initialize(this);
         httpUtils = new HttpUtils(this,gson);
         myProgressDialog = httpUtils.get_dialog();
     }
