@@ -13,6 +13,15 @@ public class ActionCableBean {
 
     private String event;
     private String device_id;
+    private boolean guest_verified;
+
+    public boolean getGuest_verified() {
+        return guest_verified;
+    }
+
+    public void setGuest_verified(boolean guest_verified) {
+        this.guest_verified = guest_verified;
+    }
 
     public String getEvent() {
         return event;

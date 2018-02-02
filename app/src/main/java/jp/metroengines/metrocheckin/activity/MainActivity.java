@@ -61,9 +61,9 @@ public class MainActivity extends BaseActivity {
 
     private void change_local(String local) {
         SPUtils.put(this, SPUtils.LOCAL, local);
-        //startActivity(new Intent(this, ReservationActivity.class));
+        startActivity(new Intent(this, ReservationActivity.class));
         //startActivity(new Intent(this, VideoCallActivity.class));
-        startActivity(new Intent(this, SuccessActivity.class));
+        //startActivity(new Intent(this, SuccessActivity.class));
     }
 
     private void go_to_setting(){

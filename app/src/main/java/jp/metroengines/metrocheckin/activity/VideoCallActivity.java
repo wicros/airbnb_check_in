@@ -3,6 +3,7 @@ package jp.metroengines.metrocheckin.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
@@ -155,8 +156,17 @@ public class VideoCallActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //showConnectDialog();
-                ActionbleHelper.getInstance().init(reservationBean,gson);
                 connectToRoom("roomName-" + reservationBean.getId());
+                ActionbleHelper.getInstance().init(reservationBean, gson, new ActionbleHelper.ActionRunnable() {
+                    @Override
+                    public void run(boolean guest_verified) {
+                        if(guest_verified){
+                            startActivity(new Intent(VideoCallActivity.this,SuccessActivity.class));
+                        }else{
+                            startActivity(new Intent(VideoCallActivity.this,FailureActivity.class));
+                        }
+                    }
+                });
             }
         };
     }
@@ -284,7 +294,7 @@ public class VideoCallActivity extends BaseActivity {
             localVideoTrack = null;
         }
 
-       ActionbleHelper.getInstance().disconnect();
+        ActionbleHelper.getInstance().disconnect();
 
         super.onDestroy();
     }
