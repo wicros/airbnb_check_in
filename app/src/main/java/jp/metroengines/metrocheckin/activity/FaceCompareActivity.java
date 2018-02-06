@@ -19,15 +19,12 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
 import android.widget.Toast;
-
-import com.yanzhenjie.nohttp.rest.Response;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -36,9 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.metroengines.metrocheckin.R;
-import jp.metroengines.metrocheckin.bean.FaceCompareBean;
-import jp.metroengines.metrocheckin.helper.FaceHelper;
-import jp.metroengines.metrocheckin.utils.HttpUtils;
+import jp.metroengines.metrocheckin.helper.AWSFaceHelper;
 
 public class FaceCompareActivity extends BaseActivity {
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -118,9 +113,7 @@ public class FaceCompareActivity extends BaseActivity {
                 // 拿到拍照照片数据
                 Image image = reader.acquireNextImage();
                 ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                byte[] bytes = new byte[buffer.remaining()];
-                buffer.get(bytes);//由缓冲区存入字节数组
-                compare_image(bytes);
+                compare_image(buffer);
             }
         }, mainHandler);
         //获取摄像头管理
@@ -136,25 +129,19 @@ public class FaceCompareActivity extends BaseActivity {
         }
     }
 
-    private void compare_image(byte[] bytes) {
-        final FaceHelper faceHelper = new FaceHelper(FaceCompareActivity.this,gson);
-        faceHelper.compare_face(bytes, new HttpUtils.HttpRunnable() {
+    private void compare_image(ByteBuffer buffer) {
+        AWSFaceHelper awsFaceHelper = new AWSFaceHelper(FaceCompareActivity.this, gson);
+        awsFaceHelper.compare_face(new AWSFaceHelper.FaceRunnable() {
             @Override
-            public void run(Response<String> response) {
-                FaceCompareBean faceCompareBean = gson.fromJson(response.get(), FaceCompareBean.class);
-                if (faceCompareBean.getError_message() == null || TextUtils.isEmpty(faceCompareBean.getError_message())) {
-                    if (faceCompareBean.getConfidence() >= 60) {
-                        faceHelper.get_http_utils().get_dialog().result(R.string.success);
-                        startActivity(new Intent(FaceCompareActivity.this, SuccessActivity.class));
-                    } else {
-                        faceHelper.get_http_utils().get_dialog().result(R.string.authentication_failed);
-                        startActivity(new Intent(FaceCompareActivity.this, FailureActivity.class));
-                    }
-                } else {
-                    faceHelper.get_http_utils().get_dialog().result(faceCompareBean.getError_message());
-                }
+            public void success() {
+                startActivity(new Intent(FaceCompareActivity.this, SuccessActivity.class));
             }
-        });
+
+            @Override
+            public void error() {
+                startActivity(new Intent(FaceCompareActivity.this, FailureActivity.class));
+            }
+        },buffer);
     }
 
     @Override

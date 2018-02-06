@@ -24,6 +24,7 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -42,10 +43,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.metroengines.metrocheckin.R;
-import jp.metroengines.metrocheckin.bean.DetectFaceBean;
 import jp.metroengines.metrocheckin.bean.MPDBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
-import jp.metroengines.metrocheckin.helper.FaceHelper;
+import jp.metroengines.metrocheckin.helper.AWSFaceHelper;
 import jp.metroengines.metrocheckin.utils.CommonUtils;
 import jp.metroengines.metrocheckin.utils.HttpUtils;
 import jp.metroengines.metrocheckin.utils.SPUtils;
@@ -70,10 +70,13 @@ public class PassportActivity extends BaseActivity {
 
     @BindView(R.id.bt_shoot)
     Button btShoot;
+    @BindView(R.id.bt_change)
+    Button btChange;
 
     private CameraManager mCameraManager;//摄像头管理器
     private Handler childHandler, mainHandler;
-    private String  mCameraID = "" + CameraCharacteristics.LENS_FACING_BACK;;//摄像头Id 0 为后  1 为前
+    private String mCameraID = "" + CameraCharacteristics.LENS_FACING_BACK;
+    ;//摄像头Id 0 为后  1 为前
     private ImageReader mImageReader;
     private CameraCaptureSession mCameraCaptureSession;
     private CameraDevice mCameraDevice;
@@ -130,12 +133,23 @@ public class PassportActivity extends BaseActivity {
             @Override
             public void onImageAvailable(ImageReader reader) {
                 // 拿到拍照照片数据
-                Image image = reader.acquireNextImage();
+                final Image image = reader.acquireNextImage();
                 ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                byte[] bytes = new byte[buffer.remaining()];
-                buffer.get(bytes);
+                new AWSFaceHelper(PassportActivity.this,gson).detect_face(new AWSFaceHelper.FaceRunnable() {
+                    @Override
+                    public void success() {
+                        ByteBuffer buffer_2 = image.getPlanes()[0].getBuffer();
+                        final byte[] bytes = new byte[buffer_2.remaining()];
+                        buffer_2.get(bytes);
+                        upload_passport(bytes);
+                    }
+                    @Override
+                    public void error() {
+                        initCamera2();
+                    }
+                },buffer);
+
 //              Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                send_passport_to_mpd(bytes);
 
             }
         }, mainHandler);
@@ -158,9 +172,9 @@ public class PassportActivity extends BaseActivity {
     private CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice camera) {//打开摄像头
-                mCameraDevice = camera;
-                //开启预览
-                takePreview();
+            mCameraDevice = camera;
+            //开启预览
+            takePreview();
         }
 
         @Override
@@ -245,69 +259,44 @@ public class PassportActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.bt_shoot)
-    public void onViewClicked() {
-        takePicture();
-    }
 
-    private void send_passport_to_mpd(final byte[] bytes){
-        final FaceHelper faceHelper = new FaceHelper(PassportActivity.this,gson);
-        faceHelper.detect_face(bytes, new HttpUtils.HttpRunnable() {
-            @Override
-            public void run(Response<String> response) {
-                DetectFaceBean detectFaceBean = gson.fromJson(response.get(), DetectFaceBean.class);
-                HttpUtils http_utils = faceHelper.get_http_utils();
-                if(detectFaceBean == null || detectFaceBean.getFaces() == null || detectFaceBean.getFaces().size() != 1){
-                    http_utils.get_dialog().result(R.string.authentication_failed);
-                    initCamera2();
-                }else{
-                    try {
-                        http_utils.get_dialog().result(R.string.success);
-                        upload_passport(bytes,detectFaceBean);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        http_utils.get_dialog().result(e.toString());
-                    }
-                }
-            }
-        });
-    }
-
-    private void upload_passport(byte[] bytes, final DetectFaceBean detectFaceBean) throws IOException {
-        String reservation = (String) SPUtils.get(PassportActivity.this,SPUtils.CURRENT_RESERVATION,"{}");
+    private void upload_passport(final byte[] bytes) {
+        String reservation = (String) SPUtils.get(PassportActivity.this, SPUtils.CURRENT_RESERVATION, "{}");
         ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
-        String passport_url = CommonUtils.passport_url(reservationBean.getUser_id(),reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
+        String passport_url = CommonUtils.passport_url(reservationBean.getUser_id(), reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
         StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
-        request.addHeader("auth-token",CommonUtils.MPDTOKEN);
-        final File file = new File(PassportActivity.this.getFilesDir().toString(),"passport_img_"+reservationBean.getId()+".jpg");
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-        bos.write(bytes);
-        bos.flush();
-        bos.close();
-        request.add("photo",file);
-        final HttpUtils http_utils = new HttpUtils(PassportActivity.this,gson);
-        http_utils.send(request, new HttpUtils.HttpRunnable() {
-            @Override
-            public void run(Response<String> response) {
-                MPDBean mPDBean = gson.fromJson(response.get(), MPDBean.class);
-                if(mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())){
-                    http_utils.get_dialog().result(mPDBean.getMessage());
-                    initCamera2();
-                }else{
-                    http_utils.get_dialog().result(R.string.success);
-                    String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
-                    SPUtils.put(PassportActivity.this,SPUtils.PASSPORT_FACE_TOKEN,detectFaceBean.getFaces().get(0).getFace_token());
-                    if(file.exists()){
-                        file.delete();
-                    }
-                    if(TextUtils.equals(mode,SPUtils.MODE_Phone)){
-                        startActivity(new Intent(PassportActivity.this, VideoCallActivity.class));
-                    }else{
-                        startActivity(new Intent(PassportActivity.this, FaceCompareActivity.class));
+        request.addHeader("auth-token", CommonUtils.MPDTOKEN);
+        final String file_name = "passport_img_" + reservationBean.getId() + ".jpg";
+        final File file = new File(PassportActivity.this.getFilesDir().toString(), file_name);
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bos.write(bytes);
+            bos.flush();
+            bos.close();
+            request.add("photo", file);
+            final HttpUtils http_utils = new HttpUtils(PassportActivity.this, gson);
+            http_utils.send(request, new HttpUtils.HttpRunnable() {
+                @Override
+                public void run(Response<String> response) {
+                    MPDBean mPDBean = gson.fromJson(response.get(), MPDBean.class);
+                    if (mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())) {
+                        http_utils.get_dialog().result(mPDBean.getMessage());
+                        initCamera2();
+                    } else {
+                        http_utils.get_dialog().result(R.string.success);
+                        SPUtils.put(PassportActivity.this, SPUtils.PASSPORT_FACE_TOKEN,file_name);
+                        String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
+                            if (TextUtils.equals(mode, SPUtils.MODE_Phone)) {
+                                startActivity(new Intent(PassportActivity.this, VideoCallActivity.class));
+                            } else {
+                                startActivity(new Intent(PassportActivity.this, FaceCompareActivity.class));
+                            }
                     }
                 }
-            }
-        });
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -317,6 +306,19 @@ public class PassportActivity extends BaseActivity {
             mCameraDevice = null;
         }
         super.onPause();
+    }
+
+    @OnClick({R.id.bt_shoot, R.id.bt_change})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.bt_shoot:
+                takePicture();
+                break;
+            case R.id.bt_change:
+                mCameraID = TextUtils.equals(mCameraID,"1") ? "0" : "1";
+                initCamera2();
+                break;
+        }
     }
 }
 

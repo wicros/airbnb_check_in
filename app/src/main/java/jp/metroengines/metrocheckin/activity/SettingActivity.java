@@ -25,7 +25,9 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
-        if(SPUtils.get(this,SPUtils.MODE,SPUtils.MODE_Phone) == SPUtils.MODE_Face)rdFace.setChecked(true);
+        if(SPUtils.get(this,SPUtils.MODE,SPUtils.MODE_Phone) == SPUtils.MODE_Face){
+            rdFace.setChecked(true);
+        }
     }
 
     @OnClick(R.id.bt_save)

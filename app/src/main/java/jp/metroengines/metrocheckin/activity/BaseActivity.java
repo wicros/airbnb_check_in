@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.google.gson.Gson;
 
 import java.util.Locale;
+
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.utils.SPUtils;
 
@@ -17,11 +19,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected Gson gson = new Gson();
 
+    private IdentityManager identityManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initLocaleLanguage();
         //setContentView(R.layout.activity_main);
+
+
     }
 
     private void initLocaleLanguage() {
@@ -46,5 +52,4 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
     }
-
 }

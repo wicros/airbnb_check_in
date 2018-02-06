@@ -101,7 +101,7 @@ public class ActionbleHelper {
                 }).onReceived(new Subscription.ReceivedCallback() {
                     @Override
                     public void call(JsonElement data) {
-                    // Called when the subscription receives data from the server
+                        // Called when the subscription receives data from the server
                         CommonUtils.log("actioncable:get:"+data);
                         ActionCableBean actionCableBean = _gson.fromJson(data, ActionCableBean.class);
                         if(TextUtils.equals(step,INIT_CALL)){

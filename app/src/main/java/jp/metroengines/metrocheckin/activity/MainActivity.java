@@ -40,7 +40,6 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-
     @OnClick({R.id.bt_ja, R.id.bt_en, R.id.bt_zh, R.id.bt_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
