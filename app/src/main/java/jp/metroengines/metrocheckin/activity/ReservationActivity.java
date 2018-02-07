@@ -62,7 +62,7 @@ public class ReservationActivity extends BaseActivity {
                 }else{
                     myProgressDialog.result(ReservationActivity.this.getString(R.string.success));
                     SPUtils.put(ReservationActivity.this, SPUtils.CURRENT_RESERVATION, response.get());
-                    startActivity(new Intent(ReservationActivity.this, PassportActivity.class));
+                    startActivity(new Intent(ReservationActivity.this, GuestNumActivity.class));
                     finish();
                 }
             }

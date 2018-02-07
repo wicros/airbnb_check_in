@@ -26,6 +26,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yanzhenjie.nohttp.RequestMethod;
@@ -72,6 +73,8 @@ public class PassportActivity extends BaseActivity {
     Button btShoot;
     @BindView(R.id.bt_change)
     Button btChange;
+    @BindView(R.id.tv_num)
+    TextView tvNum;
 
     private CameraManager mCameraManager;//摄像头管理器
     private Handler childHandler, mainHandler;
@@ -81,12 +84,24 @@ public class PassportActivity extends BaseActivity {
     private CameraCaptureSession mCameraCaptureSession;
     private CameraDevice mCameraDevice;
 
+    private int max_num = (int) SPUtils.get(this,SPUtils.GUEST_NUM,0);
+    private int current_num;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passport);
         ButterKnife.bind(this);
+        set_num_text();
         initSurfaceView();
+    }
+
+    private void set_num_text(){
+        if(max_num == 1){
+            tvNum.setText(""+max_num+" (Representative)/"+max_num);
+        }else{
+            tvNum.setText(""+max_num+"/"+max_num);
+        }
     }
 
     private void initSurfaceView() {
@@ -135,7 +150,7 @@ public class PassportActivity extends BaseActivity {
                 // 拿到拍照照片数据
                 final Image image = reader.acquireNextImage();
                 ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                new AWSFaceHelper(PassportActivity.this,gson).detect_face(new AWSFaceHelper.FaceRunnable() {
+                new AWSFaceHelper(PassportActivity.this, gson).detect_face(new AWSFaceHelper.FaceRunnable() {
                     @Override
                     public void success() {
                         ByteBuffer buffer_2 = image.getPlanes()[0].getBuffer();
@@ -145,13 +160,15 @@ public class PassportActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void failuer() { initCamera2(); }
+                    public void failuer() {
+                        initCamera2();
+                    }
 
                     @Override
                     public void error() {
                         initCamera2();
                     }
-                },buffer);
+                }, buffer);
 
 //              Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
@@ -270,7 +287,7 @@ public class PassportActivity extends BaseActivity {
         String passport_url = CommonUtils.passport_url(reservationBean.getUser_id(), reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
         StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
         request.addHeader("auth-token", CommonUtils.MPDTOKEN);
-        final String file_name = "passport_img_" + reservationBean.getId() + ".jpg";
+        final String file_name = "passport_img_" + reservationBean.getId() + "_"+ current_num + ".jpg";
         final File file = new File(PassportActivity.this.getFilesDir().toString(), file_name);
         try {
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
@@ -278,6 +295,7 @@ public class PassportActivity extends BaseActivity {
             bos.flush();
             bos.close();
             request.add("photo", file);
+
             final HttpUtils http_utils = new HttpUtils(PassportActivity.this, gson);
             http_utils.send(request, new HttpUtils.HttpRunnable() {
                 @Override
@@ -288,14 +306,29 @@ public class PassportActivity extends BaseActivity {
                         initCamera2();
                     } else {
                         http_utils.get_dialog().result(R.string.success);
-                        SPUtils.put(PassportActivity.this, SPUtils.PASSPORT_FACE_TOKEN,file_name);
-                        String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
+
+                        if(current_num == 1){
+                            SPUtils.put(PassportActivity.this, SPUtils.PASSPORT_FACE_TOKEN, file_name);
+                        }else {
+                            if(file.exists()){
+                                file.delete();
+                            }
+                        }
+
+                        if(current_num < max_num){
+                            initCamera2();
+                            current_num++;
+                            set_num_text();
+                        }else {
+                            String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
                             if (TextUtils.equals(mode, SPUtils.MODE_Phone)) {
                                 startActivity(new Intent(PassportActivity.this, BeforeVideoActivity.class));
                             } else {
                                 startActivity(new Intent(PassportActivity.this, FaceCompareActivity.class));
                             }
                             finish();
+                        }
+
                     }
                 }
             });
@@ -320,10 +353,14 @@ public class PassportActivity extends BaseActivity {
                 takePicture();
                 break;
             case R.id.bt_change:
-                mCameraID = TextUtils.equals(mCameraID,"1") ? "0" : "1";
+                mCameraID = TextUtils.equals(mCameraID, "1") ? "0" : "1";
                 initCamera2();
                 break;
         }
+    }
+
+    @OnClick(R.id.tv_num)
+    public void onViewClicked() {
     }
 }
 
