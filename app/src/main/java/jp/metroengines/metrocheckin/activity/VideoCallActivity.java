@@ -10,6 +10,7 @@ import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -149,24 +150,40 @@ public class VideoCallActivity extends BaseActivity {
          * Set the initial state of the UI
          */
         intializeUI();
+
+
+
+    }
+
+    private void start_call(){
+        set_time_counter(60 * 60 * 1000);
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                if(!TextUtils.equals(videoStatusTextView.getText(),"onAudioTrackAdded")){
+                    startActivity(new Intent(VideoCallActivity.this,FailureActivity.class));
+                    finish();
+                }
+            }
+        }, 1000 * 60);
+        //start call
+        connectToRoom("roomName-" + reservationBean.getId());
+        ActionbleHelper.getInstance().init(reservationBean, gson, new ActionbleHelper.ActionRunnable() {
+            @Override
+            public void run(boolean guest_verified) {
+                if(guest_verified){
+                    startActivity(new Intent(VideoCallActivity.this,SuccessActivity.class));
+                }else{
+                    startActivity(new Intent(VideoCallActivity.this,FailureActivity.class));
+                }
+                finish();
+            }
+        });
     }
 
     private View.OnClickListener connectActionClickListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //showConnectDialog();
-                connectToRoom("roomName-" + reservationBean.getId());
-                ActionbleHelper.getInstance().init(reservationBean, gson, new ActionbleHelper.ActionRunnable() {
-                    @Override
-                    public void run(boolean guest_verified) {
-                        if(guest_verified){
-                            startActivity(new Intent(VideoCallActivity.this,SuccessActivity.class));
-                        }else{
-                            startActivity(new Intent(VideoCallActivity.this,FailureActivity.class));
-                        }
-                    }
-                });
             }
         };
     }
@@ -200,6 +217,7 @@ public class VideoCallActivity extends BaseActivity {
                 TokenBean tokenBean = gson.fromJson(response.get(), TokenBean.class);
                 if (tokenBean != null && !TextUtils.isEmpty(tokenBean.getToken())) {
                     VideoCallActivity.this.accessToken = tokenBean.getToken();
+                    start_call();
                 } else if (mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())) {
                     CommonUtils.toast(VideoCallActivity.this, mPDBean.getMessage());
                 }
@@ -267,6 +285,7 @@ public class VideoCallActivity extends BaseActivity {
             localVideoTrack.release();
             localVideoTrack = null;
         }
+
         super.onPause();
     }
 
@@ -293,9 +312,7 @@ public class VideoCallActivity extends BaseActivity {
             localVideoTrack.release();
             localVideoTrack = null;
         }
-
         ActionbleHelper.getInstance().disconnect();
-
         super.onDestroy();
     }
 
@@ -408,26 +425,26 @@ public class VideoCallActivity extends BaseActivity {
      * The initial state when there is no active room.
      */
     private void intializeUI() {
-        connectActionFab.setImageDrawable(ContextCompat.getDrawable(this,
-                R.drawable.ic_video_call_white_24dp));
-        connectActionFab.show();
-        connectActionFab.setOnClickListener(connectActionClickListener());
-        switchCameraActionFab.show();
-        switchCameraActionFab.setOnClickListener(switchCameraClickListener());
-        localVideoActionFab.show();
-        localVideoActionFab.setOnClickListener(localVideoClickListener());
-        muteActionFab.show();
-        muteActionFab.setOnClickListener(muteClickListener());
+//        connectActionFab.setImageDrawable(ContextCompat.getDrawable(this,
+//                R.drawable.ic_video_call_white_24dp));
+//        connectActionFab.show();
+//        connectActionFab.setOnClickListener(connectActionClickListener());
+//        switchCameraActionFab.show();
+//        switchCameraActionFab.setOnClickListener(switchCameraClickListener());
+//        localVideoActionFab.show();
+//        localVideoActionFab.setOnClickListener(localVideoClickListener());
+//        muteActionFab.show();
+//        muteActionFab.setOnClickListener(muteClickListener());
     }
 
     /*
      * The actions performed during disconnect.
      */
     private void setDisconnectAction() {
-        connectActionFab.setImageDrawable(ContextCompat.getDrawable(this,
-                R.drawable.ic_call_end_white_24px));
-        connectActionFab.show();
-        connectActionFab.setOnClickListener(disconnectClickListener());
+//        connectActionFab.setImageDrawable(ContextCompat.getDrawable(this,
+//                R.drawable.ic_call_end_white_24px));
+//        connectActionFab.show();
+//        connectActionFab.setOnClickListener(disconnectClickListener());
     }
 
     /*

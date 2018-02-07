@@ -1,6 +1,5 @@
 package jp.metroengines.metrocheckin.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -14,7 +13,7 @@ public class LastActivity extends BaseActivity {
         setContentView(R.layout.activity_last);
         new Handler().postDelayed(new Runnable(){
             public void run() {
-                startActivity(new Intent(LastActivity.this, MainActivity.class));
+               back_to_main();
             }
         }, 1000 * 10);
     }

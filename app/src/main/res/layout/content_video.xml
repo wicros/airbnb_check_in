@@ -39,7 +39,7 @@
             android:layout_gravity="center"
             android:textColor="@color/colorAccent"
             android:textSize="20sp"
-            android:text="statuss"/>
+            android:text="status"/>
 
     </LinearLayout>
 

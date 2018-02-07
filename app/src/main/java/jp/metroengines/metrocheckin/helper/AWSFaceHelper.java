@@ -44,6 +44,7 @@ public class AWSFaceHelper {
 
     public interface FaceRunnable{
         void success();
+        void failuer();
         void error();
     }
 
@@ -59,7 +60,7 @@ public class AWSFaceHelper {
                     break;
                 case FAILURE:
                     myProgressDialog.result(context.getString(R.string.authentication_failed));
-                    runnable.error();
+                    runnable.failuer();
                     break;
                 case ERROR:
                     myProgressDialog.result(context.getString(R.string.net_error)+":"+msg.getData().getString("error"));
@@ -107,7 +108,6 @@ public class AWSFaceHelper {
             public void run() {
                 try {
                     String file_name = (String) SPUtils.get(context, SPUtils.PASSPORT_FACE_TOKEN, "");
-
                     File file = new File(context.getFilesDir().toString(), file_name);
                     byte[] bytes = CommonUtils.fileToBytes(file);
                     ByteBuffer buffer_2 = ByteBuffer.wrap(bytes);
@@ -132,8 +132,5 @@ public class AWSFaceHelper {
             }
         }).start();
     }
-
-
-
 
 }

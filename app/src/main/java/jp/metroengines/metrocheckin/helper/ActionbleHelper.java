@@ -90,7 +90,7 @@ public class ActionbleHelper {
                             subscription.perform(INIT_CALL, params);
                             CommonUtils.log("actioncable:send");
                         }
-//actioncable:get:{"event":"call_result_submitted","guest_verified":true}
+                        //actioncable:get:{"event":"call_result_submitted","guest_verified":true}
                     }
                 }).onRejected(new Subscription.RejectedCallback() {
                     @Override

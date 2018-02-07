@@ -143,6 +143,10 @@ public class PassportActivity extends BaseActivity {
                         buffer_2.get(bytes);
                         upload_passport(bytes);
                     }
+
+                    @Override
+                    public void failuer() { initCamera2(); }
+
                     @Override
                     public void error() {
                         initCamera2();
@@ -287,10 +291,11 @@ public class PassportActivity extends BaseActivity {
                         SPUtils.put(PassportActivity.this, SPUtils.PASSPORT_FACE_TOKEN,file_name);
                         String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
                             if (TextUtils.equals(mode, SPUtils.MODE_Phone)) {
-                                startActivity(new Intent(PassportActivity.this, VideoCallActivity.class));
+                                startActivity(new Intent(PassportActivity.this, BeforeVideoActivity.class));
                             } else {
                                 startActivity(new Intent(PassportActivity.this, FaceCompareActivity.class));
                             }
+                            finish();
                     }
                 }
             });

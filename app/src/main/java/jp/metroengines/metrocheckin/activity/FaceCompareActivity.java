@@ -101,6 +101,10 @@ public class FaceCompareActivity extends BaseActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initCamera2() {
+        if (null != mCameraDevice) {
+            mCameraDevice.close();
+            mCameraDevice = null;
+        }
         HandlerThread handlerThread = new HandlerThread("Camera2");
         handlerThread.start();
         childHandler = new Handler(handlerThread.getLooper());
@@ -135,6 +139,11 @@ public class FaceCompareActivity extends BaseActivity {
             @Override
             public void success() {
                 startActivity(new Intent(FaceCompareActivity.this, SuccessActivity.class));
+            }
+
+            @Override
+            public void failuer() {
+                startActivity(new Intent(FaceCompareActivity.this, FailureActivity.class));
             }
 
             @Override

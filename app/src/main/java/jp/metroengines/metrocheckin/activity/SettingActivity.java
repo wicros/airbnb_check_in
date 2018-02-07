@@ -2,6 +2,7 @@ package jp.metroengines.metrocheckin.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.RadioButton;
 
@@ -25,7 +26,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
-        if(SPUtils.get(this,SPUtils.MODE,SPUtils.MODE_Phone) == SPUtils.MODE_Face){
+        if(TextUtils.equals((CharSequence) SPUtils.get(this,SPUtils.MODE,SPUtils.MODE_Phone),SPUtils.MODE_Face)){
             rdFace.setChecked(true);
         }
     }

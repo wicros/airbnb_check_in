@@ -23,13 +23,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SplashActivity" >
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.ReservationActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.PassportActivity" />
@@ -41,6 +42,7 @@
         <activity android:name=".activity.SuccessActivity" />
         <activity android:name=".activity.FailureActivity" />
         <activity android:name=".activity.LastActivity" />
+        <activity android:name=".activity.BeforeVideoActivity"></activity>
     </application>
 
 </manifest>
