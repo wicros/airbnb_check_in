@@ -84,23 +84,24 @@ public class PassportActivity extends BaseActivity {
     private CameraCaptureSession mCameraCaptureSession;
     private CameraDevice mCameraDevice;
 
-    private int max_num = (int) SPUtils.get(this,SPUtils.GUEST_NUM,0);
-    private int current_num;
+    private int max_num;
+    private int current_num = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passport);
         ButterKnife.bind(this);
+        max_num = (int) SPUtils.get(this,SPUtils.GUEST_NUM,0);
         set_num_text();
         initSurfaceView();
     }
 
     private void set_num_text(){
-        if(max_num == 1){
-            tvNum.setText(""+max_num+" (Representative)/"+max_num);
+        if(current_num == 1){
+            tvNum.setText(""+current_num+" (Representative)/"+max_num);
         }else{
-            tvNum.setText(""+max_num+"/"+max_num);
+            tvNum.setText(""+current_num+"/"+max_num);
         }
     }
 

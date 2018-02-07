@@ -2,7 +2,6 @@ package jp.metroengines.metrocheckin.widgets;
 
 
 import android.content.Context;
-import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -48,22 +47,14 @@ public class MyProgressDialog extends android.app.Dialog {
     public void result(CharSequence text){
         tvPrg.setText(text);
         prg.setVisibility(View.GONE);
-        new Handler().postDelayed(new Runnable(){
-            public void run() {
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                dismiss();
-            }
-        }, 1000);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        dismiss();
     }
 
     public void result(int r_id){
         tvPrg.setText( context.getString(r_id));
         prg.setVisibility(View.GONE);
-        new Handler().postDelayed(new Runnable(){
-            public void run() {
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                dismiss();
-            }
-        }, 1000);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        dismiss();
     }
 }
