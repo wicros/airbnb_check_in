@@ -134,21 +134,28 @@ public class FaceCompareActivity extends BaseActivity {
     }
 
     private void compare_image(ByteBuffer buffer) {
-        AWSFaceHelper awsFaceHelper = new AWSFaceHelper(FaceCompareActivity.this, gson);
+        final AWSFaceHelper awsFaceHelper = new AWSFaceHelper(FaceCompareActivity.this, gson);
+
         awsFaceHelper.compare_face(new AWSFaceHelper.FaceRunnable() {
             @Override
             public void success() {
                 startActivity(new Intent(FaceCompareActivity.this, SuccessActivity.class));
+                awsFaceHelper.get_dialog().dismiss_dialog();
+                finish();
             }
 
             @Override
             public void failuer() {
                 startActivity(new Intent(FaceCompareActivity.this, FailureActivity.class));
+                awsFaceHelper.get_dialog().dismiss_dialog();
+                finish();
             }
 
             @Override
             public void error() {
                 startActivity(new Intent(FaceCompareActivity.this, FailureActivity.class));
+                awsFaceHelper.get_dialog().dismiss_dialog();
+                finish();
             }
         },buffer);
     }

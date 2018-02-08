@@ -327,6 +327,7 @@ public class PassportActivity extends BaseActivity {
                             } else {
                                 startActivity(new Intent(PassportActivity.this, FaceCompareActivity.class));
                             }
+                            http_utils.get_dialog().dismiss_dialog();
                             finish();
                         }
 

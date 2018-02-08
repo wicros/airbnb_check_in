@@ -57,7 +57,8 @@ public class GuestNumActivity extends AppCompatActivity {
     @OnClick(R.id.bt_confirm)
     public void onViewClicked() {
         SPUtils.put(GuestNumActivity.this,SPUtils.GUEST_NUM,mItems.get(confirm_pos));
-        startActivity(new Intent(GuestNumActivity.this,PassportActivity.class));
+        startActivity(new Intent(GuestNumActivity.this,GuestInfoActivity.class));
+        finish();
     }
 
 }

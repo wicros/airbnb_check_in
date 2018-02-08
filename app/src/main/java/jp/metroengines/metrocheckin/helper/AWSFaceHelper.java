@@ -72,6 +72,10 @@ public class AWSFaceHelper {
         }
     }
 
+    public MyProgressDialog get_dialog(){
+        return myProgressDialog;
+    }
+
     public void detect_face(FaceRunnable runnable, final ByteBuffer buffer){
         myProgressDialog.show(context.getString(R.string.wait));
         this.runnable = runnable;
