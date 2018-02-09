@@ -3,7 +3,6 @@ package jp.metroengines.metrocheckin.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.Guideline;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,10 +27,6 @@ public class MainActivity extends BaseActivity {
     Button btZh;
     @BindView(R.id.bt_setting)
     ImageButton btSetting;
-    @BindView(R.id.guideline)
-    Guideline guideline;
-    @BindView(R.id.guideline2)
-    Guideline guideline2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +77,7 @@ public class MainActivity extends BaseActivity {
                   dialog.dismiss();
               }
           });
-        dialog.show();
+          dialog.show();
     }
 
 }

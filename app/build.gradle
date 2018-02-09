@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-core:2.6.14'
     implementation('com.amazonaws:aws-android-sdk-auth-core:2.6.0@aar') { transitive = true; }
     implementation 'com.amazonaws:aws-android-sdk-rekognition:2.6.14'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.6.14'
     implementation 'com.google.android.gms:play-services-places:11.8.0'
 }
 

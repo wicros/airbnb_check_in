@@ -35,6 +35,7 @@ public class AWSFaceHelper {
     private final int SUCCESS = 1;
     private final int ERROR = 2;
     private FaceRunnable runnable;
+    private AmazonRekognitionClient amazonRekognitionClient;
 
     public AWSFaceHelper(Context context, Gson gson){
         this.context = context;
@@ -46,6 +47,13 @@ public class AWSFaceHelper {
         void success();
         void failuer();
         void error();
+    }
+
+    private AmazonRekognitionClient getClient(){
+        if(amazonRekognitionClient == null){
+            amazonRekognitionClient = new AmazonRekognitionClient(IdentityManager.getDefaultIdentityManager().getCredentialsProvider());
+        }
+        return amazonRekognitionClient;
     }
 
     // 定义一个内部类继承自Handler，并且覆盖handleMessage方法用于处理子线程传过来的消息
@@ -83,7 +91,7 @@ public class AWSFaceHelper {
             @Override
             public void run() {
                 try {
-                    AmazonRekognitionClient amazonRekognitionClient = new AmazonRekognitionClient(IdentityManager.getDefaultIdentityManager().getCredentialsProvider());
+                    AmazonRekognitionClient amazonRekognitionClient = getClient();
                     DetectFacesResult detectFacesResult = amazonRekognitionClient.detectFaces(new DetectFacesRequest().withImage(new Image().withBytes(buffer)));
                     CommonUtils.log("response:"+detectFacesResult);
                     if(detectFacesResult.getFaceDetails().size() == 1 && detectFacesResult.getFaceDetails().get(0).getConfidence() > 50){
@@ -92,13 +100,7 @@ public class AWSFaceHelper {
                         handler.sendEmptyMessage(FAILURE);
                     }
                 }catch (Exception e){
-                    Message msg = new Message();
-                    msg.what = ERROR;
-                    Bundle bundle = new Bundle();
-                    CommonUtils.log("response:"+e.getMessage());
-                    bundle.putString("error",e.getMessage());  //往Bundle中存放数据
-                    msg.setData(bundle);//mes利用Bundle传递数据
-                    handler.sendMessage(msg);
+                    send_error(e);
                 }
             }
         }).start();
@@ -115,7 +117,7 @@ public class AWSFaceHelper {
                     File file = new File(context.getFilesDir().toString(), file_name);
                     byte[] bytes = CommonUtils.fileToBytes(file);
                     ByteBuffer buffer_2 = ByteBuffer.wrap(bytes);
-                    AmazonRekognitionClient amazonRekognitionClient = new AmazonRekognitionClient(IdentityManager.getDefaultIdentityManager().getCredentialsProvider());
+                    AmazonRekognitionClient amazonRekognitionClient = getClient();
                     CompareFacesRequest compareFacesRequest = new CompareFacesRequest().withSourceImage(new Image().withBytes(buffer_1)).withTargetImage(new Image().withBytes(buffer_2)).withSimilarityThreshold(70F);
                     CompareFacesResult compareFacesResult = amazonRekognitionClient.compareFaces(compareFacesRequest);
                     CommonUtils.log("response:"+compareFacesResult);
@@ -125,16 +127,20 @@ public class AWSFaceHelper {
                         handler.sendEmptyMessage(SUCCESS);
                     }
                 }catch (Exception e){
-                    Message msg = new Message();
-                    msg.what = ERROR;
-                    Bundle bundle = new Bundle();
-                    CommonUtils.log("response:"+e.getMessage());
-                    bundle.putString("error",e.getMessage());  //往Bundle中存放数据
-                    msg.setData(bundle);//mes利用Bundle传递数据
-                    handler.sendMessage(msg);
+                    send_error(e);
                 }
             }
         }).start();
+    }
+
+    private void send_error(Exception e){
+        Message msg = new Message();
+        msg.what = ERROR;
+        Bundle bundle = new Bundle();
+        CommonUtils.log("response:"+e.getMessage());
+        bundle.putString("error",e.getMessage());  //往Bundle中存放数据
+        msg.setData(bundle);//mes利用Bundle传递数据
+        handler.sendMessage(msg);
     }
 
 }

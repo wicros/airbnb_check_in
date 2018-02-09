@@ -19,6 +19,10 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +30,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.metroengines.metrocheckin.R;
+import jp.metroengines.metrocheckin.bean.ReservationBean;
+import jp.metroengines.metrocheckin.helper.AWSS3Helper;
 import jp.metroengines.metrocheckin.utils.CommonUtils;
 import jp.metroengines.metrocheckin.utils.SPUtils;
 
@@ -82,7 +88,7 @@ public class GuestInfoActivity extends BaseActivity {
 
     private void init_spinner() {
         mItems = new ArrayList<CharSequence>();
-        mItems.add("select..");
+        mItems.add("select...");
         adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, mItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -104,11 +110,20 @@ public class GuestInfoActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_confirm:
+                mItems.add(etAddress.getText());
+                adapter.notifyDataSetChanged();
+                etAddress.setText("");
                 if(current_num < max_num){
                     refresh();
                 }else {
-                    startActivity(new Intent(GuestInfoActivity.this,PassportActivity.class));
-                    finish();
+                    final AWSS3Helper awss3Helper = new AWSS3Helper(this, gson);
+                    awss3Helper.get_dialog().show(this.getString(R.string.wait));
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            upload_file(awss3Helper);
+                        }
+                    }).start();
                 }
                 break;
             case R.id.et_address:
@@ -124,6 +139,46 @@ public class GuestInfoActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    private void upload_file(final AWSS3Helper awss3Helper) {
+        String reservation = (String) SPUtils.get(this, SPUtils.CURRENT_RESERVATION, "{}");
+        ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
+        String format = ".txt";
+        String file_name = "guest_address_" + reservationBean.getId();
+        final File file = new File(this.getFilesDir().toString(), file_name + format);
+        try {
+            OutputStreamWriter or = new OutputStreamWriter(new FileOutputStream(file));
+            BufferedWriter bw = new BufferedWriter(or);
+            for (CharSequence address : mItems) {
+                if(!TextUtils.equals(address,"select...") && !TextUtils.isEmpty(address)){
+                    bw.write(address.toString());
+                    bw.newLine();
+                }
+            }
+            bw.flush();
+            bw.close();
+            or.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        awss3Helper.upload_file(file_name, format, new AWSS3Helper.S3Runnable() {
+            @Override
+            public void success() {
+                if(file.exists()){
+                    file.delete();
+                }
+                startActivity(new Intent(GuestInfoActivity.this,PassportActivity.class));
+                awss3Helper.get_dialog().dismiss();
+                finish();
+            }
+
+            @Override
+            public void error() {
+            }
+        });
+
     }
 
     @Override
@@ -148,12 +203,6 @@ public class GuestInfoActivity extends BaseActivity {
         CommonUtils.toast(GuestInfoActivity.this,"sucesss");
         current_num++;
         set_num_text();
-        CharSequence address = etAddress.getText();
-        if(!mItems.contains(address)){
-            mItems.add(address);
-            adapter.notifyDataSetChanged();
-        }
-        etAddress.setText("");
     }
 
 }
