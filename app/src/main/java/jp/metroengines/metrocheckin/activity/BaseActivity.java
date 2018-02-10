@@ -33,7 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initLocaleLanguage();
         //setContentView(R.layout.activity_main);
-        set_time_counter(2 * 60 * 1000);
+        set_time_counter(3 * 60 * 1000);
     }
 
     private void initLocaleLanguage() {

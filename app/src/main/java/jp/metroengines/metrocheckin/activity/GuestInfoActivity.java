@@ -23,7 +23,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -145,7 +147,8 @@ public class GuestInfoActivity extends BaseActivity {
         String reservation = (String) SPUtils.get(this, SPUtils.CURRENT_RESERVATION, "{}");
         ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
         String format = ".txt";
-        String file_name = "guest_address_" + reservationBean.getId();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        String file_name = "guest_address_" + reservationBean.getId()+"_"+simpleDateFormat.format(new Date(System.currentTimeMillis()));
         final File file = new File(this.getFilesDir().toString(), file_name + format);
         try {
             OutputStreamWriter or = new OutputStreamWriter(new FileOutputStream(file));
