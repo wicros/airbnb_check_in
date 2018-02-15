@@ -20,6 +20,7 @@ public class SPUtils
     public static final String MODE = "mode";
     public static final String PASSPORT_FACE_TOKEN = "passport_face_token";
     public static final String GUEST_NUM = "guest_num";
+    public static final String GUEST_INFO = "guest_info";
 
     public static final String MODE_Face = "face";
     public static final String MODE_Phone = "pone";

@@ -16,4 +16,19 @@
     <string name="phone_title">ビデオ通話</string>
     <string name="sucess_title">キーを取得為には、以下の番号を入力してください</string>
     <string name="last_title">利用してありがとう、このページは1分でホームページに戻ります</string>
+    <string name="guest_num_title">ゲストの人数を選択してください</string>
+
+    <string name="guest_info_title">ゲスト情報を入力してください</string>
+    <string name="name">名前(パスポートと同じ)</string>
+    <string name="address">住所</string>
+    <string name="profession">職業</string>
+    <string name="tel">電話番号</string>
+
+    <string name="de_passport">のパスポート</string>
+    <string name="de_photo">の写真</string>
+
+    <string name = "failure_title_0">ビデオハングアウトをしてください</ string>
+    <string name = "failure_title_1">顔認識をしてください</ string>
+    <string name = "failure_title_2">再度ビデオハングアウトをしてください</ string>
+    <string name = "failure_title_3">認証に失敗した緊急電話番号：</ string>
 </resources>

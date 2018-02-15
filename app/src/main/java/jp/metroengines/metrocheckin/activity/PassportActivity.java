@@ -36,11 +36,13 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.metroengines.metrocheckin.R;
+import jp.metroengines.metrocheckin.bean.GuestInfoBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
 import jp.metroengines.metrocheckin.helper.AWSFaceHelper;
 import jp.metroengines.metrocheckin.helper.AWSS3Helper;
@@ -79,25 +81,21 @@ public class PassportActivity extends BaseActivity {
     private CameraCaptureSession mCameraCaptureSession;
     private CameraDevice mCameraDevice;
 
-    private int max_num;
-    private int current_num = 1;
+    private List<GuestInfoBean.InfoListBean> info_list;
+    private int current_num = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passport);
         ButterKnife.bind(this);
-        max_num = (int) SPUtils.get(this, SPUtils.GUEST_NUM, 0);
+        info_list = gson.fromJson((String) SPUtils.get(this, SPUtils.GUEST_INFO, "{}"), GuestInfoBean.class).getInfo_list();
         set_num_text();
         initSurfaceView();
     }
 
     private void set_num_text() {
-        if (current_num == 1) {
-            tvNum.setText("" + current_num + " (Representative)/" + max_num);
-        } else {
-            tvNum.setText("" + current_num + "/" + max_num);
-        }
+        tvNum.setText(info_list.get(current_num).getName()+this.getString(R.string.de_passport));
     }
 
     private void initSurfaceView() {
@@ -304,7 +302,7 @@ public class PassportActivity extends BaseActivity {
             public void success() {
                 awss3Helper.get_dialog().result(R.string.success);
 
-                if (current_num == 1) {
+                if (current_num == 0) {
                     SPUtils.put(PassportActivity.this, SPUtils.PASSPORT_FACE_TOKEN, file_name + format);
                 } else {
                     if (file.exists()) {
@@ -312,16 +310,20 @@ public class PassportActivity extends BaseActivity {
                     }
                 }
 
-                if (current_num < max_num) {
+                if (current_num < info_list.size()) {
                     initCamera2();
                     current_num++;
                     set_num_text();
                 } else {
                     String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
                     if (TextUtils.equals(mode, SPUtils.MODE_Phone)) {
-                        startActivity(new Intent(PassportActivity.this, BeforeVideoActivity.class));
+                        Intent intent = new Intent(PassportActivity.this, BeforeVideoActivity.class);
+                        intent.putExtra(SPUtils.MODE,1);
+                        startActivity(intent);
                     } else {
-                        startActivity(new Intent(PassportActivity.this, FaceCompareActivity.class));
+                        Intent intent = new Intent(PassportActivity.this, FaceCompareActivity.class);
+                        intent.putExtra(SPUtils.MODE,0);
+                        startActivity(intent);
                     }
                     awss3Helper.get_dialog().dismiss_dialog();
                     finish();

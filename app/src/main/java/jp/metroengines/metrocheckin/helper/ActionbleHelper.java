@@ -13,6 +13,8 @@ import com.hosopy.actioncable.Subscription;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import jp.metroengines.metrocheckin.bean.ActionCableBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
@@ -63,10 +65,16 @@ public class ActionbleHelper {
         try {
             uri = new URI(URL);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            CommonUtils.log("error:"+e.getMessage());
         }
 
         Consumer.Options options = new Consumer.Options();
+        Map<String, String> headers = new HashMap();
+        headers.put("user-id", reservationBean.getUser_id());
+
+        CommonUtils.log("hearder:"+headers.toString());
+
+        options.headers = headers;
         options.reconnection = true;
         options.reconnectionMaxAttempts = 60;
         CommonUtils.log("actioncable-url:"+uri);

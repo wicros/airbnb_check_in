@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.helper.AWSFaceHelper;
+import jp.metroengines.metrocheckin.utils.SPUtils;
 
 public class FaceCompareActivity extends BaseActivity {
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -153,11 +154,17 @@ public class FaceCompareActivity extends BaseActivity {
 
             @Override
             public void error() {
-                startActivity(new Intent(FaceCompareActivity.this, FailureActivity.class));
+
                 awsFaceHelper.get_dialog().dismiss_dialog();
                 finish();
             }
         },buffer);
+    }
+
+    private void go_to_failure(){
+        Intent intent = new Intent(FaceCompareActivity.this, FailureActivity.class);
+        intent.putExtra(SPUtils.MODE,getIntent().getIntExtra(SPUtils.MODE,0));
+        startActivity(intent);
     }
 
     @Override

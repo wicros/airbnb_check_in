@@ -19,4 +19,19 @@
     <string name="phone_title">Video call</string>
     <string name="sucess_title">Please enter the number below to get your key</string>
     <string name="last_title">Thanks for your using, this page will back to the home page in 1 minute</string>
+    <string name="guest_num_title">Please select the number of guests</string>
+
+    <string name="guest_info_title">Please enter guest information</string> 
+    <string name="name">name(same as passport)</string>   
+    <string name="address">address</string>    
+    <string name="profession">job</string>    
+    <string name="tel">phone number</string>
+
+    <string name="de_passport">\'s passport</string>
+    <string name="de_photo">\'s photo</string>
+
+    <string name = "failure_title_0"> Please make a video call </string>
+    <string name = "failure_title_1"> Please do facial recognition </string>
+    <string name = "failure_title_2"> Please make a video call again </string>
+    <string name = "failure_title_3"> Authentication failed emergency call: </string>
 </resources>

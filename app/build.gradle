@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-rekognition:2.6.14'
     implementation 'com.amazonaws:aws-android-sdk-s3:2.6.14'
     implementation 'com.google.android.gms:play-services-places:11.8.0'
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
 }
 
 

@@ -16,4 +16,19 @@
     <string name="phone_title">视频通话</string>
     <string name="sucess_title">请在键盘上输入下方的号码,以获取您的钥匙</string>
     <string name="last_title">感谢您的使用,此页面会在1分钟后跳转到首页</string>
+    <string name="guest_num_title">请选择住宿人数</string>
+
+    <string name="guest_info_title">请输入住宿者信息</string>
+    <string name="name">姓名(与护照相同)</string>
+    <string name="address">住所</string>
+    <string name="profession">职业</string>
+    <string name="tel">电话号码</string>
+
+    <string name="de_passport">的护照</string>
+    <string name="de_photo">的相片</string>
+
+    <string name="failure_title_0">请进行视频通话</string>
+    <string name="failure_title_1">请进行面部识别</string>
+    <string name="failure_title_2">请再一次进行视频通话</string>
+    <string name="failure_title_3">认证失败 紧急电话:</string>
 </resources>

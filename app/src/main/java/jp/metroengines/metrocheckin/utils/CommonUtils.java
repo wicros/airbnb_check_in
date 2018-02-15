@@ -15,15 +15,14 @@ import java.io.IOException;
  */
 
 public class CommonUtils {
-    public static final String HOSTURL = "https://staging.metroengines.jp/api/v1/";
-    //public static final String HOSTURL = "https://minpaku-dashboard.jp/api/v1/";
+    //public static final String HOSTURL = "https://staging.metroengines.jp/api/v1/";
+    public static final String HOSTURL = "https://minpaku-dashboard.jp/api/v1/";
 
-    public static final String MPDTOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX2lkIjoiYzk0OThmMWMtNWFiMy0xMWU2LWE1ZDMtMDY4MTBmNWNlZjYzIiwiZXhwIjoxNTE5Mjk0NjU1fQ.BTWwCJw0Br0vw3sAT9sdpYTwFpmPq8BUHesVeW2DvDafCtEghS8Gkg5NN0O2dCKC-XuS9MOeq3VuPJhQH21p_QOSsPLcDfguKte2sk9d_lIh1BtQH96zIYv5Ip88Nfohv0S_OguJ_eQC0yRy9IBI9Qn3kMq-WBicl5kxfmR6_jk";
-    //public static final String MPDTOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX2lkIjoiYzk0OThmMWMtNWFiMy0xMWU2LWE1ZDMtMDY4MTBmNWNlZjYzIiwiZXhwIjoxNTE5OTcxNDQ1fQ.JfKQX810hmG-pkR90UPkxIFjw0nzouVC9bunfSh6thZ_Ae4BvFHpBtvV4EkxirMDhbMgOkvOxO_gjMm5GWLMbEzGUbKohvhSGh0TzcdgdBX1gtkSEnAUAJpeSOGycH3wmfSWAWLvNF67wfs3a5KjN_6aHU2X_kU2SNM5x4wMpskTaFvpvkAlZES5Pv_8orQCWYOZ4a6mjeWmxbG3Syx7j6FMJJxM9cEBQURsYEhXRWG9vfGhvlzGLOSRle1GD1dgQ8yGVlIPyvqkPtNFGHIZS1itJXf_XIfT-qISG-e9U_BjCoIgcsPcMGHRCkYRleDy1rvjnipHxj0l50AO6BvSMA";
+    //public static final String MPDTOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX2lkIjoiYzk0OThmMWMtNWFiMy0xMWU2LWE1ZDMtMDY4MTBmNWNlZjYzIiwiZXhwIjoxNTE5Mjk0NjU1fQ.BTWwCJw0Br0vw3sAT9sdpYTwFpmPq8BUHesVeW2DvDafCtEghS8Gkg5NN0O2dCKC-XuS9MOeq3VuPJhQH21p_QOSsPLcDfguKte2sk9d_lIh1BtQH96zIYv5Ip88Nfohv0S_OguJ_eQC0yRy9IBI9Qn3kMq-WBicl5kxfmR6_jk";
+    public static final String MPDTOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX2lkIjoiYzk0OThmMWMtNWFiMy0xMWU2LWE1ZDMtMDY4MTBmNWNlZjYzIiwiZXhwIjoxNTE5OTcxNDQ1fQ.JfKQX810hmG-pkR90UPkxIFjw0nzouVC9bunfSh6thZ_Ae4BvFHpBtvV4EkxirMDhbMgOkvOxO_gjMm5GWLMbEzGUbKohvhSGh0TzcdgdBX1gtkSEnAUAJpeSOGycH3wmfSWAWLvNF67wfs3a5KjN_6aHU2X_kU2SNM5x4wMpskTaFvpvkAlZES5Pv_8orQCWYOZ4a6mjeWmxbG3Syx7j6FMJJxM9cEBQURsYEhXRWG9vfGhvlzGLOSRle1GD1dgQ8yGVlIPyvqkPtNFGHIZS1itJXf_XIfT-qISG-e9U_BjCoIgcsPcMGHRCkYRleDy1rvjnipHxj0l50AO6BvSMA";
 
-
-    public static final String ACTIONURL =  "wss://staging.metroengines.jp/cable?auth-token=" + MPDTOKEN;
-    //public static final String ACTIONURL =  "wss://minpaku-dashboard.jp/cable?auth-token=" + MPDTOKEN;
+    //public static final String ACTIONURL =  "wss://staging.metroengines.jp/cable?auth-token=" + MPDTOKEN;
+    public static final String ACTIONURL =  "wss://minpaku-dashboard.jp/cable?auth-token=" + MPDTOKEN;
 
     public static final String RESERVATION_URL = HOSTURL + "reservations/";
     public static final String ACESS_TOKEN_URL = HOSTURL + "twilio-video/token";

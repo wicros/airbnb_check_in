@@ -160,7 +160,7 @@ public class VideoCallActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable(){
             public void run() {
                 if(!TextUtils.equals(videoStatusTextView.getText(),"onAudioTrackAdded")){
-                    startActivity(new Intent(VideoCallActivity.this,FailureActivity.class));
+                    go_to_failure();
                     finish();
                 }
             }
@@ -173,39 +173,29 @@ public class VideoCallActivity extends BaseActivity {
                 if(guest_verified){
                     startActivity(new Intent(VideoCallActivity.this,SuccessActivity.class));
                 }else{
-                    startActivity(new Intent(VideoCallActivity.this,FailureActivity.class));
+                    go_to_failure();
                 }
                 finish();
             }
         });
     }
 
+    private void go_to_failure(){
+        Intent intent = new Intent(VideoCallActivity.this, FailureActivity.class);
+        intent.putExtra(SPUtils.MODE,getIntent().getIntExtra(SPUtils.MODE,0));
+        startActivity(intent);
+    }
+
     private View.OnClickListener connectActionClickListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //start_call();
             }
         };
     }
 
     private void retrieveAccessTokenfromServer() {
-//        Ion.with(this)
-//                .load(String.format("%s?identity=%s", ACCESS_TOKEN_SERVER,
-//                        UUID.randomUUID().toString()))
-//                .asString()
-//                .setCallback(new FutureCallback<String>() {
-//                    @Override
-//                    public void onCompleted(Exception e, String token) {
-//                        if (e == null) {
-//                            VideoCallActivity.this.accessToken = token;
-//                        } else {
-//                            Toast.makeText(VideoCallActivity.this,
-//                                    "error_retrieving_access_token", Toast.LENGTH_LONG)
-//                                    .show();
-//                        }
-//                    }
-//                });
-
         StringRequest request = new StringRequest(CommonUtils.ACESS_TOKEN_URL);
         request.addHeader("auth-token", CommonUtils.MPDTOKEN);
         request.addHeader("user-name", reservationBean.getGuest_first_name()+reservationBean.getGuest_last_name());
@@ -380,27 +370,12 @@ public class VideoCallActivity extends BaseActivity {
     }
 
     private void setAccessToken() {
-        if (!USE_TOKEN_SERVER) {
-            /*
-             * OPTION 1 - Generate an access token from the getting started portal
-             * https://www.twilio.com/console/video/dev-tools/testing-tools and add
-             * the variable TWILIO_ACCESS_TOKEN setting it equal to the access token
-             * string in your local.properties file.
-             */
-            this.accessToken = TWILIO_ACCESS_TOKEN;
-        } else {
-            /*
-             * OPTION 2 - Retrieve an access token from your own web app.
-             * Add the variable ACCESS_TOKEN_SERVER assigning it to the url of your
-             * token server and the variable USE_TOKEN_SERVER=true to your
-             * local.properties file.
-             */
-            retrieveAccessTokenfromServer();
-        }
+       retrieveAccessTokenfromServer();
     }
 
     private void connectToRoom(String roomName) {
         configureAudio(true);
+        CommonUtils.log("accessToken:"+accessToken);
         ConnectOptions.Builder connectOptionsBuilder = new ConnectOptions.Builder(accessToken)
                 .roomName(roomName);
         /*
@@ -562,6 +537,7 @@ public class VideoCallActivity extends BaseActivity {
             @Override
             public void onConnectFailure(Room room, TwilioException e) {
                 videoStatusTextView.setText("Failed to connect");
+                CommonUtils.log("error:"+e.getMessage());
                 configureAudio(false);
                 intializeUI();
             }
