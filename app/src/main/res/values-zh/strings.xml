@@ -15,7 +15,7 @@
     <string name="face_title">面部识别</string>
     <string name="phone_title">视频通话</string>
     <string name="sucess_title">请在键盘上输入下方的号码,以获取您的钥匙</string>
-    <string name="last_title">感谢您的使用,此页面会在1分钟后跳转到首页</string>
+    <string name="last_title">感谢您的使用,此页面会在10秒后跳转到首页</string>
     <string name="guest_num_title">请选择住宿人数</string>
 
     <string name="guest_info_title">请输入住宿者信息</string>

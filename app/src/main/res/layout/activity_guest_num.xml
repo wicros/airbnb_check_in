@@ -15,6 +15,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/holo_blue_bright"
+        android:minHeight="@android:dimen/notification_large_icon_height"
         android:minWidth="@dimen/local_video_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

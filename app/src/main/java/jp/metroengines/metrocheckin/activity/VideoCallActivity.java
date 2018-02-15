@@ -540,6 +540,8 @@ public class VideoCallActivity extends BaseActivity {
                 CommonUtils.log("error:"+e.getMessage());
                 configureAudio(false);
                 intializeUI();
+                go_to_failure();
+                finish();
             }
 
             @Override

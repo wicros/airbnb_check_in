@@ -23,6 +23,8 @@ public class SuccessActivity extends BaseActivity {
     TextView tvKeycode;
     @BindView(R.id.bt_confirm)
     Button btConfirm;
+    @BindView(R.id.tv_box)
+    TextView tvBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +35,20 @@ public class SuccessActivity extends BaseActivity {
         getKeyCode();
     }
 
-    private void getKeyCode(){
-        StringRequest request = new StringRequest(CommonUtils.GET_KEY_URL+"14");
-        request.addHeader("Authorization",CommonUtils.KEY_TOKEN);
+    private void getKeyCode() {
+        StringRequest request = new StringRequest(CommonUtils.GET_KEY_URL + "14");
+        request.addHeader("Authorization", CommonUtils.KEY_TOKEN);
         CommonUtils.log(request.getHeaders().toString());
         HttpUtils httpUtils = new HttpUtils(this, gson);
         httpUtils.send_quiet(request, new HttpUtils.HttpRunnable() {
             @Override
             public void run(Response<String> response) {
                 KeyCodeBean keyCodeBean = gson.fromJson(response.get(), KeyCodeBean.class);
-                if(keyCodeBean != null && keyCodeBean.getRoom_key().getPassword() != null){
+                if (keyCodeBean != null && keyCodeBean.getRoom_key().getPassword() != null) {
                     tvKeycode.setText(keyCodeBean.getRoom_key().getPassword());
-                }else{
-                    CommonUtils.log("error:"+response.responseCode());
+                    tvBox.setText(keyCodeBean.getKey_station().getName()+" | "+keyCodeBean.getKey_box().getName());
+                } else {
+                    CommonUtils.log("error:" + response.responseCode());
                 }
             }
         });
@@ -53,6 +56,6 @@ public class SuccessActivity extends BaseActivity {
 
     @OnClick(R.id.bt_confirm)
     public void onViewClicked() {
-        startActivity(new Intent(SuccessActivity.this,LastActivity.class));
+        startActivity(new Intent(SuccessActivity.this, LastActivity.class));
     }
 }

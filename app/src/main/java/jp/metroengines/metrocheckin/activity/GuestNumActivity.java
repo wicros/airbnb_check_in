@@ -58,7 +58,6 @@ public class GuestNumActivity extends AppCompatActivity {
     public void onViewClicked() {
         SPUtils.put(GuestNumActivity.this,SPUtils.GUEST_NUM,mItems.get(confirm_pos));
         startActivity(new Intent(GuestNumActivity.this,GuestInfoActivity.class));
-        finish();
     }
 
 }

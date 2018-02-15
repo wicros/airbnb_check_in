@@ -43,10 +43,14 @@ public class FailureActivity extends BaseActivity {
                 tvTitle.setText(R.string.failure_title_2);
                 break;
             case 3:
-                btPhone.setVisibility(View.GONE);
+                btPhone.setText(R.string.confirm);
                 String reservation = (String) SPUtils.get(this, SPUtils.CURRENT_RESERVATION, "{}");
                 ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
-                tvTitle.setText(this.getString(R.string.failure_title_3)+reservationBean.getOwner_phone());
+                Object owner_phone = reservationBean.getOwner_phone();
+                if(owner_phone == null){
+                    owner_phone = "111111111";
+                }
+                tvTitle.setText(this.getString(R.string.failure_title_3)+owner_phone);
                 break;
         }
     }
@@ -69,6 +73,9 @@ public class FailureActivity extends BaseActivity {
                 Intent intent2 = new Intent(FailureActivity.this, VideoCallActivity.class);
                 intent2.putExtra(SPUtils.MODE,3);
                 startActivity(intent2);
+                break;
+            case 3:
+                back_to_main();
                 break;
         }
         FailureActivity.this.finish();

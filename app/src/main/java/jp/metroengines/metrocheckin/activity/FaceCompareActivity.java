@@ -24,15 +24,18 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.metroengines.metrocheckin.R;
+import jp.metroengines.metrocheckin.bean.GuestInfoBean;
 import jp.metroengines.metrocheckin.helper.AWSFaceHelper;
 import jp.metroengines.metrocheckin.utils.SPUtils;
 
@@ -51,6 +54,8 @@ public class FaceCompareActivity extends BaseActivity {
     SurfaceView mSurfaceView;
     @BindView(R.id.bt_shoot)
     Button btShoot;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
 
     private SurfaceHolder mSurfaceHolder;
     private CameraManager mCameraManager;//摄像头管理器
@@ -65,6 +70,9 @@ public class FaceCompareActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_compare);
         ButterKnife.bind(this);
+        List<GuestInfoBean.InfoListBean> info_list = gson.fromJson((String) SPUtils.get(this, SPUtils.GUEST_INFO, "{}"), GuestInfoBean.class).getInfo_list();
+        GuestInfoBean.InfoListBean infoListBean = info_list.get(0);
+        tvTitle.setText(this.getString(R.string.face_compare_title)+" : "+infoListBean.getName());
         initVIew();
     }
 
@@ -147,23 +155,23 @@ public class FaceCompareActivity extends BaseActivity {
 
             @Override
             public void failuer() {
-                startActivity(new Intent(FaceCompareActivity.this, FailureActivity.class));
+                go_to_failure();
                 awsFaceHelper.get_dialog().dismiss_dialog();
                 finish();
             }
 
             @Override
             public void error() {
-
+                go_to_failure();
                 awsFaceHelper.get_dialog().dismiss_dialog();
                 finish();
             }
-        },buffer);
+        }, buffer);
     }
 
-    private void go_to_failure(){
+    private void go_to_failure() {
         Intent intent = new Intent(FaceCompareActivity.this, FailureActivity.class);
-        intent.putExtra(SPUtils.MODE,getIntent().getIntExtra(SPUtils.MODE,0));
+        intent.putExtra(SPUtils.MODE, getIntent().getIntExtra(SPUtils.MODE, 0));
         startActivity(intent);
     }
 
@@ -197,7 +205,7 @@ public class FaceCompareActivity extends BaseActivity {
 
         @Override
         public void onError(CameraDevice camera, int error) {//发生错误
-            Toast.makeText(FaceCompareActivity.this, "摄像头开启失败"+error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(FaceCompareActivity.this, "摄像头开启失败" + error, Toast.LENGTH_SHORT).show();
         }
     };
 

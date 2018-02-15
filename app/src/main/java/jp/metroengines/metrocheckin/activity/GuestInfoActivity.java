@@ -242,8 +242,10 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
             if (current_num < max_num) {
                 current_num++;
                 set_num_text();
+                CommonUtils.toast(GuestInfoActivity.this,GuestInfoActivity.this.getString(R.string.success));
             } else {
                 final AWSS3Helper awss3Helper = new AWSS3Helper(GuestInfoActivity.this, gson);
+                awss3Helper.get_dialog().show(GuestInfoActivity.this.getString(R.string.wait));
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

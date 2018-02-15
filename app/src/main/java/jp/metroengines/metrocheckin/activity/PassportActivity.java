@@ -310,7 +310,7 @@ public class PassportActivity extends BaseActivity {
                     }
                 }
 
-                if (current_num < info_list.size()) {
+                if (current_num < (info_list.size()-1)) {
                     initCamera2();
                     current_num++;
                     set_num_text();
