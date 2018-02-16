@@ -35,7 +35,7 @@ public class FailureActivity extends BaseActivity {
                 tvTitle.setText(R.string.failure_title_0);
                 break;
             case 1:
-                btPhone.setText(R.string.phone_title);
+                btPhone.setText(R.string.face_title);
                 tvTitle.setText(R.string.failure_title_1);
                 break;
             case 2:
@@ -61,7 +61,7 @@ public class FailureActivity extends BaseActivity {
         switch (mode) {
             case 0:
                 Intent intent0 = new Intent(FailureActivity.this, VideoCallActivity.class);
-                intent0.putExtra(SPUtils.MODE,3);
+                intent0.putExtra(SPUtils.MODE,1);
                 startActivity(intent0);
                 break;
             case 1:

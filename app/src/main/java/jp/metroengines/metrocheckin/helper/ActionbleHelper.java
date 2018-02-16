@@ -13,8 +13,6 @@ import com.hosopy.actioncable.Subscription;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 import jp.metroengines.metrocheckin.bean.ActionCableBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
@@ -32,7 +30,7 @@ public class ActionbleHelper {
     private final static String CALL_REJECTED_BY_HOST = "call_rejected_by_host";
 
     private static ActionbleHelper mInstance;
-    private static final String URL = CommonUtils.ACTIONURL;
+    private static String URL = CommonUtils.ACTIONURL;
 
     private Gson _gson;
     private Consumer consumer;
@@ -40,6 +38,8 @@ public class ActionbleHelper {
 
     public interface ActionRunnable {
         void run(boolean guest_verified);
+
+        void onerror();
     }
 
     public ActionbleHelper() {
@@ -62,6 +62,7 @@ public class ActionbleHelper {
         step = INIT_CALL;
         // 1. Setup
         URI uri = null;
+        URL = URL + "&user-id="+reservationBean.getUser_id();
         try {
             uri = new URI(URL);
         } catch (URISyntaxException e) {
@@ -69,12 +70,6 @@ public class ActionbleHelper {
         }
 
         Consumer.Options options = new Consumer.Options();
-        Map<String, String> headers = new HashMap();
-        headers.put("user-id", reservationBean.getUser_id());
-
-        CommonUtils.log("hearder:"+headers.toString());
-
-        options.headers = headers;
         options.reconnection = true;
         options.reconnectionMaxAttempts = 60;
         CommonUtils.log("actioncable-url:"+uri);
@@ -82,8 +77,8 @@ public class ActionbleHelper {
         // 2. Create subscription
         Channel appearanceChannel = new Channel("ReservationsChannel");
         CommonUtils.log("actioncable-reservation_id:"+reservationBean.getId());
+        CommonUtils.log("actioncable-user-id:"+reservationBean.getUser_id());
         appearanceChannel.addParam("reservation_id",reservationBean.getId());
-
         final Subscription subscription = consumer.getSubscriptions().create(appearanceChannel);
 
         subscription
@@ -104,6 +99,7 @@ public class ActionbleHelper {
                     @Override
                     public void call() {
                         // Called when the subscription is rejected by the server
+                        runnable.onerror();
                         CommonUtils.log("actioncable:Rejected");
                     }
                 }).onReceived(new Subscription.ReceivedCallback() {
@@ -127,6 +123,10 @@ public class ActionbleHelper {
                             runnable.run(actionCableBean.getGuest_verified());
                         }
 
+                        if(TextUtils.equals(actionCableBean.getEvent(),"call_rejected_by_host")){
+                            runnable.onerror();
+                        }
+
                     }
                 }).onDisconnected(new Subscription.DisconnectedCallback() {
                     @Override
@@ -138,6 +138,7 @@ public class ActionbleHelper {
                     @Override
                     public void call(ActionCableException e) {
                         // Called when the subscription encounters any error
+                        runnable.onerror();
                         CommonUtils.log("actioncable:error:"+e.getMessage());
                     }
                 });

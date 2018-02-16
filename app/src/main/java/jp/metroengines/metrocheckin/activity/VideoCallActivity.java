@@ -164,7 +164,7 @@ public class VideoCallActivity extends BaseActivity {
                     finish();
                 }
             }
-        }, 1000 * 60);
+        }, 1000 * 90);
         //start call
         connectToRoom("roomName-" + reservationBean.getId());
         ActionbleHelper.getInstance().init(reservationBean, gson, new ActionbleHelper.ActionRunnable() {
@@ -175,6 +175,12 @@ public class VideoCallActivity extends BaseActivity {
                 }else{
                     go_to_failure();
                 }
+                finish();
+            }
+
+            @Override
+            public void onerror() {
+                go_to_failure();
                 finish();
             }
         });
@@ -375,7 +381,6 @@ public class VideoCallActivity extends BaseActivity {
 
     private void connectToRoom(String roomName) {
         configureAudio(true);
-        CommonUtils.log("accessToken:"+accessToken);
         ConnectOptions.Builder connectOptionsBuilder = new ConnectOptions.Builder(accessToken)
                 .roomName(roomName);
         /*

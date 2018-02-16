@@ -317,12 +317,12 @@ public class PassportActivity extends BaseActivity {
                 } else {
                     String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
                     if (TextUtils.equals(mode, SPUtils.MODE_Phone)) {
-                        Intent intent = new Intent(PassportActivity.this, BeforeVideoActivity.class);
-                        intent.putExtra(SPUtils.MODE,1);
+                        Intent intent = new Intent(PassportActivity.this, FailureActivity.class);
+                        intent.putExtra(SPUtils.MODE,0);
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(PassportActivity.this, FaceCompareActivity.class);
-                        intent.putExtra(SPUtils.MODE,0);
+                        intent.putExtra(SPUtils.MODE,2);
                         startActivity(intent);
                     }
                     awss3Helper.get_dialog().dismiss_dialog();
