@@ -100,8 +100,8 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
     private void init_spinner() {
         PhoneCodeUtil phoneCodeUtil = new PhoneCodeUtil(gson);
         final List<Integer> code_list = phoneCodeUtil.get_code_list();
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item,  phoneCodeUtil.get_spinner_list());
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, R.layout.my_simple_spinner_item,  phoneCodeUtil.get_spinner_list());
+        adapter.setDropDownViewResource(R.layout.my_simple_spinner_drop_item);
         spCode.setAdapter(adapter);
         spCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 

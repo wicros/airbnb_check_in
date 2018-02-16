@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/bg5_2x"
     tools:context="jp.metroengines.metrocheckin.activity.GuestNumActivity">
 
     <Spinner
@@ -14,13 +15,14 @@
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/holo_blue_bright"
+        android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
         android:minHeight="@android:dimen/notification_large_icon_height"
         android:minWidth="@dimen/local_video_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39" />
 
     <Button
         android:id="@+id/bt_confirm"
@@ -28,12 +30,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:background="@mipmap/btn_back"
         android:text="@string/confirm"
         android:textAllCaps="false"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/num_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/num_spinner"
+        app:layout_constraintVertical_bias="0.371" />
 
     <TextView
         android:id="@+id/textView5"
@@ -42,6 +49,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/guest_num_title"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/num_spinner"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/bg4_2x"
     tools:context="jp.metroengines.metrocheckin.activity.SuccessActivity">
 
     <android.support.constraint.Guideline
@@ -18,7 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sucess_title"
-        android:textSize="36sp"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -33,7 +35,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="----"
-        android:textColor="@android:color/holo_red_light"
+        android:textColor="@android:color/holo_blue_bright"
         android:textSize="64sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,12 +53,16 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@mipmap/btn_back"
         android:text="@string/confirm"
         android:textAllCaps="false"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_keycode" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_keycode"
+        app:layout_constraintVertical_bias="0.32999998" />
 
     <TextView
         android:id="@+id/tv_box"
@@ -67,7 +73,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        android:textSize="18sp"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_keycode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -38,8 +38,8 @@ public class GuestNumActivity extends AppCompatActivity {
         for (int i = 1; i <= 25; i++) {
             mItems.add(i);
         }
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, mItems);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, R.layout.my_simple_spinner_item, mItems);
+        adapter.setDropDownViewResource(R.layout.my_simple_spinner_drop_item);
         numSpinner.setAdapter(adapter);
         numSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 

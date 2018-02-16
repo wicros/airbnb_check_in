@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/bg2_2x"
     tools:context="jp.metroengines.metrocheckin.activity.FaceCompareActivity">
 
     <SurfaceView
@@ -73,6 +74,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/face_compare_title"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/surface_view"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -87,8 +89,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@mipmap/btn_back"
         android:text="@string/shoot"
         android:textAllCaps="false"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="@+id/guideline11"
