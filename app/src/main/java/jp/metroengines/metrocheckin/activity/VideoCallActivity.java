@@ -10,7 +10,6 @@ import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -46,6 +45,8 @@ import com.yanzhenjie.nohttp.rest.Response;
 import com.yanzhenjie.nohttp.rest.StringRequest;
 
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.bean.MPDBean;
@@ -107,6 +108,9 @@ public class VideoCallActivity extends BaseActivity {
     private VideoRenderer localVideoView;
     private boolean disconnectedFromOnDestroy;
 
+    private Timer time;
+    private TimerTask timerTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,14 +161,16 @@ public class VideoCallActivity extends BaseActivity {
 
     private void start_call(){
         set_time_counter(60 * 60 * 1000);
-        new Handler().postDelayed(new Runnable(){
+
+        time = new Timer();
+        timerTask = new TimerTask() {
             public void run() {
-                if(!TextUtils.equals(videoStatusTextView.getText(),"onAudioTrackAdded")){
-                    go_to_failure();
-                    finish();
-                }
+                go_to_failure();
+                finish();
             }
-        }, 1000 * 90);
+        };
+        time.schedule(timerTask,  60 * 1000);
+
         //start call
         connectToRoom("roomName-" + reservationBean.getId());
         ActionbleHelper.getInstance().init(reservationBean, gson, new ActionbleHelper.ActionRunnable() {
@@ -280,6 +286,12 @@ public class VideoCallActivity extends BaseActivity {
 
             localVideoTrack.release();
             localVideoTrack = null;
+        }
+
+        if (time != null) {
+            time.cancel();
+            time = null;
+            timerTask = null;
         }
 
         super.onPause();
@@ -492,6 +504,7 @@ public class VideoCallActivity extends BaseActivity {
      */
     private void removeParticipant(Participant participant) {
         videoStatusTextView.setText("Participant " + participant.getIdentity() + " left.");
+
         if (!participant.getIdentity().equals(participantIdentity)) {
             return;
         }
@@ -503,6 +516,9 @@ public class VideoCallActivity extends BaseActivity {
             removeParticipantVideo(participant.getVideoTracks().get(0));
         }
         moveLocalVideoToPrimaryView();
+
+        startActivity(new Intent(VideoCallActivity.this,SuccessActivity.class));
+        finish();
     }
 
     private void removeParticipantVideo(VideoTrack videoTrack) {
@@ -598,6 +614,11 @@ public class VideoCallActivity extends BaseActivity {
             @Override
             public void onAudioTrackAdded(Participant participant, AudioTrack audioTrack) {
                 videoStatusTextView.setText("onAudioTrackAdded");
+                if (time != null) {
+                    time.cancel();
+                    time = null;
+                    timerTask = null;
+                }
             }
 
             @Override
@@ -609,6 +630,11 @@ public class VideoCallActivity extends BaseActivity {
             public void onVideoTrackAdded(Participant participant, VideoTrack videoTrack) {
                 videoStatusTextView.setText("onVideoTrackAdded");
                 addParticipantVideo(videoTrack);
+                if (time != null) {
+                    time.cancel();
+                    time = null;
+                    timerTask = null;
+                }
             }
 
             @Override

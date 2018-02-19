@@ -63,6 +63,7 @@ public class ActionbleHelper {
         // 1. Setup
         URI uri = null;
         URL = URL + "&user-id="+reservationBean.getUser_id();
+        //URL = URL + "&user-id=2fbe27ce-956e-41cb-9ad2-1c8328a8fb16";
         try {
             uri = new URI(URL);
         } catch (URISyntaxException e) {
@@ -79,6 +80,7 @@ public class ActionbleHelper {
         CommonUtils.log("actioncable-reservation_id:"+reservationBean.getId());
         CommonUtils.log("actioncable-user-id:"+reservationBean.getUser_id());
         appearanceChannel.addParam("reservation_id",reservationBean.getId());
+        //appearanceChannel.addParam("reservation_id","905276");
         final Subscription subscription = consumer.getSubscriptions().create(appearanceChannel);
 
         subscription
@@ -91,7 +93,7 @@ public class ActionbleHelper {
                             JsonObject params = new JsonObject();
                             params.addProperty("call_id", reservationBean.getId());
                             subscription.perform(INIT_CALL, params);
-                            CommonUtils.log("actioncable:send");
+                            CommonUtils.log("actioncable:send:"+INIT_CALL+params.toString());
                         }
                         //actioncable:get:{"event":"call_result_submitted","guest_verified":true}
                     }

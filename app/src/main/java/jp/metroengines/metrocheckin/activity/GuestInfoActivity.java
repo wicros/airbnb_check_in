@@ -208,7 +208,6 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
                 }
                 startActivity(new Intent(GuestInfoActivity.this, PassportActivity.class));
                 awss3Helper.get_dialog().dismiss();
-                finish();
             }
 
             @Override
