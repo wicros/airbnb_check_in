@@ -24,4 +24,7 @@
     android:layout_height="30dp"
     android:ellipsize="marquee"
     android:singleLine="true"
+    android:textSize="24sp"
+    android:gravity="center_horizontal"
+    android:layout_gravity="center_horizontal"
     android:textColor="@color/common_google_signin_btn_text_light_default" />

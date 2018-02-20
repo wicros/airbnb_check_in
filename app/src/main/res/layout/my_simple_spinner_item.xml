@@ -8,4 +8,6 @@
     android:ellipsize="marquee"
     android:singleLine="true"
     android:textAlignment="inherit"
+    android:textSize="24sp"
+    android:layout_gravity="center"
     android:textColor="@color/common_google_signin_btn_text_dark" />

@@ -15,7 +15,7 @@
     <string name="face_title">顔認識</string>
     <string name="phone_title">ビデオ通話</string>
     <string name="sucess_title">キーを取得為には、以下の番号を入力してください</string>
-    <string name="last_title">利用してありがとう、このページは１０秒でホームページに戻ります</string>
+    <string name="last_title">利用してありがとう、\nこのページは１０秒でホームページに戻ります</string>
     <string name="guest_num_title">ゲストの人数を選択してください</string>
 
     <string name="guest_info_title">ゲスト情報を入力してください</string>

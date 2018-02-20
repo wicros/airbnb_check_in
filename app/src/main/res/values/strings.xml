@@ -18,7 +18,7 @@
     <string name="face_title">Face recognition</string>
     <string name="phone_title">Video call</string>
     <string name="sucess_title">Please enter the number below to get your key</string>
-    <string name="last_title">Thanks for your using, this page will back to the home page in 10 seconds</string>
+    <string name="last_title">Thanks for your using,\n this page will back to the home page in 10 seconds</string>
     <string name="guest_num_title">Please select the number of guests</string>
 
     <string name="guest_info_title">Please enter guest information</string> 
