@@ -36,7 +36,7 @@ public class SuccessActivity extends BaseActivity {
     }
 
     private void getKeyCode() {
-        StringRequest request = new StringRequest(CommonUtils.GET_KEY_URL + "14");
+        StringRequest request = new StringRequest(CommonUtils.GET_KEY_URL + "231");
         request.addHeader("Authorization", CommonUtils.KEY_TOKEN);
         CommonUtils.log(request.getHeaders().toString());
         HttpUtils httpUtils = new HttpUtils(this, gson);

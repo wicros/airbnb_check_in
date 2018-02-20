@@ -1,5 +1,6 @@
 package jp.metroengines.metrocheckin.activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -72,6 +74,9 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
     EditText etTel;
     @BindView(R.id.sp_code)
     Spinner spCode;
+    @BindView(R.id.et_birth)
+    EditText etBirth;
+
     private int max_num;
     private int current_num = 1;
     private int tel_code = 81;
@@ -82,6 +87,7 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
     private Marker marker;
     private Timer time;
     private TimerTask timerTask;
+    private DatePickerDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,14 +99,29 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
         set_num_text();
         init_et_address();
         init_spinner();
+        init_date_picker();
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
+    }
+
+    private void init_date_picker() {
+        etBirth.setCursorVisible(false);
+        etBirth.setFocusable(false);
+        etBirth.setFocusableInTouchMode(false);
+        DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker arg0, int year, int month, int day) {
+                etBirth.setText(year+"-"+(++month)+"-"+day);
+            }
+        };
+        dialog=new DatePickerDialog(GuestInfoActivity.this, 0,listener,2000,0,1);
     }
 
     private void init_spinner() {
         PhoneCodeUtil phoneCodeUtil = new PhoneCodeUtil(gson);
         final List<Integer> code_list = phoneCodeUtil.get_code_list();
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, R.layout.my_simple_spinner_item,  phoneCodeUtil.get_spinner_list());
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, R.layout.my_simple_spinner_item, phoneCodeUtil.get_spinner_list());
         adapter.setDropDownViewResource(R.layout.my_simple_spinner_drop_item);
         spCode.setAdapter(adapter);
         spCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -111,7 +132,8 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -169,11 +191,15 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
     }
 
 
-    @OnClick({R.id.bt_confirm})
+    @OnClick({R.id.bt_confirm,R.id.et_birth})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_confirm:
                 refresh();
+                break;
+            case R.id.et_birth:
+                dialog.show();
+                break;
         }
     }
 
@@ -188,7 +214,7 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
             OutputStreamWriter or = new OutputStreamWriter(new FileOutputStream(file));
             BufferedWriter bw = new BufferedWriter(or);
             Map map = new HashMap();
-            map.put("info_list",info_list);
+            map.put("info_list", info_list);
             String json = gson.toJson(map);
             CommonUtils.log("guest_json:" + json);
             bw.write(json);
@@ -218,30 +244,28 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
     }
 
     private void set_num_text() {
-        if (current_num == 1) {
-            tvNum.setText("" + current_num + " (Representative)/" + max_num);
-        } else {
-            tvNum.setText("" + current_num + "/" + max_num);
-        }
+        tvNum.setText("" + current_num + "/" + max_num);
     }
 
     private void refresh() {
-        if (TextUtils.isEmpty(etAddress.getText()) || TextUtils.isEmpty(etJob.getText()) || TextUtils.isEmpty(etName.getText()) || TextUtils.isEmpty(etTel.getText())) {
-            CommonUtils.toast(GuestInfoActivity.this, "can't be null");
+        if (TextUtils.isEmpty(etAddress.getText()) || TextUtils.isEmpty(etJob.getText()) || TextUtils.isEmpty(etName.getText()) || TextUtils.isEmpty(etTel.getText()) || TextUtils.isEmpty(etBirth.getText())) {
+            CommonUtils.toast(GuestInfoActivity.this, GuestInfoActivity.this.getString(R.string.cannot_null));
         } else {
             Map info = new HashMap();
             info.put("name", etName.getText().toString());
             etName.setText("");
             info.put("profession", etJob.getText().toString());
             etJob.setText("");
-            info.put("address", etAddress.getText().toString());
-            info.put("tel", ""+tel_code+"-"+etTel.getText().toString());
+            info.put("tel", "" + tel_code + "-" + etTel.getText().toString());
             etTel.setText("");
+            info.put("birth_date", etBirth.getText().toString());
+            etBirth.setText("");
+            info.put("address", etAddress.getText().toString());
             info_list.add(info);
             if (current_num < max_num) {
                 current_num++;
                 set_num_text();
-                CommonUtils.toast(GuestInfoActivity.this,GuestInfoActivity.this.getString(R.string.success));
+                CommonUtils.toast(GuestInfoActivity.this, GuestInfoActivity.this.getString(R.string.success));
             } else {
                 final AWSS3Helper awss3Helper = new AWSS3Helper(GuestInfoActivity.this, gson);
                 awss3Helper.get_dialog().show(GuestInfoActivity.this.getString(R.string.wait));

@@ -23,6 +23,7 @@
     <string name="address">住所</string>
     <string name="profession">職業</string>
     <string name="tel">電話番号</string>
+    <string name="birth">生年月日</string>
 
     <string name="de_passport">のパスポート</string>
     <string name="de_photo">の写真</string>
@@ -31,4 +32,6 @@
     <string name = "failure_title_1">顔認識をしてください</string>
     <string name = "failure_title_2">再度ビデオ通話をしてください</string>
     <string name = "failure_title_3">認証に失敗した緊急電話番号：</string>
+
+    <string name="cannot_null">情報は空ではありません</string>
 </resources>

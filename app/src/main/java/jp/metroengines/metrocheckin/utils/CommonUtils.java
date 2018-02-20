@@ -27,9 +27,11 @@ public class CommonUtils {
     public static final String RESERVATION_URL = HOSTURL + "reservations/";
     public static final String ACESS_TOKEN_URL = HOSTURL + "twilio-video/token";
 
-    public static final String KEY_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi44Oh44OI44Ot44Ko44Oz44K444Oz5qCq5byP5Lya56S-IiwiY3JlYXRlZF9hdCI6IjIwMTgvMDEvMzEgMjA6MzkiLCJwYXJ0bmVyIjp0cnVlfQ.NOaHEurLCmOXD2RNDTjRu7b7-A9LrtV1LjSqRgvvKjA";
-    public static final String HOSTKEY = "http://staging.key-stations.com/";
-    //public static final String HOSTKEY = " https://key-stations.com/";
+    //public static final String KEY_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi44Oh44OI44Ot44Ko44Oz44K444Oz5qCq5byP5Lya56S-IiwiY3JlYXRlZF9hdCI6IjIwMTgvMDEvMzEgMjA6MzkiLCJwYXJ0bmVyIjp0cnVlfQ.NOaHEurLCmOXD2RNDTjRu7b7-A9LrtV1LjSqRgvvKjA";
+    public static final String KEY_TOKEN="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi44Oh44OI44Ot44Ko44Oz44K444Oz5qCq5byP5Lya56S-IiwiY3JlYXRlZF9hdCI6IjIwMTgvMDIvMjAgMTM6MTMiLCJwYXJ0bmVyIjp0cnVlfQ.TACYh6nktZFygMI-3Wj1mN8k1MXEKWCzkEmIpTwuWXs";
+
+    //public static final String HOSTKEY = "http://staging.key-stations.com/";
+    public static final String HOSTKEY = "https://key-stations.com/";
 
     public static final String GET_KEY_URL = CommonUtils.HOSTKEY+"api/v1/room_keys/";
 

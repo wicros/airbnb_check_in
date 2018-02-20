@@ -23,6 +23,7 @@
     <string name="address">住所</string>
     <string name="profession">职业</string>
     <string name="tel">电话号码</string>
+    <string name="birth">出生日期</string>
 
     <string name="de_passport">的护照</string>
     <string name="de_photo">的相片</string>
@@ -31,4 +32,6 @@
     <string name="failure_title_1">请进行面部识别</string>
     <string name="failure_title_2">请再一次进行视频通话</string>
     <string name="failure_title_3">认证失败 紧急电话:</string>
+
+    <string name="cannot_null">信息不能为空</string>
 </resources>
