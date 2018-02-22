@@ -15,6 +15,7 @@
     <string name="face_title">面部识别</string>
     <string name="phone_title">视频通话</string>
     <string name="sucess_title">请在键盘上输入下方的号码,以获取您的钥匙</string>
+    <string name="slot_number">插槽号码:</string>
     <string name="last_title">感谢您的使用,\n此页面会在10秒后跳转到首页</string>
     <string name="guest_num_title">请选择住宿人数</string>
 
@@ -34,4 +35,8 @@
     <string name="failure_title_3">认证失败 紧急电话:</string>
 
     <string name="cannot_null">信息不能为空</string>
+
+    <string name="wait_call">等待通话</string>
+    <string name="calling">正在建立连接</string>
+    <string name="in_call">通话中</string>
 </resources>

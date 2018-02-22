@@ -15,6 +15,7 @@
     <string name="face_title">顔認識</string>
     <string name="phone_title">ビデオ通話</string>
     <string name="sucess_title">キーを取得為には、以下の番号を入力してください</string>
+    <string name="slot_number">スロット番号:</string>
     <string name="last_title">利用してありがとう、\nこのページは１０秒でホームページに戻ります</string>
     <string name="guest_num_title">ゲストの人数を選択してください</string>
 
@@ -34,4 +35,8 @@
     <string name = "failure_title_3">認証に失敗した緊急電話番号：</string>
 
     <string name="cannot_null">情報は空ではありません</string>
+
+    <string name="wait_call">呼び出し待ち</string>
+    <string name="calling">接続を確立する</string>
+    <string name="in_call">コール中</string>
 </resources>

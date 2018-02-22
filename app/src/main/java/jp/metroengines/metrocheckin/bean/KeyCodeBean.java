@@ -50,6 +50,15 @@ public class KeyCodeBean {
         private int id;
         private String password;
         private int state;
+        private String slot_number;
+
+        public String getSlot_number() {
+            return slot_number;
+        }
+
+        public void setSlot_number(String slot_number) {
+            this.slot_number = slot_number;
+        }
 
         public int getId() {
             return id;

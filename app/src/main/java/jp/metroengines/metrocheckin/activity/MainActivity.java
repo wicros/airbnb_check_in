@@ -55,9 +55,9 @@ public class MainActivity extends BaseActivity {
 
     private void change_local(String local) {
         SPUtils.put(this, SPUtils.LOCAL, local);
-        startActivity(new Intent(this, ReservationActivity.class));
+        //startActivity(new Intent(this, ReservationActivity.class));
         //startActivity(new Intent(this, FailureActivity.class));
-        //startActivity(new Intent(this, SuccessActivity.class));
+        startActivity(new Intent(this, SuccessActivity.class));
         //startActivity(new Intent(this, GuestInfoActivity.class));
     }
 
@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
               @Override
               public void onClick(View view) {
                   Editable text = edittext.getText();
-                  if(!TextUtils.isEmpty(text) && TextUtils.equals("metro1234",text)){
+                  if(!TextUtils.isEmpty(text) && TextUtils.equals("keystation42",text)){
                       startActivity(new Intent(MainActivity.this, SettingActivity.class));
                   }else {
                       CommonUtils.toast(MainActivity.this, "wrong password");

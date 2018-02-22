@@ -25,6 +25,8 @@ public class SuccessActivity extends BaseActivity {
     Button btConfirm;
     @BindView(R.id.tv_box)
     TextView tvBox;
+    @BindView(R.id.tv_slot)
+    TextView tvSlot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class SuccessActivity extends BaseActivity {
     }
 
     private void getKeyCode() {
-        StringRequest request = new StringRequest(CommonUtils.GET_KEY_URL + "231");
+        StringRequest request = new StringRequest(CommonUtils.GET_KEY_URL + "233");
         request.addHeader("Authorization", CommonUtils.KEY_TOKEN);
         CommonUtils.log(request.getHeaders().toString());
         HttpUtils httpUtils = new HttpUtils(this, gson);
@@ -46,7 +48,8 @@ public class SuccessActivity extends BaseActivity {
                 KeyCodeBean keyCodeBean = gson.fromJson(response.get(), KeyCodeBean.class);
                 if (keyCodeBean != null && keyCodeBean.getRoom_key().getPassword() != null) {
                     tvKeycode.setText(keyCodeBean.getRoom_key().getPassword());
-                    tvBox.setText(keyCodeBean.getKey_station().getName()+" | "+keyCodeBean.getKey_box().getName());
+                    tvBox.setText(keyCodeBean.getKey_station().getName() + " | " + keyCodeBean.getKey_box().getName());
+                    tvSlot.setText(SuccessActivity.this.getString(R.string.slot_number) + keyCodeBean.getRoom_key().getSlot_number());
                 } else {
                     CommonUtils.log("error:" + response.responseCode());
                 }

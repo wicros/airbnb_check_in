@@ -29,6 +29,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.Response;
+import com.yanzhenjie.nohttp.rest.StringRequest;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,9 +47,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.bean.GuestInfoBean;
+import jp.metroengines.metrocheckin.bean.MPDBean;
 import jp.metroengines.metrocheckin.bean.ReservationBean;
 import jp.metroengines.metrocheckin.helper.AWSFaceHelper;
 import jp.metroengines.metrocheckin.helper.AWSS3Helper;
+import jp.metroengines.metrocheckin.utils.CommonUtils;
+import jp.metroengines.metrocheckin.utils.HttpUtils;
 import jp.metroengines.metrocheckin.utils.SPUtils;
 
 
@@ -95,7 +102,7 @@ public class PassportActivity extends BaseActivity {
     }
 
     private void set_num_text() {
-        tvNum.setText(info_list.get(current_num).getName()+this.getString(R.string.de_passport));
+        tvNum.setText(info_list.get(current_num).getName() + this.getString(R.string.de_passport));
     }
 
     private void initSurfaceView() {
@@ -300,33 +307,26 @@ public class PassportActivity extends BaseActivity {
         awss3Helper.upload_file(file_name, format, new AWSS3Helper.S3Runnable() {
             @Override
             public void success() {
-                awss3Helper.get_dialog().result(R.string.success);
+
 
                 if (current_num == 0) {
                     SPUtils.put(PassportActivity.this, SPUtils.PASSPORT_FACE_TOKEN, file_name + format);
+                    upload_passport_to_mpd(file_name, format,awss3Helper);
                 } else {
                     if (file.exists()) {
                         file.delete();
                     }
                 }
 
-                if (current_num < (info_list.size()-1)) {
+                if (current_num < (info_list.size() - 1)) {
+                    awss3Helper.get_dialog().result(R.string.success);
                     initCamera2();
                     current_num++;
                     set_num_text();
-                } else {
-                    String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
-                    if (TextUtils.equals(mode, SPUtils.MODE_Phone)) {
-                        Intent intent = new Intent(PassportActivity.this, FailureActivity.class);
-                        intent.putExtra(SPUtils.MODE,0);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(PassportActivity.this, FaceCompareActivity.class);
-                        intent.putExtra(SPUtils.MODE,2);
-                        startActivity(intent);
-                    }
+                } else if(info_list.size() > 1) {
+                    awss3Helper.get_dialog().result(R.string.success);
                     awss3Helper.get_dialog().dismiss_dialog();
-                    finish();
+                    go_to_next();
                 }
             }
 
@@ -338,63 +338,47 @@ public class PassportActivity extends BaseActivity {
 
     }
 
+    private void go_to_next(){
+        String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
+        if (TextUtils.equals(mode, SPUtils.MODE_Phone)) {
+            Intent intent = new Intent(PassportActivity.this, FailureActivity.class);
+            intent.putExtra(SPUtils.MODE, 0);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(PassportActivity.this, FaceCompareActivity.class);
+            intent.putExtra(SPUtils.MODE, 2);
+            startActivity(intent);
+        }
+        finish();
+    }
 
-//    private void upload_passport(final byte[] bytes) {
-//        String reservation = (String) SPUtils.get(PassportActivity.this, SPUtils.CURRENT_RESERVATION, "{}");
-//        ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
-//        String passport_url = CommonUtils.passport_url(reservationBean.getUser_id(), reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
-//        StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
-//        request.addHeader("auth-token", CommonUtils.MPDTOKEN);
-//        final String file_name = "passport_img_" + reservationBean.getId() + "_"+ current_num + ".jpg";
-//        final File file = new File(PassportActivity.this.getFilesDir().toString(), file_name);
-//        try {
-//            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-//            bos.write(bytes);
-//            bos.flush();
-//            bos.close();
-//            request.add("photo", file);
-//
-//            final HttpUtils http_utils = new HttpUtils(PassportActivity.this, gson);
-//            http_utils.send(request, new HttpUtils.HttpRunnable() {
-//                @Override
-//                public void run(Response<String> response) {
-//                    MPDBean mPDBean = gson.fromJson(response.get(), MPDBean.class);
-//                    if (mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())) {
-//                        http_utils.get_dialog().result(mPDBean.getMessage());
-//                        initCamera2();
-//                    } else {
-//                        http_utils.get_dialog().result(R.string.success);
-//
-//                        if(current_num == 1){
-//                            SPUtils.put(PassportActivity.this, SPUtils.PASSPORT_FACE_TOKEN, file_name);
-//                        }else {
-//                            if(file.exists()){
-//                                file.delete();
-//                            }
-//                        }
-//
-//                        if(current_num < max_num){
-//                            initCamera2();
-//                            current_num++;
-//                            set_num_text();
-//                        }else {
-//                            String mode = (String) SPUtils.get(PassportActivity.this, SPUtils.MODE, SPUtils.MODE_Phone);
-//                            if (TextUtils.equals(mode, SPUtils.MODE_Phone)) {
-//                                startActivity(new Intent(PassportActivity.this, BeforeVideoActivity.class));
-//                            } else {
-//                                startActivity(new Intent(PassportActivity.this, FaceCompareActivity.class));
-//                            }
-//                            http_utils.get_dialog().dismiss_dialog();
-//                            finish();
-//                        }
-//
-//                    }
-//                }
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
+    private void upload_passport_to_mpd(String file_name, String format, final AWSS3Helper awss3Helper) {
+        String reservation = (String) SPUtils.get(PassportActivity.this, SPUtils.CURRENT_RESERVATION, "{}");
+        ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
+        String passport_url = CommonUtils.passport_url(reservationBean.getUser_id(), reservationBean.getAccount_id(), reservationBean.getListing().getId(), reservationBean.getId());
+        StringRequest request = new StringRequest(passport_url, RequestMethod.POST);
+        request.addHeader("auth-token", CommonUtils.MPDTOKEN);
+        File file = new File(PassportActivity.this.getFilesDir().toString(), file_name + format);
+        request.add("photo", file);
+        final HttpUtils http_utils = new HttpUtils(PassportActivity.this, gson);
+        http_utils.send_quiet(request, new HttpUtils.HttpRunnable() {
+            @Override
+            public void run(Response<String> response) {
+                MPDBean mPDBean = gson.fromJson(response.get(), MPDBean.class);
+                if (mPDBean != null && !TextUtils.isEmpty(mPDBean.getMessage())) {
+                    awss3Helper.get_dialog().result(mPDBean.getMessage());
+                    initCamera2();
+                } else {
+                    if(info_list.size() == 1){
+                        awss3Helper.get_dialog().result(R.string.success);
+                        awss3Helper.get_dialog().dismiss_dialog();
+                        go_to_next();
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     protected void onPause() {

@@ -3,9 +3,9 @@
     <string name="confirm">confirm</string>
     <string name="other">other</string>
     <string name="back">back</string>
-    <string name="success">back</string>
     <string name="net_error">connection error</string>
     <string name="wait">please wait...</string>
+    <string name="success">success</string>
     <string name="reservation_input">please input your reservation number.</string>
     <string name="title_activity_video_call">VideoCallActivity</string>
     <string name="filter_vcode">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -18,6 +18,7 @@
     <string name="face_title">Face recognition</string>
     <string name="phone_title">Video call</string>
     <string name="sucess_title">Please enter the number below to get your key</string>
+    <string name="slot_number">slot_number:</string>
     <string name="last_title">Thanks for your using,\n this page will back to the home page in 10 seconds</string>
     <string name="guest_num_title">Please select the number of guests</string>
 
@@ -37,4 +38,8 @@
     <string name = "failure_title_3"> Authentication failed emergency call: </string>
 
     <string name="cannot_null">Information can not be empty</string>
+
+    <string name="wait_call">waiting for call</string>
+    <string name="calling">establishing connection</string>
+    <string name="in_call">In Call</string>
 </resources>

@@ -24,7 +24,6 @@ public class HttpUtils {
     public interface HttpRunnable {
         void run(Response<String> response);
     }
-
     public HttpUtils(Context context,Gson gson){
         this.context = context;
         myProgressDialog = new MyProgressDialog(context);

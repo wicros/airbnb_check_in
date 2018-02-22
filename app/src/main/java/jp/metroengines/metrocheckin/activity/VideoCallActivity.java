@@ -546,7 +546,8 @@ public class VideoCallActivity extends BaseActivity {
             @Override
             public void onConnected(Room room) {
                 localParticipant = room.getLocalParticipant();
-                videoStatusTextView.setText("Connected to " + room.getName());
+                //videoStatusTextView.setText("Connected to " + room.getName());
+                videoStatusTextView.setText(VideoCallActivity.this.getString(R.string.calling));
                 setTitle(room.getName());
 
                 for (Participant participant : room.getParticipants()) {
@@ -613,7 +614,8 @@ public class VideoCallActivity extends BaseActivity {
         return new Participant.Listener() {
             @Override
             public void onAudioTrackAdded(Participant participant, AudioTrack audioTrack) {
-                videoStatusTextView.setText("onAudioTrackAdded");
+                videoStatusTextView.setText(R.string.in_call);
+                //videoStatusTextView.setText("onAudioTrackAdded");
                 if (time != null) {
                     time.cancel();
                     time = null;

@@ -43,9 +43,8 @@ public class ReservationActivity extends BaseActivity {
 
     @OnClick(R.id.bt_confirm)
     public void onViewClicked() {
-        //Editable reservation_num = etReservation.getText();
+        //String reservation_num = etReservation.getText().toString();
         String reservation_num = "HMMNXAKXNT";//HMMNXAKXNT
-        //HMQJX8AMJN
         if(TextUtils.isEmpty(reservation_num)){
             CommonUtils.toast(this,this.getString(R.string.reservation_input));
             return;
