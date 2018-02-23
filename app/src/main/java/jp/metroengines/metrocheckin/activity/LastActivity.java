@@ -15,6 +15,6 @@ public class LastActivity extends BaseActivity {
             public void run() {
                back_to_main();
             }
-        }, 1000 * 10);
+        }, 1000 * 5);
     }
 }

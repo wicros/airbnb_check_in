@@ -1,45 +1,39 @@
 <resources>
     <string name="app_name">MetroCheckIn</string>
-    <string name="confirm">confirm</string>
-    <string name="other">other</string>
-    <string name="back">back</string>
-    <string name="net_error">connection error</string>
-    <string name="wait">please wait...</string>
-    <string name="success">success</string>
-    <string name="reservation_input">please input your reservation number.</string>
     <string name="title_activity_video_call">VideoCallActivity</string>
     <string name="filter_vcode">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="permissions_needed">Camera and Microphone permissions needed. Please allow in App Settings for additional functionality.</string>
-
-    <string name="shoot">shoot</string>
+    <string name="confirm">Confirm</string>
+    <string name="other">Other</string>
+    <string name="back">Back</string>
+    <string name="net_error">Network connection error</string>
+    <string name="wait">Please wait...</string>
+    <string name="success">Success</string>
+    <string name="reservation_input">Please input your Airbnb Confirmation code.</string>
     <string name="passport_title">Please take a photo of your passport(Certificate photo page)</string>
     <string name="authentication_failed">Authentication failed</string>
-    <string name="face_compare_title">Please upload photo of your face</string>
+    <string name="face_compare_title">Please take a photo of your face</string>
     <string name="face_title">Face recognition</string>
     <string name="phone_title">Video call</string>
-    <string name="sucess_title">Please enter the number below to get your key</string>
-    <string name="slot_number">slot_number:</string>
-    <string name="last_title">Thanks for your using,\n this page will back to the home page in 10 seconds</string>
+    <string name="sucess_title">Please input the number below in keyboard of keybox, then you can get your room key</string>
+    <string name="slot_number">Key slot number:</string>
+    <string name="last_title">Thanks for your using.\n This page will back to the home page in 5 seconds</string>
     <string name="guest_num_title">Please select the number of guests</string>
-
-    <string name="guest_info_title">Please enter guest information</string> 
+    <string name="guest_info_title">Please input guest information</string> 
     <string name="name">name(same as passport)</string>   
     <string name="address">address</string>    
-    <string name="profession">job</string>    
-    <string name="tel">phone number</string>
-    <string name="birth">birth date</string>
-
+    <string name="profession">Occupation</string>    
+    <string name="tel">TEL</string>
+    <string name="birth">Date of birth</string>
     <string name="de_passport">\'s passport</string>
     <string name="de_photo">\'s photo</string>
-
-    <string name = "failure_title_0"> Please make a video call </string>
-    <string name = "failure_title_1"> Please do facial recognition </string>
-    <string name = "failure_title_2"> Please make a video call again </string>
-    <string name = "failure_title_3"> Authentication failed emergency call: </string>
-
-    <string name="cannot_null">Information can not be empty</string>
-
-    <string name="wait_call">waiting for call</string>
-    <string name="calling">establishing connection</string>
-    <string name="in_call">In Call</string>
+    <string name="failure_title_0"> Please click the button, make a video call with host.</string>
+    <string name="failure_title_1"> Sorry! We can not connect with your host. Please take a face photo for recognition. </string>
+    <string name="failure_title_2"> Sorry! We can not connect with your host. Please make a video call again later. </string>
+    <string name="failure_title_3"> Authentication failed emergency call: </string>
+    <string name="cannot_null">All information items can not be empty</string>
+    <string name="wait_call">waiting for a call</string>
+    <string name="calling">Establishing connection</string>
+    <string name="in_call">Calling</string>
+    <string name="number_null">The reservation number does not exist</string>
 </resources>

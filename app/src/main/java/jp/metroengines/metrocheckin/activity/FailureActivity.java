@@ -48,7 +48,7 @@ public class FailureActivity extends BaseActivity {
                 ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
                 Object owner_phone = reservationBean.getOwner_phone();
                 if(owner_phone == null){
-                    owner_phone = "111111111";
+                    owner_phone = "";
                 }
                 tvTitle.setText(this.getString(R.string.failure_title_3)+owner_phone);
                 break;

@@ -1,42 +1,35 @@
 <resources>
-    <string name="app_name">MetroCheckIn</string>
     <string name="confirm">確認</string>
     <string name="other">その他</string>
-    <string name="back">戻り</string>
+    <string name="back">戻る</string>
     <string name="net_error">ネットワーク接続エラー</string>
-    <string name="wait">お待ち下さい...</string>
+    <string name="wait">少々お待ち下さい</string>
     <string name="success">成功</string>
-    <string name="reservation_input">予約番号を入力ください.</string>
-
-    <string name="shoot">シュート</string>
-    <string name="passport_title">パスポートの写真を撮ってください(証明写真ページ)</string>
-    <string name="authentication_failed">認証に失敗しました</string>
-    <string name="face_compare_title">顔の写真をアップロードしてください</string>
-    <string name="face_title">顔認識</string>
+    <string name="reservation_input">Airbnbの確認コードを入力してください.</string>
+    <string name="passport_title">パスポートの写真を撮ってください(顔写真があるページ)</string>
+    <string name="authentication_failed">認証が失敗しました</string>
+    <string name="face_compare_title">ご本人様の顔写真を撮影してください</string>
+    <string name="face_title">顔認証</string>
     <string name="phone_title">ビデオ通話</string>
-    <string name="sucess_title">キーを取得為には、以下の番号を入力してください</string>
+    <string name="sucess_title">キーボックスのキーボードに以下の番号を入力して、鍵を受け取ってください</string>
     <string name="slot_number">スロット番号:</string>
-    <string name="last_title">利用してありがとう、\nこのページは１０秒でホームページに戻ります</string>
-    <string name="guest_num_title">ゲストの人数を選択してください</string>
-
-    <string name="guest_info_title">ゲスト情報を入力してください</string>
-    <string name="name">名前(パスポートと同じ)</string>
+    <string name="last_title">ご利用ありがとうございました。\nこのページは5秒内ホームページに戻ります</string>
+    <string name="guest_num_title">宿泊人数を選択してください</string>
+    <string name="guest_info_title">宿泊者の情報を入力してください</string>
+    <string name="name">名前(パスポートと同一)</string>
     <string name="address">住所</string>
-    <string name="profession">職業</string>
+    <string name="profession">ご職業</string>
     <string name="tel">電話番号</string>
     <string name="birth">生年月日</string>
-
     <string name="de_passport">のパスポート</string>
     <string name="de_photo">の写真</string>
-
-    <string name = "failure_title_0">ビデオ通話をしてください</string>
-    <string name = "failure_title_1">顔認識をしてください</string>
-    <string name = "failure_title_2">再度ビデオ通話をしてください</string>
+    <string name = "failure_title_0">ボタンを押して、ホストとビデオ通話をしてください</string>
+    <string name = "failure_title_1">申し訳ございません。ホストと電話繋がりません。顔の写真を撮影して認証を進めてください</string>
+    <string name = "failure_title_2">申し訳ございません。ホストと電話繋がりません。後ほど再度ビデオ通話をしてください</string>
     <string name = "failure_title_3">認証に失敗した緊急電話番号：</string>
-
-    <string name="cannot_null">情報は空ではありません</string>
-
-    <string name="wait_call">呼び出し待ち</string>
-    <string name="calling">接続を確立する</string>
+    <string name="cannot_null">全ての項目を入力してください</string>
+    <string name="wait_call">呼び出し中</string>
+    <string name="calling">接続しています</string>
     <string name="in_call">コール中</string>
+    <string name="number_null">予約番号は存在しません</string>
 </resources>

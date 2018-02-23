@@ -46,7 +46,11 @@ public class HttpUtils {
             @Override
             public void onFailed(int what, Response<String> response) {
                 CommonUtils.log("response:error:"+response);
-                myProgressDialog.result(context.getString(R.string.net_error)+":"+response.responseCode());
+                if(response.responseCode() == 404){
+                    myProgressDialog.result(context.getString(R.string.net_error));
+                }else{
+                    myProgressDialog.result(context.getString(R.string.net_error)+":"+response.responseCode());
+                }
             }
         });
     }

@@ -4,39 +4,33 @@
     <string name="other">其他</string>
     <string name="back">返回</string>
     <string name="net_error">网络连接错误</string>
-    <string name="wait">请等待...</string>
+    <string name="wait">请稍等...</string>
     <string name="success">成功</string>
-    <string name="reservation_input">请输入你的预约号码.</string>
-
-    <string name="shoot">拍摄</string>
-    <string name="passport_title">请拍摄您的护照照片(证件照页面)</string>
+    <string name="reservation_input">请输入您的Aibnb确认码.</string>
+    <string name="passport_title">请拍摄您的护照照片(证件照片页)</string>
     <string name="authentication_failed">认证失败</string>
-    <string name="face_compare_title">请上传您的脸部照片</string>
+    <string name="face_compare_title">请拍摄您的脸部照片</string>
     <string name="face_title">面部识别</string>
     <string name="phone_title">视频通话</string>
-    <string name="sucess_title">请在键盘上输入下方的号码,以获取您的钥匙</string>
-    <string name="slot_number">插槽号码:</string>
-    <string name="last_title">感谢您的使用,\n此页面会在10秒后跳转到首页</string>
+    <string name="sucess_title">请在钥匙保管箱的键盘上输入下方的号码,以获取您的房间钥匙</string>
+    <string name="slot_number">钥匙槽号码:</string>
+    <string name="last_title">感谢您的使用。\n此页面会在5秒后跳转到首页</string>
     <string name="guest_num_title">请选择住宿人数</string>
-
     <string name="guest_info_title">请输入住宿者信息</string>
     <string name="name">姓名(与护照相同)</string>
     <string name="address">住所</string>
     <string name="profession">职业</string>
     <string name="tel">电话号码</string>
     <string name="birth">出生日期</string>
-
     <string name="de_passport">的护照</string>
-    <string name="de_photo">的相片</string>
-
-    <string name="failure_title_0">请进行视频通话</string>
-    <string name="failure_title_1">请进行面部识别</string>
-    <string name="failure_title_2">请再一次进行视频通话</string>
+    <string name="de_photo">的照片</string>
+    <string name="failure_title_0">请点击按钮，与房东进行视频通话</string>
+    <string name="failure_title_1">非常抱歉电话暂时不能接通，通过拍摄脸部照片进行认证</string>
+    <string name="failure_title_2">非常抱歉电话暂时不能接通，请稍后再一次进行视频通话</string>
     <string name="failure_title_3">认证失败 紧急电话:</string>
-
-    <string name="cannot_null">信息不能为空</string>
-
+    <string name="cannot_null">项目不能为空</string>
     <string name="wait_call">等待通话</string>
     <string name="calling">正在建立连接</string>
     <string name="in_call">通话中</string>
+    <string name="number_null">预约号码不存在</string>
 </resources>
