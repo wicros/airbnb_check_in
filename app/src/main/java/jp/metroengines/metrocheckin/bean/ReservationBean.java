@@ -4,24 +4,57 @@ import java.util.List;
 
 public class ReservationBean {
 
+
+    /**
+     * id : 338397
+     * account_id : ba6bfc7c-0774-11e8-9a76-06e81001eeca
+     * user_id : 9b56559c-face-11e7-b02a-06e81001eeca
+     * reservation_code : HMMNXAKXNT
+     * listing : {"airbnb_listing_id":19662330,"host_id":138420849,"price_formatted":"¥ 59957","medium_url":"https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=medium","actual":false,"person_capacity":2,"manage_listing_id":null,"keystation_key_id":null,"city":"Tokyo","country":"Japan","state":"13","street":"Shibuya-ku, Sasazuka 1-61-8","zipcode":"151-0073","latitude":35.673035,"longitude":139.663544,"beds":1,"bedrooms":0,"bathrooms":1,"summary":"--NOT AVAILABLE FOR BOOKING-- Newly Redecorated modern style apartment offers accommodation in Tokyo, 400 m from The Sunshine 60 Observatory and 5 km from Yasukuni Shrine. The apartment is 5 km from Shinjuku Gyoen National Garden.","description":"--NOT AVAILABLE FOR BOOKING-- Newly Redecorated modern style apartment offers accommodation in Tokyo, 400 m from The Sunshine 60 Observatory and 5 km from Yasukuni Shrine. The apartment is 5 km from Shinjuku Gyoen National Garden. Potential for noise No parking on property","photos":[{"caption":"","large":"https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/306ceaf0-2fbf-4f1b-b92c-315d9cf9b0d3.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/306ceaf0-2fbf-4f1b-b92c-315d9cf9b0d3.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/306ceaf0-2fbf-4f1b-b92c-315d9cf9b0d3.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/94f1752b-c16b-48b1-b02a-94f7680ea11a.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/94f1752b-c16b-48b1-b02a-94f7680ea11a.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/94f1752b-c16b-48b1-b02a-94f7680ea11a.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/eb573912-c66b-4fc2-8feb-e132ed429eee.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/eb573912-c66b-4fc2-8feb-e132ed429eee.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/eb573912-c66b-4fc2-8feb-e132ed429eee.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/cb35f1c8-d3d4-4e59-9ba2-34fc64d654aa.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/cb35f1c8-d3d4-4e59-9ba2-34fc64d654aa.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/cb35f1c8-d3d4-4e59-9ba2-34fc64d654aa.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/069c7832-afa3-451f-965f-ed715f331c2e.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/069c7832-afa3-451f-965f-ed715f331c2e.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/069c7832-afa3-451f-965f-ed715f331c2e.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/db896a61-14c1-402c-ad45-181f2847e230.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/db896a61-14c1-402c-ad45-181f2847e230.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/db896a61-14c1-402c-ad45-181f2847e230.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/8147c4af-cce0-4b02-9a46-cb2c2c1dd002.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/8147c4af-cce0-4b02-9a46-cb2c2c1dd002.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/8147c4af-cce0-4b02-9a46-cb2c2c1dd002.jpg?aki_policy=small"}],"notes":"Potential for noise No parking on property","neighborhood_overview":"","interaction":"","check_in_time":14,"check_out_time":12,"house_rules":"\u2022 Check-in is anytime after 2PM ","guest_controls":null,"amenities":["Cable TV","Internet","Wifi","Air conditioning","Wheelchair accessible","Pool","Kitchen","Free parking on premises","Pets allowed","Doorman","Gym","Breakfast","Elevator","Hot tub","Indoor fireplace","Buzzer/wireless intercom","Heating","Family/kid friendly","Washer","Dryer","Smoke detector","Carbon monoxide detector","First aid kit","Safety card","Fire extinguisher","24-hour check-in","Hangers","Hair dryer","Iron","Laptop friendly workspace"],"space":"","wireless_info":null,"access":"","transit":"","id":"5o4I9F4SGKwFXb","name":"Newly Redecorated modern style apartment - not available - please DO NOT book!(1)","account_id":"ba6bfc7c-0774-11e8-9a76-06e81001eeca","full_address":"Shibuya-ku, Sasazuka 1-61-8, Tokyo, 13 151-0073, Japan","guidebook":null,"import_status":null,"linked":false}
+     * guest_id : 138139720
+     * guest_email : (no email alias available)
+     * guest_phone : 8613584988177
+     * number_of_guests : 2
+     * guest_thumbnail_url : null
+     * guest_picture_url : null
+     * guest_verified : true
+     * guest_first_name : 圆圆
+     * guest_last_name : 季
+     * nights : 2
+     * price_per_night : null
+     * service_fee : 0
+     * subtotal_price : null
+     * airbnb_fee : 0
+     * payout : 0
+     * owner_first_name : Host2
+     * owner_last_name : null
+     * owner_phone : null
+     * owner_picture_url : null
+     * owner_thumbnail_url : null
+     * start_date : 2017-07-17
+     * end_date : 2017-07-19
+     * check_in_time : 14
+     * check_out_time : 12
+     */
+
     private int id;
     private String account_id;
     private String user_id;
     private String reservation_code;
     private ListingBean listing;
     private int guest_id;
-    private Object guest_email;
-    private Object guest_phone;
+    private String guest_email;
+    private String guest_phone;
     private int number_of_guests;
-    private String guest_thumbnail_url;
-    private String guest_picture_url;
+    private Object guest_thumbnail_url;
+    private Object guest_picture_url;
     private boolean guest_verified;
     private String guest_first_name;
     private String guest_last_name;
     private int nights;
-    private int price_per_night;
+    private Object price_per_night;
     private int service_fee;
-    private int subtotal_price;
+    private Object subtotal_price;
     private int airbnb_fee;
     private int payout;
     private String owner_first_name;
@@ -33,7 +66,6 @@ public class ReservationBean {
     private String end_date;
     private int check_in_time;
     private int check_out_time;
-    private String listing_id;
 
     public int getId() {
         return id;
@@ -83,19 +115,19 @@ public class ReservationBean {
         this.guest_id = guest_id;
     }
 
-    public Object getGuest_email() {
+    public String getGuest_email() {
         return guest_email;
     }
 
-    public void setGuest_email(Object guest_email) {
+    public void setGuest_email(String guest_email) {
         this.guest_email = guest_email;
     }
 
-    public Object getGuest_phone() {
+    public String getGuest_phone() {
         return guest_phone;
     }
 
-    public void setGuest_phone(Object guest_phone) {
+    public void setGuest_phone(String guest_phone) {
         this.guest_phone = guest_phone;
     }
 
@@ -107,19 +139,19 @@ public class ReservationBean {
         this.number_of_guests = number_of_guests;
     }
 
-    public String getGuest_thumbnail_url() {
+    public Object getGuest_thumbnail_url() {
         return guest_thumbnail_url;
     }
 
-    public void setGuest_thumbnail_url(String guest_thumbnail_url) {
+    public void setGuest_thumbnail_url(Object guest_thumbnail_url) {
         this.guest_thumbnail_url = guest_thumbnail_url;
     }
 
-    public String getGuest_picture_url() {
+    public Object getGuest_picture_url() {
         return guest_picture_url;
     }
 
-    public void setGuest_picture_url(String guest_picture_url) {
+    public void setGuest_picture_url(Object guest_picture_url) {
         this.guest_picture_url = guest_picture_url;
     }
 
@@ -155,11 +187,11 @@ public class ReservationBean {
         this.nights = nights;
     }
 
-    public int getPrice_per_night() {
+    public Object getPrice_per_night() {
         return price_per_night;
     }
 
-    public void setPrice_per_night(int price_per_night) {
+    public void setPrice_per_night(Object price_per_night) {
         this.price_per_night = price_per_night;
     }
 
@@ -171,11 +203,11 @@ public class ReservationBean {
         this.service_fee = service_fee;
     }
 
-    public int getSubtotal_price() {
+    public Object getSubtotal_price() {
         return subtotal_price;
     }
 
-    public void setSubtotal_price(int subtotal_price) {
+    public void setSubtotal_price(Object subtotal_price) {
         this.subtotal_price = subtotal_price;
     }
 
@@ -267,166 +299,48 @@ public class ReservationBean {
         this.check_out_time = check_out_time;
     }
 
-    public String getListing_id() {
-        return listing_id;
-    }
-
-    public void setListing_id(String listing_id) {
-        this.listing_id = listing_id;
-    }
-
     public static class ListingBean {
         /**
-         * airbnb_listing_id : 5207774
-         * host_id : 6808667
-         * price_formatted : ¥ 7494
-         * medium_url : https://a0.muscache.com/im/pictures/67108264/58823732_original.jpg?aki_policy=medium
-         * actual : true
+         * airbnb_listing_id : 19662330
+         * host_id : 138420849
+         * price_formatted : ¥ 59957
+         * medium_url : https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=medium
+         * actual : false
          * person_capacity : 2
          * manage_listing_id : null
-         * city : Minato-ku
+         * keystation_key_id : null
+         * city : Tokyo
          * country : Japan
-         * state : Tōkyō-to
-         * street : 1 Chome-12-6 Higashiazabu
-         * zipcode : 106-0044
-         * latitude : 35.6572792559133
-         * longitude : 139.744718825274
-         * beds : 2
-         * bedrooms : 1
+         * state : 13
+         * street : Shibuya-ku, Sasazuka 1-61-8
+         * zipcode : 151-0073
+         * latitude : 35.673035
+         * longitude : 139.663544
+         * beds : 1
+         * bedrooms : 0
          * bathrooms : 1
-         * summary : **-Campaign Price!!-**
-         *Free portable Wi-Fi
-         *3min walk from Metro Station!
-         *3min walk TOKYO TOWER(AS THE SYMBOL OF TOKYO)
-         *TOKYO TOWER NIGHT VIEW
-         *4 min by train to Roppongi
-         * description : **-Campaign Price!!-**
-         *Free portable Wi-Fi
-         *3min walk from Metro Station!
-         *3min walk TOKYO TOWER(AS THE SYMBOL OF TOKYO)
-         *TOKYO TOWER NIGHT VIEW
-         *4 min by train to Roppongi
-
-         Hello!
-
-         During your stay
-         I'd be happy recommend some places to visit and we can go out for the occasional meal or drink!!
-
-         I work at 7min to the apartment so I can provide support quickly.
-         Guest can reach me by phone, e-mail, LINE,  (SENSITIVE CONTENTS HIDDEN)...anytime.
-
-         **Location**
-         Located in Central Minato-ku, Roppongi,Azabu Juban, 300m or 5 minute walk to Akabanebashi Metro Station. Roppongi is within walking distance to Tokyo Tower, Azabu-Juban and Nishi-Azabu. Literally steps away from a variety of restaurants, grocery stores (Japanese & International), Banks, Coffee Shops and Convenience stores (24 hours)
-
-         **Sights in the area worth mentioning**
-         -Tokyo Tower (3 minute walk from apartment)
-         -Azabu Juban shopping street (9 minute walk from apartment)
-         -Roppongi Hills Shopping Plaza (15 minute walk from apartment)
-
-
-         **Easy Train Access To**
-         - ROPPONGI ( 3min)
-         - GINZA    (15min)
-         - SHINJUKU (13min)
-         - TOKYO    (16min)
-         - TSUKIJI  (16min)
-         - SHIBUYA  (15min)
-         - ASAKUSA  (22min)
-
-
-         **Easy Access to the Airports**
-         - Easy access from Haneda airport using Keikyu line and Oedo-line.
-
-
-         **IN-ROOM FACILITIES**
-         ROOM SIZE: 26m2
-         BED SIZE: 2 x (90 x 200)
-         -individual air conditioning / heating
-         -refrigerator
-         -water heater
-         -free wireless internet access
-         -portable free wifi
-         -table
-         -full kitchen
-
-         **BATHROOM & BENEFITS**
-         -shower, toilette, sink and towels
-         -automatic hair dryer
-         -soap, body & hair shampoo
-
-         If need anything else, feel free to ask me!
-         * photos : [{"caption":"","large":"https://a0.muscache.com/im/pictures/67108264/58823732_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108264/58823732_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108264/58823732_original.jpg?aki_policy=small"},{"caption":"TOKYO TOWER (AS THE SYMBOL OF TOKYO)NIGHT VIEW","large":"https://a0.muscache.com/im/pictures/67110533/f7288f44_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67110533/f7288f44_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67110533/f7288f44_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108070/48e3a18c_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108070/48e3a18c_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108070/48e3a18c_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108326/c090362d_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108326/c090362d_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108326/c090362d_original.jpg?aki_policy=small"},{"caption":"Free Portable Wi-Fi","large":"https://a0.muscache.com/im/pictures/67109852/9b6605f6_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67109852/9b6605f6_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67109852/9b6605f6_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108378/5093d229_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108378/5093d229_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108378/5093d229_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107829/d500f59f_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107829/d500f59f_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107829/d500f59f_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107849/ac7f20be_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107849/ac7f20be_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107849/ac7f20be_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/65380950/c6f68c66_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/65380950/c6f68c66_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/65380950/c6f68c66_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/65380890/1ebb75d1_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/65380890/1ebb75d1_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/65380890/1ebb75d1_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107779/bbd5ab03_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107779/bbd5ab03_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107779/bbd5ab03_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/65326703/6325c9f9_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/65326703/6325c9f9_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/65326703/6325c9f9_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/65326594/bca6c9bd_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/65326594/bca6c9bd_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/65326594/bca6c9bd_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107901/27c7c357_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107901/27c7c357_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107901/27c7c357_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107806/c056b228_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107806/c056b228_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107806/c056b228_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/65326797/27cbdd53_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/65326797/27cbdd53_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/65326797/27cbdd53_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107859/24017a2f_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107859/24017a2f_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107859/24017a2f_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/65380856/56f856ab_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/65380856/56f856ab_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/65380856/56f856ab_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107749/ae61fcba_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107749/ae61fcba_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107749/ae61fcba_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107755/47d87f58_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107755/47d87f58_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107755/47d87f58_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107873/9b76dc8f_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107873/9b76dc8f_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107873/9b76dc8f_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107922/0f179d84_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107922/0f179d84_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107922/0f179d84_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/65380875/b1abab35_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/65380875/b1abab35_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/65380875/b1abab35_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107933/14e36469_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107933/14e36469_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107933/14e36469_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107945/b6024e45_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107945/b6024e45_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107945/b6024e45_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107960/ae67cd6d_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107960/ae67cd6d_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107960/ae67cd6d_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/65380822/582cffbc_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/65380822/582cffbc_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/65380822/582cffbc_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/65380929/39f948da_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/65380929/39f948da_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/65380929/39f948da_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107975/e400c878_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107975/e400c878_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107975/e400c878_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67107996/48261b91_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67107996/48261b91_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67107996/48261b91_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108346/2a3c4df3_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108346/2a3c4df3_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108346/2a3c4df3_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108031/750f7298_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108031/750f7298_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108031/750f7298_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108050/23fb6187_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108050/23fb6187_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108050/23fb6187_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108095/dcfce1b5_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108095/dcfce1b5_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108095/dcfce1b5_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108110/5e51fc5b_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108110/5e51fc5b_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108110/5e51fc5b_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108147/449c4325_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108147/449c4325_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108147/449c4325_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108163/8ecb9e70_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108163/8ecb9e70_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108163/8ecb9e70_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108189/ff063bf3_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108189/ff063bf3_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108189/ff063bf3_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108214/41c9df4f_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108214/41c9df4f_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108214/41c9df4f_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108231/d4e4e64d_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108231/d4e4e64d_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108231/d4e4e64d_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67108361/65a7542b_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67108361/65a7542b_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67108361/65a7542b_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67110609/9b413aad_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67110609/9b413aad_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67110609/9b413aad_original.jpg?aki_policy=small"},{"caption":"Shibuya crossing (15min by train)  ","large":"https://a0.muscache.com/im/pictures/67411009/c2172075_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67411009/c2172075_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67411009/c2172075_original.jpg?aki_policy=small"},{"caption":"The Kill Bill restaurant, 'Gonpachi' is a notable tourist attraction. (10min by taxi)","large":"https://a0.muscache.com/im/pictures/67411206/eb88fe03_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67411206/eb88fe03_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67411206/eb88fe03_original.jpg?aki_policy=small"},{"caption":"Roppongi crossing(3min by train)","large":"https://a0.muscache.com/im/pictures/67411499/ca6bc298_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67411499/ca6bc298_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67411499/ca6bc298_original.jpg?aki_policy=small"},{"caption":"Tokyo tower (3min on foot)","large":"https://a0.muscache.com/im/pictures/67411649/1827f10a_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67411649/1827f10a_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67411649/1827f10a_original.jpg?aki_policy=small"},{"caption":"Asakusa (22min by train)","large":"https://a0.muscache.com/im/pictures/67411923/8a9dbc4e_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67411923/8a9dbc4e_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67411923/8a9dbc4e_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67415031/ef49f0c8_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67415031/ef49f0c8_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67415031/ef49f0c8_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67415053/bf966ed1_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67415053/bf966ed1_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67415053/bf966ed1_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67415069/a8802cf2_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67415069/a8802cf2_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67415069/a8802cf2_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67415090/9ad3c086_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67415090/9ad3c086_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67415090/9ad3c086_original.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/67415230/1a1af38d_original.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/67415230/1a1af38d_original.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/67415230/1a1af38d_original.jpg?aki_policy=small"}]
-         * notes :
+         * summary : --NOT AVAILABLE FOR BOOKING-- Newly Redecorated modern style apartment offers accommodation in Tokyo, 400 m from The Sunshine 60 Observatory and 5 km from Yasukuni Shrine. The apartment is 5 km from Shinjuku Gyoen National Garden.
+         * description : --NOT AVAILABLE FOR BOOKING-- Newly Redecorated modern style apartment offers accommodation in Tokyo, 400 m from The Sunshine 60 Observatory and 5 km from Yasukuni Shrine. The apartment is 5 km from Shinjuku Gyoen National Garden. Potential for noise No parking on property
+         * photos : [{"caption":"","large":"https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/306ceaf0-2fbf-4f1b-b92c-315d9cf9b0d3.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/306ceaf0-2fbf-4f1b-b92c-315d9cf9b0d3.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/306ceaf0-2fbf-4f1b-b92c-315d9cf9b0d3.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/94f1752b-c16b-48b1-b02a-94f7680ea11a.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/94f1752b-c16b-48b1-b02a-94f7680ea11a.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/94f1752b-c16b-48b1-b02a-94f7680ea11a.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/eb573912-c66b-4fc2-8feb-e132ed429eee.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/eb573912-c66b-4fc2-8feb-e132ed429eee.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/eb573912-c66b-4fc2-8feb-e132ed429eee.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/cb35f1c8-d3d4-4e59-9ba2-34fc64d654aa.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/cb35f1c8-d3d4-4e59-9ba2-34fc64d654aa.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/cb35f1c8-d3d4-4e59-9ba2-34fc64d654aa.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/069c7832-afa3-451f-965f-ed715f331c2e.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/069c7832-afa3-451f-965f-ed715f331c2e.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/069c7832-afa3-451f-965f-ed715f331c2e.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/db896a61-14c1-402c-ad45-181f2847e230.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/db896a61-14c1-402c-ad45-181f2847e230.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/db896a61-14c1-402c-ad45-181f2847e230.jpg?aki_policy=small"},{"caption":"","large":"https://a0.muscache.com/im/pictures/8147c4af-cce0-4b02-9a46-cb2c2c1dd002.jpg?aki_policy=x_large","picture":"https://a0.muscache.com/im/pictures/8147c4af-cce0-4b02-9a46-cb2c2c1dd002.jpg?aki_policy=large","thumbnail":"https://a0.muscache.com/im/pictures/8147c4af-cce0-4b02-9a46-cb2c2c1dd002.jpg?aki_policy=small"}]
+         * notes : Potential for noise No parking on property
          * neighborhood_overview :
          * interaction :
-         * check_in_time : 15
-         * check_out_time : 11
-         * house_rules : • Check-in time is 3PM - 2AM (next day)
-         • Not safe or suitable for children (0-12 years)
-         • No parties or events
-         • Not suitable for pets
-         • No smoking
-
-         土足厳禁
+         * check_in_time : 14
+         * check_out_time : 12
+         * house_rules : • Check-in is anytime after 2PM
          * guest_controls : null
-         * amenities : ["Internet","Wireless Internet","Air conditioning","Kitchen","Elevator","Buzzer/wireless intercom","Heating","Washer","Dryer","Essentials","Shampoo","24-hour check-in","Hangers","Hair dryer","Iron","Laptop friendly workspace","translation missing: en.hosting_amenity_49","translation missing: en.hosting_amenity_50","Room-darkening shades","Hot water","Bed linens","Pocket wifi","Microwave","Refrigerator","Dishes and silverware","Cooking basics","Stove","Long term stays allowed"]
-         * space : Hello!
-
-         During your stay
-         I'd be happy recommend some places to visit and we can go out for the occasional meal or drink!!
-
-         I work at 7min to the apartment so I can provide support quickly.
-         Guest can reach me by phone, e-mail, LINE,  (SENSITIVE CONTENTS HIDDEN)...anytime.
-
-         **Location**
-         Located in Central Minato-ku, Roppongi,Azabu Juban, 300m or 5 minute walk to Akabanebashi Metro Station. Roppongi is within walking distance to Tokyo Tower, Azabu-Juban and Nishi-Azabu. Literally steps away from a variety of restaurants, grocery stores (Japanese & International), Banks, Coffee Shops and Convenience stores (24 hours)
-
-         **Sights in the area worth mentioning**
-         -Tokyo Tower (3 minute walk from apartment)
-         -Azabu Juban shopping street (9 minute walk from apartment)
-         -Roppongi Hills Shopping Plaza (15 minute walk from apartment)
-
-
-         **Easy Train Access To**
-         - ROPPONGI ( 3min)
-         - GINZA    (15min)
-         - SHINJUKU (13min)
-         - TOKYO    (16min)
-         - TSUKIJI  (16min)
-         - SHIBUYA  (15min)
-         - ASAKUSA  (22min)
-
-
-         **Easy Access to the Airports**
-         - Easy access from Haneda airport using Keikyu line and Oedo-line.
-
-
-         **IN-ROOM FACILITIES**
-         ROOM SIZE: 26m2
-         BED SIZE: 2 x (90 x 200)
-         -individual air conditioning / heating
-         -refrigerator
-         -water heater
-         -free wireless internet access
-         -portable free wifi
-         -table
-         -full kitchen
-
-         **BATHROOM & BENEFITS**
-         -shower, toilette, sink and towels
-         -automatic hair dryer
-         -soap, body & hair shampoo
-
-         If need anything else, feel free to ask me!
-         * wireless_info : {"wireless_password":"","wireless_ssid":"","wireless_type":"unknown"}
+         * amenities : ["Cable TV","Internet","Wifi","Air conditioning","Wheelchair accessible","Pool","Kitchen","Free parking on premises","Pets allowed","Doorman","Gym","Breakfast","Elevator","Hot tub","Indoor fireplace","Buzzer/wireless intercom","Heating","Family/kid friendly","Washer","Dryer","Smoke detector","Carbon monoxide detector","First aid kit","Safety card","Fire extinguisher","24-hour check-in","Hangers","Hair dryer","Iron","Laptop friendly workspace"]
+         * space :
+         * wireless_info : null
          * access :
          * transit :
-         * id : 5mX7hb8MK1UkdU
-         * name : 3min Sta. Night View LUX w/ FreeWi-Fi
-         * account_id : dd717e68-d624-11e6-b6d9-06c00ec32331
-         * full_address : Minato District, Minato-ku, Tōkyō-to 106-0044, Japan
-         * guidebook : {"ja_address":"Minato District, Minato-ku, Tōkyō-to 106-0044, Japan","en_address":"Minato District, Minato-ku, Tōkyō-to 106-0044, Japan","ja_nearest_station":"","en_nearest_station":"test station","ja_directions_and_tips":"","en_directions_and_tips":"<ul>\r\n\t<li>From left<\/li>\r\n\t<li>To right<\/li>\r\n<\/ul>\r\n","ja_house_rules":"","en_house_rules":"<ol>\r\n\t<li>All allow<\/li>\r\n<\/ol>\r\n","check_in_time":7,"check_in_time_next_day":10,"check_out_time":12,"wifi_login":"testlogin","wifi_password":"testpassword","emergency_contact":"Sho","emergency_phone":"1234-567"}
+         * id : 5o4I9F4SGKwFXb
+         * name : Newly Redecorated modern style apartment - not available - please DO NOT book!(1)
+         * account_id : ba6bfc7c-0774-11e8-9a76-06e81001eeca
+         * full_address : Shibuya-ku, Sasazuka 1-61-8, Tokyo, 13 151-0073, Japan
+         * guidebook : null
          * import_status : null
+         * linked : false
          */
 
         private int airbnb_listing_id;
@@ -436,6 +350,7 @@ public class ReservationBean {
         private boolean actual;
         private int person_capacity;
         private Object manage_listing_id;
+        private Object keystation_key_id;
         private String city;
         private String country;
         private String state;
@@ -456,15 +371,16 @@ public class ReservationBean {
         private String house_rules;
         private Object guest_controls;
         private String space;
-        private WirelessInfoBean wireless_info;
+        private Object wireless_info;
         private String access;
         private String transit;
         private String id;
         private String name;
         private String account_id;
         private String full_address;
-        private GuidebookBean guidebook;
+        private Object guidebook;
         private Object import_status;
+        private boolean linked;
         private List<PhotosBean> photos;
         private List<String> amenities;
 
@@ -522,6 +438,14 @@ public class ReservationBean {
 
         public void setManage_listing_id(Object manage_listing_id) {
             this.manage_listing_id = manage_listing_id;
+        }
+
+        public Object getKeystation_key_id() {
+            return keystation_key_id;
+        }
+
+        public void setKeystation_key_id(Object keystation_key_id) {
+            this.keystation_key_id = keystation_key_id;
         }
 
         public String getCity() {
@@ -684,11 +608,11 @@ public class ReservationBean {
             this.space = space;
         }
 
-        public WirelessInfoBean getWireless_info() {
+        public Object getWireless_info() {
             return wireless_info;
         }
 
-        public void setWireless_info(WirelessInfoBean wireless_info) {
+        public void setWireless_info(Object wireless_info) {
             this.wireless_info = wireless_info;
         }
 
@@ -740,11 +664,11 @@ public class ReservationBean {
             this.full_address = full_address;
         }
 
-        public GuidebookBean getGuidebook() {
+        public Object getGuidebook() {
             return guidebook;
         }
 
-        public void setGuidebook(GuidebookBean guidebook) {
+        public void setGuidebook(Object guidebook) {
             this.guidebook = guidebook;
         }
 
@@ -754,6 +678,14 @@ public class ReservationBean {
 
         public void setImport_status(Object import_status) {
             this.import_status = import_status;
+        }
+
+        public boolean isLinked() {
+            return linked;
+        }
+
+        public void setLinked(boolean linked) {
+            this.linked = linked;
         }
 
         public List<PhotosBean> getPhotos() {
@@ -772,211 +704,12 @@ public class ReservationBean {
             this.amenities = amenities;
         }
 
-        public static class WirelessInfoBean {
-            /**
-             * wireless_password :
-             * wireless_ssid :
-             * wireless_type : unknown
-             */
-
-            private String wireless_password;
-            private String wireless_ssid;
-            private String wireless_type;
-
-            public String getWireless_password() {
-                return wireless_password;
-            }
-
-            public void setWireless_password(String wireless_password) {
-                this.wireless_password = wireless_password;
-            }
-
-            public String getWireless_ssid() {
-                return wireless_ssid;
-            }
-
-            public void setWireless_ssid(String wireless_ssid) {
-                this.wireless_ssid = wireless_ssid;
-            }
-
-            public String getWireless_type() {
-                return wireless_type;
-            }
-
-            public void setWireless_type(String wireless_type) {
-                this.wireless_type = wireless_type;
-            }
-        }
-
-        public static class GuidebookBean {
-            /**
-             * ja_address : Minato District, Minato-ku, Tōkyō-to 106-0044, Japan
-             * en_address : Minato District, Minato-ku, Tōkyō-to 106-0044, Japan
-             * ja_nearest_station :
-             * en_nearest_station : test station
-             * ja_directions_and_tips :
-             * en_directions_and_tips : <ul>
-             <li>From left</li>
-             <li>To right</li>
-             </ul>
-
-             * ja_house_rules :
-             * en_house_rules : <ol>
-             <li>All allow</li>
-             </ol>
-
-             * check_in_time : 7
-             * check_in_time_next_day : 10
-             * check_out_time : 12
-             * wifi_login : testlogin
-             * wifi_password : testpassword
-             * emergency_contact : Sho
-             * emergency_phone : 1234-567
-             */
-
-            private String ja_address;
-            private String en_address;
-            private String ja_nearest_station;
-            private String en_nearest_station;
-            private String ja_directions_and_tips;
-            private String en_directions_and_tips;
-            private String ja_house_rules;
-            private String en_house_rules;
-            private int check_in_time;
-            private int check_in_time_next_day;
-            private int check_out_time;
-            private String wifi_login;
-            private String wifi_password;
-            private String emergency_contact;
-            private String emergency_phone;
-
-            public String getJa_address() {
-                return ja_address;
-            }
-
-            public void setJa_address(String ja_address) {
-                this.ja_address = ja_address;
-            }
-
-            public String getEn_address() {
-                return en_address;
-            }
-
-            public void setEn_address(String en_address) {
-                this.en_address = en_address;
-            }
-
-            public String getJa_nearest_station() {
-                return ja_nearest_station;
-            }
-
-            public void setJa_nearest_station(String ja_nearest_station) {
-                this.ja_nearest_station = ja_nearest_station;
-            }
-
-            public String getEn_nearest_station() {
-                return en_nearest_station;
-            }
-
-            public void setEn_nearest_station(String en_nearest_station) {
-                this.en_nearest_station = en_nearest_station;
-            }
-
-            public String getJa_directions_and_tips() {
-                return ja_directions_and_tips;
-            }
-
-            public void setJa_directions_and_tips(String ja_directions_and_tips) {
-                this.ja_directions_and_tips = ja_directions_and_tips;
-            }
-
-            public String getEn_directions_and_tips() {
-                return en_directions_and_tips;
-            }
-
-            public void setEn_directions_and_tips(String en_directions_and_tips) {
-                this.en_directions_and_tips = en_directions_and_tips;
-            }
-
-            public String getJa_house_rules() {
-                return ja_house_rules;
-            }
-
-            public void setJa_house_rules(String ja_house_rules) {
-                this.ja_house_rules = ja_house_rules;
-            }
-
-            public String getEn_house_rules() {
-                return en_house_rules;
-            }
-
-            public void setEn_house_rules(String en_house_rules) {
-                this.en_house_rules = en_house_rules;
-            }
-
-            public int getCheck_in_time() {
-                return check_in_time;
-            }
-
-            public void setCheck_in_time(int check_in_time) {
-                this.check_in_time = check_in_time;
-            }
-
-            public int getCheck_in_time_next_day() {
-                return check_in_time_next_day;
-            }
-
-            public void setCheck_in_time_next_day(int check_in_time_next_day) {
-                this.check_in_time_next_day = check_in_time_next_day;
-            }
-
-            public int getCheck_out_time() {
-                return check_out_time;
-            }
-
-            public void setCheck_out_time(int check_out_time) {
-                this.check_out_time = check_out_time;
-            }
-
-            public String getWifi_login() {
-                return wifi_login;
-            }
-
-            public void setWifi_login(String wifi_login) {
-                this.wifi_login = wifi_login;
-            }
-
-            public String getWifi_password() {
-                return wifi_password;
-            }
-
-            public void setWifi_password(String wifi_password) {
-                this.wifi_password = wifi_password;
-            }
-
-            public String getEmergency_contact() {
-                return emergency_contact;
-            }
-
-            public void setEmergency_contact(String emergency_contact) {
-                this.emergency_contact = emergency_contact;
-            }
-
-            public String getEmergency_phone() {
-                return emergency_phone;
-            }
-
-            public void setEmergency_phone(String emergency_phone) {
-                this.emergency_phone = emergency_phone;
-            }
-        }
-
         public static class PhotosBean {
             /**
              * caption :
-             * large : https://a0.muscache.com/im/pictures/67108264/58823732_original.jpg?aki_policy=x_large
-             * picture : https://a0.muscache.com/im/pictures/67108264/58823732_original.jpg?aki_policy=large
-             * thumbnail : https://a0.muscache.com/im/pictures/67108264/58823732_original.jpg?aki_policy=small
+             * large : https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=x_large
+             * picture : https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=large
+             * thumbnail : https://a0.muscache.com/im/pictures/c66fbaa2-85a8-465e-94da-7ced70fef15f.jpg?aki_policy=small
              */
 
             private String caption;

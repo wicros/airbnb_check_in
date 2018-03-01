@@ -14,7 +14,7 @@
     <string name="sucess_title">キーボックスのキーボードに以下の番号を入力して、鍵を受け取ってください</string>
     <string name="slot_number">スロット番号:</string>
     <string name="last_title">ご利用ありがとうございました。\nこのページは5秒内ホームページに戻ります</string>
-    <string name="guest_num_title">宿泊人数を選択してください</string>
+    <string name="guest_num_title">宿泊人数をお選びください</string>
     <string name="guest_info_title">宿泊者の情報を入力してください</string>
     <string name="name">名前(パスポートと同一)</string>
     <string name="address">住所</string>

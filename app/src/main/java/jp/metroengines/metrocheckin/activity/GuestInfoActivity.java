@@ -176,6 +176,11 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
                                         marker.setPosition(latlng);
                                     }
                                 }
+
+                                @Override
+                                public void onerror() {
+
+                                }
                             });
                         }
                     };

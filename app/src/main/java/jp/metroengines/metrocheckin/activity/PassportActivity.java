@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Response;
 import com.yanzhenjie.nohttp.rest.StringRequest;
@@ -96,6 +97,7 @@ public class PassportActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passport);
         ButterKnife.bind(this);
+        NoHttp.initialize(this);
         info_list = gson.fromJson((String) SPUtils.get(this, SPUtils.GUEST_INFO, "{}"), GuestInfoBean.class).getInfo_list();
         set_num_text();
         initSurfaceView();
@@ -376,6 +378,11 @@ public class PassportActivity extends BaseActivity {
                         go_to_next();
                     }
                 }
+            }
+
+            @Override
+            public void onerror() {
+                initCamera2();
             }
         });
     }

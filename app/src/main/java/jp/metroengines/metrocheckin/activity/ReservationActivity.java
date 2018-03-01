@@ -43,8 +43,8 @@ public class ReservationActivity extends BaseActivity {
 
     @OnClick(R.id.bt_confirm)
     public void onViewClicked() {
-        String reservation_num = etReservation.getText().toString();
-        //String reservation_num = "HMMNXAKXNT";//HMMNXAKXNT
+        //String reservation_num = etReservation.getText().toString();
+        String reservation_num = "HM5FJP9PCF";//HMMNXAKXNT
         if(TextUtils.isEmpty(reservation_num)){
             CommonUtils.toast(this,this.getString(R.string.reservation_input));
             return;
@@ -65,6 +65,11 @@ public class ReservationActivity extends BaseActivity {
                     myProgressDialog.dismiss_dialog();
                     finish();
                 }
+            }
+
+            @Override
+            public void onerror() {
+
             }
         });
     }

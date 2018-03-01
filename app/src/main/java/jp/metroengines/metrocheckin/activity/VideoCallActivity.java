@@ -224,6 +224,11 @@ public class VideoCallActivity extends BaseActivity {
                     CommonUtils.toast(VideoCallActivity.this, mPDBean.getMessage());
                 }
             }
+
+            @Override
+            public void onerror() {
+
+            }
         });
     }
 

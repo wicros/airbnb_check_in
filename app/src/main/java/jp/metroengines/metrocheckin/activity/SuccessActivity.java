@@ -14,8 +14,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.metroengines.metrocheckin.R;
 import jp.metroengines.metrocheckin.bean.KeyCodeBean;
+import jp.metroengines.metrocheckin.bean.ReservationBean;
 import jp.metroengines.metrocheckin.utils.CommonUtils;
 import jp.metroengines.metrocheckin.utils.HttpUtils;
+import jp.metroengines.metrocheckin.utils.SPUtils;
 
 public class SuccessActivity extends BaseActivity {
 
@@ -38,7 +40,15 @@ public class SuccessActivity extends BaseActivity {
     }
 
     private void getKeyCode() {
-        StringRequest request = new StringRequest(CommonUtils.GET_KEY_URL + "233");
+        String reservation = (String) SPUtils.get(this, SPUtils.CURRENT_RESERVATION, "{}");
+        ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
+        String key;
+        if(reservationBean.getListing().getKeystation_key_id() != null){
+            key = reservationBean.getListing().getKeystation_key_id().toString();
+        }else {
+            key = "233";
+        }
+        StringRequest request = new StringRequest(CommonUtils.GET_KEY_URL + key);
         request.addHeader("Authorization", CommonUtils.KEY_TOKEN);
         CommonUtils.log(request.getHeaders().toString());
         HttpUtils httpUtils = new HttpUtils(this, gson);
@@ -53,6 +63,11 @@ public class SuccessActivity extends BaseActivity {
                 } else {
                     CommonUtils.log("error:" + response.responseCode());
                 }
+            }
+
+            @Override
+            public void onerror() {
+
             }
         });
     }

@@ -23,6 +23,7 @@ public class HttpUtils {
 
     public interface HttpRunnable {
         void run(Response<String> response);
+        void onerror();
     }
     public HttpUtils(Context context,Gson gson){
         this.context = context;
@@ -51,6 +52,7 @@ public class HttpUtils {
                 }else{
                     myProgressDialog.result(context.getString(R.string.net_error)+":"+response.responseCode());
                 }
+                runnable.onerror();
             }
         });
     }
@@ -71,6 +73,7 @@ public class HttpUtils {
             public void onFailed(int what, Response<String> response) {
                 CommonUtils.log("response:error:"+response);
                 CommonUtils.toast(context,context.getString(R.string.net_error)+":"+response.responseCode());
+                runnable.onerror();
             }
         });
     }
