@@ -70,6 +70,17 @@ public class AWSS3Helper {
         return myProgressDialog;
     }
 
+    public String get_file(String file_name){
+        String result;
+        try {
+            AmazonS3 s3client = new AmazonS3Client(IdentityManager.getDefaultIdentityManager().getCredentialsProvider());
+            result = s3client.getObjectAsString(BUCKET_NAME,file_name);
+        }catch (Exception e){
+            result=null;
+        }
+        return result;
+    }
+
     public void upload_file(String file_name, String format, S3Runnable runnable) {
         this.runnable = runnable;
         AmazonS3 s3client = new AmazonS3Client(IdentityManager.getDefaultIdentityManager().getCredentialsProvider());

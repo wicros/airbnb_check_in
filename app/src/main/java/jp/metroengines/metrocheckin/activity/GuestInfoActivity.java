@@ -33,9 +33,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -212,8 +210,8 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
         String reservation = (String) SPUtils.get(this, SPUtils.CURRENT_RESERVATION, "{}");
         ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
         String format = ".txt";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String file_name = "guest_info_" + reservationBean.getId() + "_" + simpleDateFormat.format(new Date(System.currentTimeMillis()));
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        String file_name = "guest_info_" + reservationBean.getId();
         final File file = new File(this.getFilesDir().toString(), file_name + format);
         try {
             OutputStreamWriter or = new OutputStreamWriter(new FileOutputStream(file));
@@ -221,7 +219,6 @@ public class GuestInfoActivity extends BaseActivity implements GoogleApiClient.O
             Map map = new HashMap();
             map.put("info_list", info_list);
             String json = gson.toJson(map);
-            CommonUtils.log("guest_json:" + json);
             bw.write(json);
             SPUtils.put(GuestInfoActivity.this, SPUtils.GUEST_INFO, json);
             bw.flush();
