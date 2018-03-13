@@ -32,4 +32,6 @@
     <string name="calling">接続しています</string>
     <string name="in_call">コール中</string>
     <string name="number_null">予約番号は存在しません</string>
+    <string name="key_out">申し訳ありませんが、KeyがBoxに戻していませんので、Airbnbホストにご連絡してください。</string>
+    <string name="instructions">説明</string>
 </resources>

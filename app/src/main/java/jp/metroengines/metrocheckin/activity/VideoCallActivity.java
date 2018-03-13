@@ -176,6 +176,7 @@ public class VideoCallActivity extends BaseActivity {
         ActionbleHelper.getInstance().init(reservationBean, gson, new ActionbleHelper.ActionRunnable() {
             @Override
             public void run(boolean guest_verified) {
+                CommonUtils.log("guest_verified:"+guest_verified);
                 if(guest_verified){
                     startActivity(new Intent(VideoCallActivity.this,SuccessActivity.class));
                 }else{
@@ -521,9 +522,6 @@ public class VideoCallActivity extends BaseActivity {
             removeParticipantVideo(participant.getVideoTracks().get(0));
         }
         moveLocalVideoToPrimaryView();
-
-        startActivity(new Intent(VideoCallActivity.this,SuccessActivity.class));
-        finish();
     }
 
     private void removeParticipantVideo(VideoTrack videoTrack) {

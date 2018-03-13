@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jp.metroengines.metrocheckin">
 
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
@@ -46,12 +45,13 @@
         <activity android:name=".activity.FailureActivity" />
         <activity android:name=".activity.LastActivity" />
         <activity android:name=".activity.GuestNumActivity" />
-        <activity android:name=".activity.GuestInfoActivity"/>
-
+        <activity android:name=".activity.GuestInfoActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCLSlofDIbscXXCR734DMLmzgFKt_A5f6E" />
+
+        <activity android:name=".activity.InsActivity"></activity>
     </application>
 
 </manifest>

@@ -33,4 +33,6 @@
     <string name="calling">正在建立连接</string>
     <string name="in_call">通话中</string>
     <string name="number_null">预约号码不存在</string>
+    <string name="key_out">非常抱歉，钥匙已被取出，请联系Airbnb房东。</string>
+    <string name="instructions">说明</string>
 </resources>

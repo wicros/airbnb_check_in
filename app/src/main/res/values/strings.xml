@@ -21,8 +21,8 @@
     <string name="guest_num_title">Please select the number of guests</string>
     <string name="guest_info_title">Please input guest information</string> 
     <string name="name">name(same as passport)</string>   
-    <string name="address">address</string>    
-    <string name="profession">Occupation</string>    
+    <string name="address">address</string>
+    <string name="profession">Occupation</string>
     <string name="tel">TEL</string>
     <string name="birth">Date of birth</string>
     <string name="de_passport">\'s passport</string>
@@ -36,4 +36,6 @@
     <string name="calling">Establishing connection</string>
     <string name="in_call">Calling</string>
     <string name="number_null">The reservation number does not exist</string>
+    <string name="key_out">Sorry,the Key has not returned,Please contact Airbnb host.</string>
+    <string name="instructions">instructions</string>
 </resources>

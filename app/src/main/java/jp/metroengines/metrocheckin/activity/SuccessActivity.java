@@ -2,6 +2,8 @@ package jp.metroengines.metrocheckin.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.Guideline;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -29,6 +31,12 @@ public class SuccessActivity extends BaseActivity {
     TextView tvBox;
     @BindView(R.id.tv_slot)
     TextView tvSlot;
+    @BindView(R.id.bt_ins)
+    Button btIns;
+    @BindView(R.id.guideline12)
+    Guideline guideline12;
+    @BindView(R.id.textView2)
+    TextView textView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +51,9 @@ public class SuccessActivity extends BaseActivity {
         String reservation = (String) SPUtils.get(this, SPUtils.CURRENT_RESERVATION, "{}");
         ReservationBean reservationBean = gson.fromJson(reservation, ReservationBean.class);
         String key;
-        if(reservationBean.getListing().getKeystation_key_id() != null){
+        if (reservationBean.getListing().getKeystation_key_id() != null) {
             key = reservationBean.getListing().getKeystation_key_id().toString();
-        }else {
+        } else {
             key = "233";
         }
         StringRequest request = new StringRequest(CommonUtils.GET_KEY_URL + key);
@@ -57,7 +65,11 @@ public class SuccessActivity extends BaseActivity {
             public void run(Response<String> response) {
                 KeyCodeBean keyCodeBean = gson.fromJson(response.get(), KeyCodeBean.class);
                 if (keyCodeBean != null && keyCodeBean.getRoom_key().getPassword() != null) {
-                    tvKeycode.setText(keyCodeBean.getRoom_key().getPassword());
+                    if (keyCodeBean.getRoom_key().getState() == 1) {
+                        tvKeycode.setText(keyCodeBean.getRoom_key().getPassword());
+                    } else {
+                        tvKeycode.setText(R.string.key_out);
+                    }
                     tvBox.setText(keyCodeBean.getKey_station().getName() + " | " + keyCodeBean.getKey_box().getName());
                     tvSlot.setText(SuccessActivity.this.getString(R.string.slot_number) + keyCodeBean.getRoom_key().getSlot_number());
                 } else {
@@ -72,8 +84,16 @@ public class SuccessActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.bt_confirm)
-    public void onViewClicked() {
-        startActivity(new Intent(SuccessActivity.this, LastActivity.class));
+
+    @OnClick({R.id.bt_confirm, R.id.bt_ins})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.bt_confirm:
+                startActivity(new Intent(SuccessActivity.this, LastActivity.class));
+                break;
+            case R.id.bt_ins:
+                startActivity(new Intent(SuccessActivity.this, InsActivity.class));
+                break;
+        }
     }
 }
